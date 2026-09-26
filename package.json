@@ -1,6 +1,7 @@
 {
 	"name": "julygrafityweb",
 	"version": "0.0.1",
+	"license": "CC-BY-4.0",
 	"scripts": {
 		"dev": "vite dev",
 		"build": "vite build && npm run prepack",
