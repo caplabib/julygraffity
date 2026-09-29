@@ -29,15 +29,23 @@
 <svelte:window onkeydown={handleKeydown} />
 
 {#if mural}
-  <!-- Backdrop -->
-  <div 
-    onclick={onClose}
-    class="fixed inset-0 z-50 bg-zinc-950/90 backdrop-blur-xl flex items-center justify-center p-2 sm:p-4 md:p-6 overflow-y-auto animate-fadeIn"
-  >
-    <!-- Modal Content Container -->
+  <!-- Modal Overlay Container -->
+  <div class="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 md:p-6 overflow-y-auto animate-fadeIn">
+    <!-- Clickable Backdrop -->
+    <button 
+      type="button"
+      onclick={onClose}
+      class="fixed inset-0 bg-zinc-950/90 backdrop-blur-xl cursor-default w-full h-full border-none"
+      aria-label="Close modal"
+      tabindex="-1"
+    ></button>
+
+    <!-- Modal Content Dialog -->
     <div 
-      onclick={(e) => e.stopPropagation()}
-      class="relative w-full max-w-5xl bg-zinc-900 border border-zinc-800 rounded-3xl overflow-hidden shadow-2xl flex flex-col lg:flex-row max-h-[90vh]"
+      role="dialog"
+      aria-modal="true"
+      aria-label={mural.titleEn}
+      class="relative z-10 w-full max-w-5xl bg-zinc-900 border border-zinc-800 rounded-3xl overflow-hidden shadow-2xl flex flex-col lg:flex-row max-h-[90vh]"
     >
       <!-- Close Button -->
       <button 
@@ -67,14 +75,20 @@
 
       <!-- Image Column -->
       <div class="lg:w-7/12 bg-zinc-950 relative flex items-center justify-center min-h-[300px] lg:min-h-[550px] overflow-hidden group">
-        <img 
-          src={mural.image} 
-          alt={mural.titleEn}
-          class="w-full h-full object-contain max-h-[60vh] lg:max-h-[85vh] transition-transform duration-300 {isZoomed ? 'scale-150 cursor-zoom-out' : 'cursor-zoom-in'}"
+        <button
+          type="button"
           onclick={() => isZoomed = !isZoomed}
-        />
+          class="w-full h-full flex items-center justify-center focus:outline-none focus-visible:ring-2 focus-visible:ring-rose-500 {isZoomed ? 'cursor-zoom-out' : 'cursor-zoom-in'}"
+          aria-label={isZoomed ? 'Zoom out image' : 'Zoom in image'}
+        >
+          <img 
+            src={mural.image} 
+            alt={mural.titleEn}
+            class="w-full h-full object-contain max-h-[60vh] lg:max-h-[85vh] transition-transform duration-300 {isZoomed ? 'scale-150' : ''}"
+          />
+        </button>
         
-        <div class="absolute bottom-3 left-3 bg-zinc-950/80 border border-zinc-800 backdrop-blur-md px-3 py-1 rounded-full text-xs text-zinc-400">
+        <div class="pointer-events-none absolute bottom-3 left-3 bg-zinc-950/80 border border-zinc-800 backdrop-blur-md px-3 py-1 rounded-full text-xs text-zinc-400">
           Click image to {isZoomed ? 'zoom out' : 'zoom in'}
         </div>
       </div>
@@ -116,13 +130,19 @@
           <div class="grid grid-cols-2 gap-3 text-xs p-3 rounded-xl bg-zinc-950 border border-zinc-800/80">
             <div>
               <span class="text-zinc-500 block">Location:</span>
-              <span class="text-zinc-200 font-semibold">{mural.location}</span>
+              <span class="text-zinc-200 font-semibold">{mural.location}{mural.upzila ? ` (${mural.upzila})` : ''}</span>
             </div>
             <div>
-              <span class="text-zinc-500 block">Date Archived:</span>
-              <span class="text-zinc-200 font-semibold">{mural.date}</span>
+              <span class="text-zinc-500 block">Date Painted:</span>
+              <span class="text-zinc-200 font-semibold">{mural.datePainted || mural.date}</span>
             </div>
-            <div class="col-span-2">
+            {#if mural.dateCaptured}
+              <div>
+                <span class="text-zinc-500 block">Date Captured:</span>
+                <span class="text-zinc-200 font-semibold">{mural.dateCaptured}</span>
+              </div>
+            {/if}
+            <div class={mural.dateCaptured ? "" : "col-span-2"}>
               <span class="text-zinc-500 block">Artist / Collective:</span>
               <span class="text-rose-400 font-semibold">{mural.artist}</span>
             </div>

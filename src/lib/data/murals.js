@@ -1,3 +1,24 @@
+/**
+ * @typedef {Object} Mural
+ * @property {string} id
+ * @property {string} image
+ * @property {string} titleBn
+ * @property {string} titleEn
+ * @property {string} location
+ * @property {string} district
+ * @property {string} upzila
+ * @property {string} category
+ * @property {string} datePainted
+ * @property {string} dateCaptured
+ * @property {string} artist
+ * @property {string} descriptionBn
+ * @property {string} descriptionEn
+ * @property {string} slogan
+ * @property {number} likes
+ * @property {string[]} tags
+ */
+
+/** @type {Mural[]} */
 export const muralsData = [
   {
     id: 'mural-01',
@@ -6,8 +27,10 @@ export const muralsData = [
     titleEn: 'Who is the Alternative? Me, You, All of Us!',
     location: 'Dhaka University (TSC)',
     district: 'Dhaka',
+    upzila: 'Keranigonj',
     category: 'Resistance',
-    date: 'August 6, 2024',
+    datePainted: 'August 6, 2024',
+    dateCaptured: '25 September, 2026',
     artist: 'Dhaka University Fine Arts Students',
     descriptionBn: 'জুলাই গণঅভ্যুত্থানের পর ঢাবি টিএসসি চত্বরের দেয়ালে আঁকা এই গ্রাফিতিতে নাগরিক ক্ষমতা এবং ছাত্র-জনতার ঐক্যের বার্তা ফুটিয়ে তোলা হয়েছে।',
     descriptionEn: 'Painted on the walls of TSC, Dhaka University following the uprising. This iconic piece highlights popular sovereignty, civic power, and collective leadership.',
@@ -22,8 +45,10 @@ export const muralsData = [
     titleEn: 'New Dawn of Freedom & Tribute to Martyrs',
     location: 'Central Shaheed Minar',
     district: 'Dhaka',
+    upzila: 'Shahbagh',
     category: 'Martyrs Tribute',
-    date: 'August 8, 2024',
+    datePainted: 'August 8, 2024',
+    dateCaptured: '25 September, 2026',
     artist: 'Art for Freedom Collective',
     descriptionBn: 'জুলাই বিপ্লবের বীর শহীদ আবু সাঈদ, মুগ্ধ এবং অগণিত আত্মদানকারী শিক্ষার্থীদের প্রতি গভীর শ্রদ্ধা জানিয়ে তৈরি বিশালাকার ম্যুরাল।',
     descriptionEn: 'A monumental tribute artwork commemorating martyrs Abu Sayed, Mugdha, and all young souls who laid down their lives for justice and freedom.',
@@ -38,8 +63,10 @@ export const muralsData = [
     titleEn: 'Fall of Autocracy & The Awakening',
     location: 'Mirpur 10 Circle',
     district: 'Dhaka',
+    upzila: 'Mirpur',
     category: 'Satire & Protest',
-    date: 'August 7, 2024',
+    datePainted: 'August 7, 2024',
+    dateCaptured: '25 September, 2026',
     artist: 'Mirpur Youth Artists',
     descriptionBn: 'মিরপুর ১০ চত্বরের ফ্লাইওভার পিলারে আঁকা তীব্র ব্যঙ্গাত্মক ও প্রতীকী গ্রাফিতি যা শাসনব্যবস্থার পরিবর্তন ও ছাত্র জনতার বিজয়ের প্রতীক।',
     descriptionEn: 'Painted on the pillars of Mirpur 10 flyover, symbolizing the bold fall of oppression and the rebirth of democratic voice.',
@@ -54,8 +81,10 @@ export const muralsData = [
     titleEn: 'Unmuzzle the Mind: Freedom of Speech',
     location: 'Science Lab Intersection',
     district: 'Dhaka',
+    upzila: 'Dhanmondi',
     category: 'Calligraphy & Slogans',
-    date: 'August 9, 2024',
+    datePainted: 'August 9, 2024',
+    dateCaptured: '25 September, 2026',
     artist: 'Dhaka College & City College Students',
     descriptionBn: 'সাইন্স ল্যাব মোড়ের দেওয়াল জুড়ে বাংলা ক্যালিগ্রাফি ও চিত্রকর্মের মাধ্যমে বাক স্বাধীনতা ও শিক্ষার মর্যাদা রক্ষার দাবি।',
     descriptionEn: 'Vibrant Bengali typography and calligraphy asserting freedom of expression and academic integrity across Science Lab walls.',
@@ -70,8 +99,10 @@ export const muralsData = [
     titleEn: 'New Bangladesh Painted in Resilience',
     location: 'Rampura Bridge',
     district: 'Dhaka',
+    upzila: 'Rampura',
     category: 'Resistance',
-    date: 'August 10, 2024',
+    datePainted: 'August 10, 2024',
+    dateCaptured: '25 September, 2026',
     artist: 'East West University Students',
     descriptionBn: 'রামপুরা ব্রিজের কাছে রক্তিম সূর্য ও শেকল ভাঙার দৃশ্যে আঁকা এই গ্রাফিতি জুলাই ছাত্র আন্দোলন ও প্রতিরোধের অমর সাক্ষী।',
     descriptionEn: 'Depicting a breaking chain against a crimson sun near Rampura Bridge, symbolizing the unbreakable spirit of student resistance.',
@@ -86,8 +117,10 @@ export const muralsData = [
     titleEn: 'Pledge for an Equitable Society',
     location: 'Jahangirnagar University Gate',
     district: 'Savar',
+    upzila: 'Savar',
     category: 'Unity & Solidarity',
-    date: 'August 11, 2024',
+    datePainted: 'August 11, 2024',
+    dateCaptured: '25 September, 2026',
     artist: 'JU Fine Arts Department',
     descriptionBn: 'জাহাঙ্গীরনগর বিশ্ববিদ্যালয়ের প্রধান ফটকের পাশের ওয়ালে আঁকা গ্রাফিতিতে সকল শ্রেণি, পেশা ও ধর্মের মানুষের সমতার প্রতীক তুলে ধরা হয়েছে।',
     descriptionEn: 'Located at the main gate of Jahangirnagar University, depicting unity across classes, genders, and communities in a reformist nation.',
@@ -102,8 +135,10 @@ export const muralsData = [
     titleEn: 'July Uprising: Song of Youth',
     location: 'Uttara House Building',
     district: 'Dhaka',
+    upzila: 'Uttara',
     category: 'Resistance',
-    date: 'August 12, 2024',
+    datePainted: 'August 12, 2024',
+    dateCaptured: '25 September, 2026',
     artist: 'Uttara Student Forum',
     descriptionBn: 'উত্তরা হাউস বিল্ডিং মোড়ে তরুণদের মিছিল ও অদম্য সাহসিকতার উজ্জ্বল রঙে আঁকা বিশাল গ্রাফিতি।',
     descriptionEn: 'A sprawling wall mural at Uttara depicting the march of youth with bold color gradients and resolute posture.',
@@ -118,8 +153,10 @@ export const muralsData = [
     titleEn: 'Mugdha\'s Eternal Call: "Anyone Need Water?"',
     location: 'Azimpur Bus Stand',
     district: 'Dhaka',
+    upzila: 'Lalbagh',
     category: 'Martyrs Tribute',
-    date: 'August 13, 2024',
+    datePainted: 'August 13, 2024',
+    dateCaptured: '25 September, 2026',
     artist: 'BUET & DU Volunteers',
     descriptionBn: 'উত্তরায় আন্দোলনকারীদের পানি বিতরণকালে শহীদ হওয়া মীর মাহফুজুর রহমান মুগ্ধর স্মরণে আঁকা আবেগঘন পোর্ট্রেট।',
     descriptionEn: 'An emotional portrait dedicated to Mir Mahfuzur Rahman Mugdha, who distributed water bottles to protesters before sacrificing his life.',
@@ -134,8 +171,10 @@ export const muralsData = [
     titleEn: 'Reclaiming History & Demanding Justice',
     location: 'Rajshahi University Campus',
     district: 'Rajshahi',
+    upzila: 'Motihar',
     category: 'Calligraphy & Slogans',
-    date: 'August 14, 2024',
+    datePainted: 'August 14, 2024',
+    dateCaptured: '25 September, 2026',
     artist: 'RU Fine Arts Association',
     descriptionBn: 'রাজশাহী বিশ্ববিদ্যালয় চত্বরে আঁকা লাল-কালো শেডের ক্যালিগ্রাফি যাতে প্রতিটি হত্যার সুষ্ঠু বিচারের আহ্বান প্রকাশ পেয়েছে।',
     descriptionEn: 'Red and black calligraphy artwork at Rajshahi University demanding transparent accountability and rule of law.',
@@ -150,8 +189,10 @@ export const muralsData = [
     titleEn: 'Equality, Freedom & Justice for All',
     location: 'Chittagong GEC Circle',
     district: 'Chittagong',
+    upzila: 'Panchlaish',
     category: 'Unity & Solidarity',
-    date: 'August 15, 2024',
+    datePainted: 'August 15, 2024',
+    dateCaptured: '25 September, 2026',
     artist: 'Chittagong Youth Artists Alliance',
     descriptionBn: 'চট্টগ্রাম জিইসি মোড়ের দেয়ালে রঙিন ক্যালিগ্রাফি ও মানুষের হাতে হাত ধরে থাকার বন্ধন চিত্রিত।',
     descriptionEn: 'Vibrant street art in Chittagong depicting hands joined together under symbols of harmony and civic responsibility.',
@@ -166,8 +207,10 @@ export const muralsData = [
     titleEn: 'Dream of a Meritocratic Tomorrow',
     location: 'Sylhet Shahjalal University (SUST)',
     district: 'Sylhet',
+    upzila: 'Sylhet Sadar',
     category: 'Resistance',
-    date: 'August 16, 2024',
+    datePainted: 'August 16, 2024',
+    dateCaptured: '25 September, 2026',
     artist: 'SUST Architecture & Arts Club',
     descriptionBn: 'শাহজালাল বিজ্ঞান ও প্রযুক্তি বিশ্ববিদ্যালয়ে আঁকা এই গ্রাফিতিতে একটি বই ও উড়ন্ত পাখির মাধ্যমে উন্মুক্ত সম্ভাবনার প্রতীক আঁকা হয়েছে।',
     descriptionEn: 'Painted at SUST, combining motifs of open books and flying birds representing meritocracy and infinite potential.',
@@ -182,8 +225,10 @@ export const muralsData = [
     titleEn: 'The Wall of Unwavering Resistance',
     location: 'Dhanmondi 32 Roadside',
     district: 'Dhaka',
+    upzila: 'Dhanmondi',
     category: 'Satire & Protest',
-    date: 'August 17, 2024',
+    datePainted: 'August 17, 2024',
+    dateCaptured: '25 September, 2026',
     artist: 'Dhanmondi Art Collective',
     descriptionBn: 'ধানমন্ডি এলাকায় নির্মিত এই স্প্রে আর্টে স্বৈরাচারী শাসনের ভুল পদক্ষেপ এবং জনগণের জাগ্রত চেতনার সুন্দর আখ্যান পরিবেশিত।',
     descriptionEn: 'Urban spray-paint art in Dhanmondi portraying the awakening of public sentiment and rejection of autocratic misrule.',
@@ -198,8 +243,10 @@ export const muralsData = [
     titleEn: 'Abu Sayed\'s Unflinching Stance for Truth',
     location: 'Begum Rokeya University (BRUR)',
     district: 'Rangpur',
+    upzila: 'Rangpur Sadar',
     category: 'Martyrs Tribute',
-    date: 'August 18, 2024',
+    datePainted: 'August 18, 2024',
+    dateCaptured: '25 September, 2026',
     artist: 'BRUR & Rangpur Student Artists',
     descriptionBn: 'রংপুর বেগম রোকেয়া বিশ্ববিদ্যালয়ের সামনে শহীদ আবু সাঈদের দুহাত প্রসারিত করে বুলেটের সামনে দাঁড়ানোর ঐতিহাসিক ম্যুরাল।',
     descriptionEn: 'The iconic posture of martyr Abu Sayed standing with arms outstretched in Rangpur, captured in intense crimson and charcoal tones.',
@@ -214,8 +261,10 @@ export const muralsData = [
     titleEn: 'End of Nepotism & Reform in Education',
     location: 'Khulna University Gate',
     district: 'Khulna',
+    upzila: 'Khulna Sadar',
     category: 'Calligraphy & Slogans',
-    date: 'August 19, 2024',
+    datePainted: 'August 19, 2024',
+    dateCaptured: '25 September, 2026',
     artist: 'Khulna Student Union',
     descriptionBn: 'খুলনা বিশ্ববিদ্যালয় চত্বরের দেয়ালে আঁকা গ্রাফিতিতে শিক্ষাঙ্গনে ন্যায়বিচার ও সংস্কারের সুনির্দিষ্ট দাবি ফুটে উঠেছে।',
     descriptionEn: 'Structural educational reform demands rendered in crisp stencil style on the perimeter wall of Khulna University.',
@@ -230,8 +279,10 @@ export const muralsData = [
     titleEn: 'A New Dawn, A Free Bangladesh',
     location: 'National Parliament Precinct',
     district: 'Dhaka',
+    upzila: 'Tejgaon',
     category: 'Unity & Solidarity',
-    date: 'August 20, 2024',
+    datePainted: 'August 20, 2024',
+    dateCaptured: '25 September, 2026',
     artist: 'All-Bangladesh Youth Visual Artists',
     descriptionBn: 'জাতীয় সংসদ ভবন সংলগ্ন চত্বরে শত শত তরুণের যৌথ প্রচেষ্টায় চিত্রিত বিশালাকার ঐক্য ম্যুরাল যা বাংলাদেশের লাল ও সবুজ পতাকার চেতনায় উজ্জ্বল।',
     descriptionEn: 'A collaborative masterpiece painted near the National Parliament grounds, celebrating unity, hope, and democratic renewal in vivid red and emerald.',
@@ -245,18 +296,26 @@ export const categories = [
   'All',
   'Resistance',
   'Martyrs Tribute',
-  'Unity & Solidarity',
-  'Calligraphy & Slogans',
-  'Satire & Protest'
+  'Portraits',
+  'Icons',
+  'Unity',
+  'Hope',
+  'Communal Harmony',
+  'Solidarity',
+  'Calligraphy',
+  'Slogan',
+  'Protest',
+  'Satire',
 ];
 
-export const districts = [
-  'All Districts',
+export const Divisions = [
+  'All Divisions',
   'Dhaka',
   'Rangpur',
   'Chittagong',
   'Rajshahi',
   'Sylhet',
   'Khulna',
-  'Savar'
+  'Mymensingh'
 ];
+
