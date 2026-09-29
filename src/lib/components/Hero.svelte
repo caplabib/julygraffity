@@ -19,7 +19,7 @@
     if (isPaused) return;
     const timer = setInterval(() => {
       currentIndex = (currentIndex + 1) % muralsData.length;
-    }, 5000);
+    }, 3000);
     return () => clearInterval(timer);
   });
 
@@ -34,6 +34,7 @@
   let currentMural = $derived(muralsData[currentIndex]);
 </script>
 
+<!-- svelte-ignore a11y_no_static_element_interactions -->
 <div 
   onmouseenter={() => isPaused = true}
   onmouseleave={() => isPaused = false}
@@ -110,20 +111,6 @@
         Slide {currentIndex + 1} of {muralsData.length}
       </span>
     </div>
-  </div>
-
-  <!-- Bottom Right Carousel Slide Indicators / Dots -->
-  <div 
-    use:dragScroll
-    class="absolute bottom-6 right-6 sm:bottom-12 sm:right-12 z-30 flex items-center gap-2 bg-zinc-950/60 backdrop-blur-md px-3 py-2 rounded-full border border-zinc-800/80 max-w-[80vw] overflow-x-auto custom-h-scrollbar cursor-grab active:cursor-grabbing select-none"
-  >
-    {#each muralsData as _, idx}
-      <button 
-        onclick={() => currentIndex = idx}
-        aria-label="Go to slide {idx + 1}"
-        class="h-2 rounded-full transition-all duration-300 shrink-0 {idx === currentIndex ? 'w-8 bg-rose-500 shadow-md shadow-rose-500/50' : 'w-2 bg-zinc-600 hover:bg-zinc-400'}"
-      ></button>
-    {/each}
   </div>
 </div>
 
