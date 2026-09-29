@@ -11,7 +11,7 @@
 
   const districtLocationsMap = [
     { name: 'Dhaka', count: 9, hotspots: ['TSC (Dhaka University)', 'Shaheed Minar', 'Mirpur 10', 'Science Lab', 'Rampura', 'Uttara', 'Azimpur', 'Dhanmondi', 'Parliament'] },
-    { name: 'Rangpur', count: 1, hotspots: ['Begum Rokeya University (BRUR)'] },
+    { name: 'Rangpur', count: 27, hotspots: ['Begum Rokeya University (BRUR)', 'Govt. Library (Townhall)', 'Old Auditorium (Townhall)', 'Zila Porishod East Wall'] },
     { name: 'Chittagong', count: 1, hotspots: ['GEC Circle'] },
     { name: 'Rajshahi', count: 1, hotspots: ['Rajshahi University (RU)'] },
     { name: 'Sylhet', count: 1, hotspots: ['Shahjalal University (SUST)'] },
