@@ -4,12 +4,15 @@
   import MuralCard from '$lib/components/MuralCard.svelte';
   import MuralModal from '$lib/components/MuralModal.svelte';
   import Footer from '$lib/components/Footer.svelte';
+  import { dragScroll } from '$lib/utils/dragScroll.js';
 
   let searchQuery = $state('');
   let selectedCategory = $state('All');
   let selectedDistrict = $state('All Districts');
   let sortBy = $state('featured'); // 'featured', 'likes', 'title'
   let selectedMural = $state(null);
+  let currentPage = $state(1);
+  const itemsPerPage = 32;
 
   // Filter & Sort Murals
   let filteredMurals = $derived(
@@ -41,6 +44,45 @@
       })
   );
 
+  let totalPages = $derived(Math.max(1, Math.ceil(filteredMurals.length / itemsPerPage)));
+
+  let paginatedMurals = $derived(
+    filteredMurals.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
+  );
+
+  // Reset page to 1 when filters change
+  $effect(() => {
+    // track dependencies
+    searchQuery;
+    selectedCategory;
+    selectedDistrict;
+    sortBy;
+    currentPage = 1;
+  });
+
+  // Clamp current page if total pages decrease
+  $effect(() => {
+    if (currentPage > totalPages) {
+      currentPage = totalPages;
+    }
+  });
+
+  function goToPage(page) {
+    if (page < 1 || page > totalPages) return;
+    currentPage = page;
+    const galleryEl = document.getElementById('gallerySection');
+    if (galleryEl) {
+      galleryEl.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+
+  function resetFilters() {
+    searchQuery = '';
+    selectedCategory = 'All';
+    selectedDistrict = 'All Districts';
+    currentPage = 1;
+  }
+
   function openMuralModal(mural) {
     selectedMural = mural;
   }
@@ -51,16 +93,16 @@
 
   function nextMural() {
     if (!selectedMural) return;
-    const currentIndex = muralsData.findIndex(m => m.id === selectedMural.id);
-    const nextIndex = (currentIndex + 1) % muralsData.length;
-    selectedMural = muralsData[nextIndex];
+    const currentIndex = filteredMurals.findIndex(m => m.id === selectedMural.id);
+    const nextIndex = (currentIndex + 1) % filteredMurals.length;
+    selectedMural = filteredMurals[nextIndex];
   }
 
   function prevMural() {
     if (!selectedMural) return;
-    const currentIndex = muralsData.findIndex(m => m.id === selectedMural.id);
-    const prevIndex = (currentIndex - 1 + muralsData.length) % muralsData.length;
-    selectedMural = muralsData[prevIndex];
+    const currentIndex = filteredMurals.findIndex(m => m.id === selectedMural.id);
+    const prevIndex = (currentIndex - 1 + filteredMurals.length) % filteredMurals.length;
+    selectedMural = filteredMurals[prevIndex];
   }
 </script>
 
@@ -105,6 +147,7 @@
           <button 
             onclick={() => searchQuery = ''}
             class="absolute right-4 text-zinc-400 hover:text-white text-sm bg-zinc-800 rounded-full w-6 h-6 flex items-center justify-center"
+            aria-label="Clear search"
           >
             ✕
           </button>
@@ -113,14 +156,17 @@
 
       <!-- Second Row: Categories Pills -->
       <div class="space-y-2">
-        <label class="block text-xs font-bold uppercase tracking-wider text-zinc-400">
+        <span class="block text-xs font-bold uppercase tracking-wider text-zinc-400">
           Filter by Category:
-        </label>
-        <div class="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
+        </span>
+        <div 
+          use:dragScroll
+          class="flex items-center gap-2 overflow-x-auto pb-2 pt-1 custom-h-scrollbar scroll-smooth cursor-grab active:cursor-grabbing select-none"
+        >
           {#each categories as cat}
             <button
               onclick={() => selectedCategory = cat}
-              class="px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all duration-200 border {selectedCategory === cat ? 'bg-rose-600 border-rose-500 text-white shadow-lg shadow-rose-600/30' : 'bg-zinc-900 border-zinc-800 text-zinc-400 hover:text-white hover:border-zinc-700'}"
+              class="px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all duration-200 border shrink-0 {selectedCategory === cat ? 'bg-rose-600 border-rose-500 text-white shadow-lg shadow-rose-600/30' : 'bg-zinc-900 border-zinc-800 text-zinc-400 hover:text-white hover:border-zinc-700'}"
             >
               {cat}
             </button>
@@ -164,20 +210,20 @@
     </div>
 
     <!-- Gallery Grid Results -->
-    <div class="space-y-6">
+    <div id="gallerySection" class="space-y-6 scroll-mt-20">
       <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-zinc-800 pb-4">
         <div>
-          <h2 class="text-xl sm:text-2xl font-bold font-bengali text-white flex items-center gap-3">
+          <h2 class="text-xl sm:text-2xl font-bold font-bengali text-white flex items-center gap-3 flex-wrap">
             <span>সকল ম্যুরাল ক্যাটালগ</span>
             <span class="text-xs font-semibold px-3 py-1 rounded-full bg-rose-500/20 text-rose-400 border border-rose-500/30">
-              Showing {filteredMurals.length} of {muralsData.length} Artworks
+              Showing {filteredMurals.length > 0 ? (currentPage - 1) * itemsPerPage + 1 : 0} - {Math.min(currentPage * itemsPerPage, filteredMurals.length)} of {filteredMurals.length} Artworks
             </span>
           </h2>
         </div>
 
         {#if searchQuery || selectedCategory !== 'All' || selectedDistrict !== 'All Districts'}
           <button
-            onclick={() => { searchQuery = ''; selectedCategory = 'All'; selectedDistrict = 'All Districts'; }}
+            onclick={resetFilters}
             class="text-xs text-rose-400 hover:text-rose-300 font-semibold underline"
           >
             Reset All Filters ✕
@@ -185,15 +231,61 @@
         {/if}
       </div>
 
-      {#if filteredMurals.length > 0}
+      {#if paginatedMurals.length > 0}
+        <!-- Masonry Grid -->
         <div class="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-2">
-          {#each filteredMurals as mural (mural.id)}
+          {#each paginatedMurals as mural (mural.id)}
             <MuralCard 
               {mural} 
               onOpenModal={openMuralModal} 
             />
           {/each}
         </div>
+
+        <!-- Pagination Bar -->
+        <nav aria-label="Murals pagination" class="pt-8 pb-4 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-zinc-800/80">
+          <div class="text-xs text-zinc-400">
+            Page <span class="text-white font-semibold">{currentPage}</span> of <span class="text-white font-semibold">{totalPages}</span> ({filteredMurals.length} murals total, 32 / page)
+          </div>
+
+          <div class="flex items-center gap-2 flex-wrap justify-center">
+            <!-- Previous Page -->
+            <button
+              onclick={() => goToPage(currentPage - 1)}
+              disabled={currentPage <= 1}
+              class="px-4 py-2 rounded-xl text-xs sm:text-sm font-medium border border-zinc-800 bg-zinc-900 text-zinc-300 hover:text-white hover:border-zinc-700 disabled:opacity-40 disabled:pointer-events-none transition-all flex items-center gap-1.5"
+              aria-label="Go to previous page"
+            >
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+              Previous
+            </button>
+
+            <!-- Page Number Buttons -->
+            {#each Array(totalPages) as _, idx}
+              {@const pageNum = idx + 1}
+              <button
+                onclick={() => goToPage(pageNum)}
+                class="w-10 h-10 rounded-xl text-xs sm:text-sm font-semibold transition-all border {currentPage === pageNum ? 'bg-rose-600 border-rose-500 text-white shadow-lg shadow-rose-600/30 scale-105' : 'bg-zinc-900 border-zinc-800 text-zinc-400 hover:text-white hover:border-zinc-700'}"
+                aria-label="Go to page {pageNum}"
+                aria-current={currentPage === pageNum ? 'page' : undefined}
+              >
+                {pageNum}
+              </button>
+            {/each}
+
+            <!-- Next Page -->
+            <button
+              onclick={() => goToPage(currentPage + 1)}
+              disabled={currentPage >= totalPages}
+              class="px-4 py-2 rounded-xl text-xs sm:text-sm font-medium border border-zinc-800 bg-zinc-900 text-zinc-300 hover:text-white hover:border-zinc-700 disabled:opacity-40 disabled:pointer-events-none transition-all flex items-center gap-1.5"
+              aria-label="Go to next page"
+            >
+              Next
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+            </button>
+          </div>
+        </nav>
+
       {:else}
         <div class="glass-card p-12 rounded-3xl text-center max-w-xl mx-auto space-y-4 border border-zinc-800">
           <div class="text-5xl">🎨</div>
@@ -202,7 +294,7 @@
             আপনার ফিল্টার অনুযায়ী কোনো দেয়ালচিত্র পাওয়া যায়নি। ফিল্টার পরিবর্তন করে আবার চেষ্টা করুন।
           </p>
           <button
-            onclick={() => { searchQuery = ''; selectedCategory = 'All'; selectedDistrict = 'All Districts'; }}
+            onclick={resetFilters}
             class="px-6 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-white text-sm font-semibold shadow-lg shadow-rose-600/30 transition-all"
           >
             ফিল্টার রিকভার করুন

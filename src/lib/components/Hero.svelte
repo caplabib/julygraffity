@@ -1,5 +1,6 @@
 <script>
   import { muralsData, categories } from '../data/murals.js';
+  import { dragScroll } from '$lib/utils/dragScroll.js';
 
   let { 
     searchQuery = '', 
@@ -112,12 +113,15 @@
   </div>
 
   <!-- Bottom Right Carousel Slide Indicators / Dots -->
-  <div class="absolute bottom-6 right-6 sm:bottom-12 sm:right-12 z-30 flex items-center gap-2 bg-zinc-950/60 backdrop-blur-md px-3 py-2 rounded-full border border-zinc-800/80">
+  <div 
+    use:dragScroll
+    class="absolute bottom-6 right-6 sm:bottom-12 sm:right-12 z-30 flex items-center gap-2 bg-zinc-950/60 backdrop-blur-md px-3 py-2 rounded-full border border-zinc-800/80 max-w-[80vw] overflow-x-auto custom-h-scrollbar cursor-grab active:cursor-grabbing select-none"
+  >
     {#each muralsData as _, idx}
       <button 
         onclick={() => currentIndex = idx}
         aria-label="Go to slide {idx + 1}"
-        class="h-2 rounded-full transition-all duration-300 {idx === currentIndex ? 'w-8 bg-rose-500 shadow-md shadow-rose-500/50' : 'w-2 bg-zinc-600 hover:bg-zinc-400'}"
+        class="h-2 rounded-full transition-all duration-300 shrink-0 {idx === currentIndex ? 'w-8 bg-rose-500 shadow-md shadow-rose-500/50' : 'w-2 bg-zinc-600 hover:bg-zinc-400'}"
       ></button>
     {/each}
   </div>
@@ -144,6 +148,7 @@
           <button 
             onclick={() => onSearchChange('')}
             class="absolute right-4 text-zinc-400 hover:text-white text-sm bg-zinc-800 rounded-full w-6 h-6 flex items-center justify-center"
+            aria-label="Clear search"
           >
             ✕
           </button>
@@ -151,11 +156,14 @@
       </div>
 
       <!-- Categories Pill Filter -->
-      <div class="flex items-center gap-2 overflow-x-auto pb-2 pt-2 scrollbar-none justify-start sm:justify-center">
+      <div 
+        use:dragScroll
+        class="flex items-center gap-2 overflow-x-auto pb-2 pt-2 custom-h-scrollbar scroll-smooth justify-start sm:justify-center cursor-grab active:cursor-grabbing select-none"
+      >
         {#each categories as cat}
           <button
             onclick={() => onCategoryChange(cat)}
-            class="px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition-all duration-200 border {selectedCategory === cat ? 'bg-rose-600 border-rose-500 text-white shadow-lg shadow-rose-600/30 scale-105' : 'bg-zinc-900/80 border-zinc-800 text-zinc-400 hover:text-white hover:border-zinc-700'}"
+            class="px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition-all duration-200 border shrink-0 {selectedCategory === cat ? 'bg-rose-600 border-rose-500 text-white shadow-lg shadow-rose-600/30 scale-105' : 'bg-zinc-900/80 border-zinc-800 text-zinc-400 hover:text-white hover:border-zinc-700'}"
           >
             {cat}
           </button>
