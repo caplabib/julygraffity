@@ -459,7 +459,7 @@ export const muralsData = [
   },
   {
     id: 'rangpur-24',
-    image: '/pictures/1000205941.jpeg',
+    image: '/pictures/1000205944.jpeg',
     titleBn: 'গতিশীল দৃশ্য',
     titleEn: 'Dynamic Shot',
     location: 'Zila Porishod East Wall',
