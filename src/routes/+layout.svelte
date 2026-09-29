@@ -1,9 +1,11 @@
 <script>
 	import './layout.css';
-	import { Analytics } from '@vercel/analytics/sveltekit';
+	import { dev } from '$app/environment';
+	import { injectAnalytics } from '@vercel/analytics/sveltekit';
+
+	injectAnalytics({ mode: dev ? 'development' : 'production' });
 
 	const { children } = $props();
 </script>
 
-<Analytics />
 {@render children()}
