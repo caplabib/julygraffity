@@ -79,7 +79,7 @@
 
       <!-- Date Painted -->
       <div class="text-[11px] text-zinc-400 font-bengali pt-0.5">
-        অঙ্কিত: {mural.date}
+        অঙ্কিত: {mural.datePainted || mural.date}
       </div>
 
     </div>
