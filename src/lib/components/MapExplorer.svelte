@@ -1,13 +1,23 @@
 <script>
   import { muralsData, districts } from '../data/murals.js';
+  import { fetchMurals } from '$lib/supabase.js';
   import { dragScroll } from '$lib/utils/dragScroll.js';
 
   let { selectedDistrict = 'All Districts', onSelectDistrict = () => {} } = $props();
+  let muralsList = $state(muralsData);
+
+  $effect(() => {
+    fetchMurals().then((data) => {
+      if (data && data.length > 0) {
+        muralsList = data;
+      }
+    });
+  });
 
   // Dynamically compute mural counts per district from actual db data
   let districtLocationsMap = $derived.by(() => {
     const counts = {};
-    for (const m of muralsData) {
+    for (const m of muralsList) {
       if (m.district) {
         counts[m.district] = (counts[m.district] || 0) + 1;
       }

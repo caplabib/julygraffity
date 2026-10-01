@@ -6,6 +6,7 @@
 		"dev": "vite dev",
 		"build": "vite build && npm run prepack",
 		"preview": "vite preview",
+		"seed": "node scripts/seed.js",
 		"prepare": "svelte-kit sync || echo ''",
 		"prepack": "svelte-kit sync && svelte-package && publint",
 		"lint": "prettier --check .",
@@ -51,6 +52,7 @@
 		"svelte"
 	],
 	"dependencies": {
+		"@supabase/supabase-js": "^2.117.2",
 		"@vercel/analytics": "^2.0.1"
 	}
 }

@@ -1,5 +1,6 @@
 <script>
 	import { muralsData } from '$lib/data/murals.js';
+	import { fetchMurals } from '$lib/supabase.js';
 	import Navbar from '$lib/components/Navbar.svelte';
 	import Hero from '$lib/components/Hero.svelte';
 	import MuralCard from '$lib/components/MuralCard.svelte';
@@ -13,18 +14,28 @@
 	let selectedCategory = $state('All');
 	let selectedDistrict = $state('All Districts');
 	let selectedMural = $state(null);
+	let muralsList = $state(muralsData);
+
+	// Load dynamic murals from Supabase on mount
+	$effect(() => {
+		fetchMurals().then((data) => {
+			if (data && data.length > 0) {
+				muralsList = data;
+			}
+		});
+	});
 
 	// Derived filtered murals
 	let filteredMurals = $derived(
-		muralsData.filter((mural) => {
+		muralsList.filter((mural) => {
 			const matchesSearch =
 				!searchQuery.trim() ||
-				mural.titleBn.toLowerCase().includes(searchQuery.toLowerCase()) ||
-				mural.titleEn.toLowerCase().includes(searchQuery.toLowerCase()) ||
-				mural.location.toLowerCase().includes(searchQuery.toLowerCase()) ||
+				mural.titleBn?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+				mural.titleEn?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+				mural.location?.toLowerCase().includes(searchQuery.toLowerCase()) ||
 				mural.slogan?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-				mural.artist.toLowerCase().includes(searchQuery.toLowerCase()) ||
-				mural.tags.some((t) => t.toLowerCase().includes(searchQuery.toLowerCase()));
+				mural.artist?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+				mural.tags?.some((t) => t.toLowerCase().includes(searchQuery.toLowerCase()));
 
 			const matchesCategory = selectedCategory === 'All' || mural.category === selectedCategory;
 
@@ -48,16 +59,16 @@
 
 	function nextMural() {
 		if (!selectedMural) return;
-		const currentIndex = muralsData.findIndex((m) => m.id === selectedMural.id);
-		const nextIndex = (currentIndex + 1) % muralsData.length;
-		selectedMural = muralsData[nextIndex];
+		const currentIndex = muralsList.findIndex((m) => m.id === selectedMural.id);
+		const nextIndex = (currentIndex + 1) % muralsList.length;
+		selectedMural = muralsList[nextIndex];
 	}
 
 	function prevMural() {
 		if (!selectedMural) return;
-		const currentIndex = muralsData.findIndex((m) => m.id === selectedMural.id);
-		const prevIndex = (currentIndex - 1 + muralsData.length) % muralsData.length;
-		selectedMural = muralsData[prevIndex];
+		const currentIndex = muralsList.findIndex((m) => m.id === selectedMural.id);
+		const prevIndex = (currentIndex - 1 + muralsList.length) % muralsList.length;
+		selectedMural = muralsList[prevIndex];
 	}
 </script>
 

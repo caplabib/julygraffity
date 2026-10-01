@@ -1,5 +1,6 @@
 <script>
   import { muralsData, categories } from '../data/murals.js';
+  import { fetchMurals } from '$lib/supabase.js';
   import { dragScroll } from '$lib/utils/dragScroll.js';
 
   let { 
@@ -13,25 +14,37 @@
 
   let currentIndex = $state(0);
   let isPaused = $state(false);
+  let muralsList = $state(muralsData);
+
+  // Load dynamic murals from Supabase on mount
+  $effect(() => {
+    fetchMurals().then((data) => {
+      if (data && data.length > 0) {
+        muralsList = data;
+      }
+    });
+  });
 
   // Auto-play interval
   $effect(() => {
-    if (isPaused) return;
+    if (isPaused || muralsList.length === 0) return;
     const timer = setInterval(() => {
-      currentIndex = (currentIndex + 1) % muralsData.length;
+      currentIndex = (currentIndex + 1) % muralsList.length;
     }, 3000);
     return () => clearInterval(timer);
   });
 
   function nextSlide() {
-    currentIndex = (currentIndex + 1) % muralsData.length;
+    if (muralsList.length === 0) return;
+    currentIndex = (currentIndex + 1) % muralsList.length;
   }
 
   function prevSlide() {
-    currentIndex = (currentIndex - 1 + muralsData.length) % muralsData.length;
+    if (muralsList.length === 0) return;
+    currentIndex = (currentIndex - 1 + muralsList.length) % muralsList.length;
   }
 
-  let currentMural = $derived(muralsData[currentIndex]);
+  let currentMural = $derived(muralsList[currentIndex] || muralsList[0]);
 </script>
 
 <!-- svelte-ignore a11y_no_static_element_interactions -->
@@ -41,7 +54,7 @@
   class="relative w-full h-[75vh] sm:h-[82vh] md:h-[88vh] min-h-[520px] max-h-[900px] bg-zinc-950 overflow-hidden group select-none border-b border-zinc-800/80"
 >
   <!-- Background Image Carousel with Crossfade -->
-  {#each muralsData as mural, idx (mural.id)}
+  {#each muralsList as mural, idx (mural.id)}
     <div 
       class="absolute inset-0 transition-opacity duration-700 ease-in-out {idx === currentIndex ? 'opacity-100 z-10' : 'opacity-0 z-0 pointer-events-none'}"
     >

@@ -1,5 +1,6 @@
 <script>
   import { muralsData, categories, districts } from '$lib/data/murals.js';
+  import { fetchMurals } from '$lib/supabase.js';
   import Navbar from '$lib/components/Navbar.svelte';
   import MuralCard from '$lib/components/MuralCard.svelte';
   import MuralModal from '$lib/components/MuralModal.svelte';
@@ -13,19 +14,29 @@
   let selectedMural = $state(null);
   let currentPage = $state(1);
   const itemsPerPage = 32;
+  let muralsList = $state(muralsData);
+
+  // Load dynamic murals from Supabase on mount
+  $effect(() => {
+    fetchMurals().then((data) => {
+      if (data && data.length > 0) {
+        muralsList = data;
+      }
+    });
+  });
 
   // Filter & Sort Murals
   let filteredMurals = $derived(
-    muralsData
+    muralsList
       .filter((mural) => {
         const matchesSearch = 
           !searchQuery.trim() ||
-          mural.titleBn.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          mural.titleEn.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          mural.location.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          mural.titleBn?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          mural.titleEn?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          mural.location?.toLowerCase().includes(searchQuery.toLowerCase()) ||
           mural.slogan?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          mural.artist.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          mural.tags.some(t => t.toLowerCase().includes(searchQuery.toLowerCase()));
+          mural.artist?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          mural.tags?.some(t => t.toLowerCase().includes(searchQuery.toLowerCase()));
 
         const matchesCategory = 
           selectedCategory === 'All' || 
@@ -39,7 +50,7 @@
       })
       .sort((a, b) => {
         if (sortBy === 'likes') return (b.likes || 0) - (a.likes || 0);
-        if (sortBy === 'title') return a.titleEn.localeCompare(b.titleEn);
+        if (sortBy === 'title') return (a.titleEn || '').localeCompare(b.titleEn || '');
         return 0; // default order
       })
   );
