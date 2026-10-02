@@ -121,13 +121,14 @@ This platform is a **personal and community-driven initiative** built strictly f
 
 - **Non-Commercial Archiving**: This site operates with zero profit motive, zero monetization, and zero advertisements. Its purpose is to preserve the morale, spirit, and artistic expressions of the July 2024 movement.
 - **Respectful Historical Record**: The archive maintains a record of public street murals as painted on urban spaces during the uprising. It is maintained in good faith and is not intended to offend, incite harm, or defame any individual or group.
+- **Development & Maintenance**: Developed & Maintained by **Cap Labib** as an open-access community preservation project.
 - **Open-Source & Photographer Credits**: Full credit belongs to the courageous student artists, painters, calligraphers, photographers, and citizen contributors who created and captured these works across Bangladesh.
 
 ---
 
 ## 📄 License & Attribution
 
-This project and its documented contents are licensed under the **Creative Commons Attribution 4.0 International License (CC BY 4.0)**. 
+This project and its documented contents are licensed under the **Creative Commons Attribution 4.0 International License (CC BY 4.0)**. Developed & Maintained by **Cap Labib**.
 
 You are free to share, adapt, and build upon this material for any non-commercial and educational purpose, provided appropriate credit is given to the original artists, photographers, and the **July Graffiti Archive**.
 

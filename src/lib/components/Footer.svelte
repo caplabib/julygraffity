@@ -55,6 +55,9 @@
         <p>
           Personal & Community-Driven Archival Project
         </p>
+        <p class="text-[11px] text-zinc-500">
+          Developed & Maintained by <span class="text-zinc-300 font-medium">Cap Labib</span>
+        </p>
         <p class="text-[11px] text-zinc-600">
           CC BY 4.0 Open-Access | Preservation Purpose Only
         </p>

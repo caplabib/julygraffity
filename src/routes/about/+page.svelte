@@ -87,9 +87,9 @@
           </p>
         </div>
         <div class="space-y-2">
-          <p class="font-semibold text-zinc-100">🤝 শিল্পী ও আলোকচিত্রীদের অবদান (Open Source Credit):</p>
+          <p class="font-semibold text-zinc-100">🤝 অবদান ও উন্নয়ন (Development & Open Source Credit):</p>
           <p>
-            দেয়ালচিত্রের মূল ছাত্র-জনতা শিল্পী, ক্যালিগ্রাফার, এবং সারা দেশ থেকে ছবি ও তথ্য সংগ্রাহক আলোকচিত্রীদের প্রতি অশেষ কৃতজ্ঞতা। এই আর্কাইভ তাদের মেধা ও সাহসিকতার প্রতি উন্মুক্ত শ্রদ্ধাঞ্জলি।
+            প্ল্যাটফর্মটির উন্নয়ন ও রক্ষণাবেক্ষণে: <span class="text-rose-400 font-semibold font-sans">Cap Labib</span> (Developed & Maintained by Cap Labib)। দেয়ালচিত্রের মূল ছাত্র-জনতা শিল্পী, ক্যালিগ্রাফার, এবং সারা দেশ থেকে ছবি সংগ্রাহকদের অবদান ও মেধার প্রতি সশ্রদ্ধ কৃতজ্ঞতা।
           </p>
         </div>
       </div>
