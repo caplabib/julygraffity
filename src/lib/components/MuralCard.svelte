@@ -2,14 +2,18 @@
   let { mural = {}, onOpenModal = () => {} } = $props();
 
   let isLiked = $state(false);
-  let likeCount = $state(mural.likes || 0);
+  let extraLikes = $state(0);
+  let likeCount = $derived((mural.likes || 0) + extraLikes);
+
+  let imageSrc = $state(mural.image);
 
   $effect(() => {
-    likeCount = mural.likes || 0;
+    imageSrc = mural.image;
     try {
       const savedLikes = localStorage.getItem(`like_${mural.id}`);
       if (savedLikes === 'true') {
         isLiked = true;
+        extraLikes = 1;
       }
     } catch (e) {}
   });
@@ -17,14 +21,16 @@
   function toggleLike(e) {
     e.stopPropagation();
     isLiked = !isLiked;
-    if (isLiked) {
-      likeCount++;
-    } else {
-      likeCount--;
-    }
+    extraLikes = isLiked ? 1 : 0;
     try {
       localStorage.setItem(`like_${mural.id}`, isLiked ? 'true' : 'false');
     } catch (e) {}
+  }
+
+  function handleImageError() {
+    if (mural.image && mural.image.includes('/pictures/')) {
+      imageSrc = mural.image.replace('/pictures/', 'https://jvxgqflxmumxhjeywmjp.supabase.co/storage/v1/object/public/julytest/');
+    }
   }
 </script>
 
@@ -41,9 +47,10 @@
     
     <!-- Image preserving natural aspect ratio -->
     <img 
-      src={mural.image} 
+      src={imageSrc || mural.image} 
       alt={mural.titleEn}
       loading="lazy"
+      onerror={handleImageError}
       class="w-full h-auto block object-cover group-hover:scale-103 transition-transform duration-500 ease-out"
     />
 
