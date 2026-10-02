@@ -24,11 +24,13 @@
       </div>
 
       <!-- Quick Nav Links -->
-      <div class="flex items-center gap-6 text-xs sm:text-sm font-medium">
+      <div class="flex flex-wrap items-center gap-4 sm:gap-6 text-xs sm:text-sm font-medium">
         <a href="/" class="hover:text-rose-400 transition-colors">Home</a>
         <a href="/browse" class="hover:text-rose-400 transition-colors">Browse</a>
         <a href="/submit" class="hover:text-rose-400 transition-colors">Submit</a>
         <a href="/about" class="hover:text-rose-400 transition-colors">About</a>
+        <a href="/contributors" class="hover:text-rose-400 transition-colors">Contributors</a>
+        <a href="/contact" class="hover:text-rose-400 transition-colors">Contact</a>
         <a href="/support" class="hover:text-rose-400 transition-colors">Support</a>
       </div>
 

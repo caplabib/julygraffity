@@ -50,6 +50,20 @@
         About
       </a>
 
+      <a
+        href="/contributors"
+        class="px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 {activeTab === 'contributors' ? 'bg-rose-600 text-white shadow-md shadow-rose-600/30' : 'text-zinc-400 hover:text-white hover:bg-zinc-800/60'}"
+      >
+        Contributors
+      </a>
+
+      <a
+        href="/contact"
+        class="px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 {activeTab === 'contact' ? 'bg-rose-600 text-white shadow-md shadow-rose-600/30' : 'text-zinc-400 hover:text-white hover:bg-zinc-800/60'}"
+      >
+        Contact
+      </a>
+
       <!-- Support CTA Pill Button -->
       <a
         href="/support"
@@ -104,6 +118,20 @@
         class="block px-4 py-3 rounded-xl text-base font-medium {activeTab === 'about' ? 'bg-zinc-900 text-rose-400 font-bold' : 'text-zinc-300 hover:bg-zinc-900'}"
       >
         About & History
+      </a>
+
+      <a
+        href="/contributors"
+        class="block px-4 py-3 rounded-xl text-base font-medium {activeTab === 'contributors' ? 'bg-zinc-900 text-rose-400 font-bold' : 'text-zinc-300 hover:bg-zinc-900'}"
+      >
+        Contributors
+      </a>
+
+      <a
+        href="/contact"
+        class="block px-4 py-3 rounded-xl text-base font-medium {activeTab === 'contact' ? 'bg-zinc-900 text-rose-400 font-bold' : 'text-zinc-300 hover:bg-zinc-900'}"
+      >
+        Contact & Inquiries
       </a>
 
       <a
