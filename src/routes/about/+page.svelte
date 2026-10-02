@@ -73,6 +73,28 @@
 
     </div>
 
+    <!-- Archival Purpose & Legal Disclaimer Banner -->
+    <div class="glass-card p-8 rounded-3xl border border-zinc-800 bg-zinc-900/50 space-y-4">
+      <div class="flex items-center gap-3">
+        <span class="text-rose-400 font-bold text-lg">⚖️</span>
+        <h3 class="text-xl font-bold text-white font-bengali">সংরক্ষণ ও সর্বজনীন দাবিত্যাগ (Archival Purpose & Disclaimer)</h3>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-xs text-zinc-300 font-bengali leading-relaxed">
+        <div class="space-y-2">
+          <p class="font-semibold text-zinc-100">📌 অলাভজনক সংরক্ষণাগার (Preservation Purpose Only):</p>
+          <p>
+            এই প্ল্যাটফর্মটি সম্পূর্ণ অলাভজনক, নিরপেক্ষ ও নাগরিক উদ্যোগে নির্মিত। ২০২৪ সালের জুলাই গণঅভ্যুত্থানের ঐতিহাসিক শিল্পকর্ম ও গণচেতনাকে ক্ষয় এবং মুছে যাওয়া থেকে রক্ষা করাই এর একমাত্র উদ্দেশ্য। কোনো প্রকার বাণিজ্যিক স্বার্থ বা উপার্জন এতে জড়িত নয়।
+          </p>
+        </div>
+        <div class="space-y-2">
+          <p class="font-semibold text-zinc-100">🤝 শিল্পী ও আলোকচিত্রীদের অবদান (Open Source Credit):</p>
+          <p>
+            দেয়ালচিত্রের মূল ছাত্র-জনতা শিল্পী, ক্যালিগ্রাফার, এবং সারা দেশ থেকে ছবি ও তথ্য সংগ্রাহক আলোকচিত্রীদের প্রতি অশেষ কৃতজ্ঞতা। এই আর্কাইভ তাদের মেধা ও সাহসিকতার প্রতি উন্মুক্ত শ্রদ্ধাঞ্জলি।
+          </p>
+        </div>
+      </div>
+    </div>
+
     <!-- Call to action block -->
     <div class="glass-card p-10 rounded-3xl border border-rose-500/30 text-center space-y-6 bg-gradient-to-b from-zinc-900 to-rose-950/20">
       <h3 class="text-2xl sm:text-3xl font-bold font-bengali text-white">আপনার তোলা জুলাই দেয়ালচিত্র শেয়ার করুন</h3>

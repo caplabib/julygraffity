@@ -43,12 +43,22 @@
 
     <!-- Divider & Tribute Message -->
     <div class="pt-6 border-t border-zinc-900 flex flex-col sm:flex-row items-center justify-between text-xs text-zinc-500 gap-4">
-      <p class="font-bengali text-center sm:text-left">
-        জুলাই গণঅভ্যুত্থানের সকল বীর শহীদ ও প্রতিরোধ যোদ্ধাদের স্মৃতির প্রতি সশ্রদ্ধ নিবেদন।
-      </p>
-      <p class="text-center sm:text-right">
-        Non-commercial open-access digital preservation project.
-      </p>
+      <div class="space-y-1 text-center sm:text-left">
+        <p class="font-bengali">
+          জুলাই গণঅভ্যুত্থানের সকল বীর শহীদ ও প্রতিরোধ যোদ্ধাদের স্মৃতির প্রতি সশ্রদ্ধ নিবেদন।
+        </p>
+        <p class="text-[11px] text-zinc-600 font-bengali">
+          ঐতিহাসিক দেয়ালচিত্র সংরক্ষণ ও জনসচেতনতার উদ্দেশ্যে নির্মিত অলাভজনক ও নিরপেক্ষ নাগরিক আর্কাইভ।
+        </p>
+      </div>
+      <div class="text-center sm:text-right space-y-1">
+        <p>
+          Personal & Community-Driven Archival Project
+        </p>
+        <p class="text-[11px] text-zinc-600">
+          CC BY 4.0 Open-Access | Preservation Purpose Only
+        </p>
+      </div>
     </div>
   </div>
 </footer>
