@@ -74,10 +74,10 @@
         <button 
           onclick={onClose}
           class="flex items-center gap-1.5 sm:gap-2 px-2 sm:px-3 py-1.5 rounded-lg sm:rounded-xl bg-zinc-800 hover:bg-rose-600 text-zinc-200 hover:text-white transition-all text-xs font-medium shrink-0 border border-zinc-700/60"
-          aria-label="Back to gallery"
+          aria-label="Close Image View"
         >
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
-          <span class="hidden sm:inline">Back</span>
+          <img src="/icons/close.svg" alt="close" class="h-5 w-5 sm:h-5 sm:w-5 invert brightness-0"/>
+          <span class="hidden sm:inline">Close</span>
         </button>
 
         <div class="truncate min-w-0">

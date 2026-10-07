@@ -50,10 +50,48 @@ export async function fetchMurals() {
       descriptionEn: item.description_en || item.descriptionEn || '',
       slogan: item.slogan || '',
       likes: item.likes || 0,
-      tags: item.tags || []
+      tags: item.tags || [],
+      heroLandscape: item['hero-landscape'] ?? item['hero_landscape'] ?? item.heroLandscape ?? item['hero-landscapes'] ?? item['hero_landscapes'] ?? null,
+      heroPortraits: item['hero-portraits'] ?? item['hero_portraits'] ?? item.heroPortraits ?? item['hero-portrait'] ?? item['hero_portrait'] ?? item.heroPortrait ?? null
     }));
   } catch (err) {
     console.error('Failed to fetch from Supabase:', err);
+    return null;
+  }
+}
+
+/**
+ * Fetch hero murals from graffitybackup1 table.
+ */
+export async function fetchHeroMurals() {
+  try {
+    const { data, error } = await supabase
+      .from('graffitybackup1')
+      .select('*')
+      .order('created_at', { ascending: false });
+
+    if (error) {
+      console.warn('Supabase hero fetch warning:', error.message || error);
+      return null;
+    }
+
+    if (!data || data.length === 0) {
+      return null;
+    }
+
+    return data.map((item) => ({
+      id: item.id,
+      image: item.image,
+      titleBn: item.title_bn || item.titleBn || item.title_en || 'Mural',
+      titleEn: item.title_en || item.titleEn || item.title_bn || 'Mural',
+      location: item.location || '',
+      district: item.district || '',
+      slogan: item.slogan || '',
+      heroLandscape: item['hero-landscape'] ?? item['hero_landscape'] ?? item.heroLandscape ?? item['hero-landscapes'] ?? item['hero_landscapes'] ?? null,
+      heroPortraits: item['hero-portraits'] ?? item['hero_portraits'] ?? item.heroPortraits ?? item['hero-portrait'] ?? item['hero_portrait'] ?? item.heroPortrait ?? null
+    }));
+  } catch (err) {
+    console.error('Failed to fetch hero murals from Supabase:', err);
     return null;
   }
 }

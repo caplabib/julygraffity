@@ -1,6 +1,6 @@
 <script>
   import { muralsData, categories } from '../data/murals.js';
-  import { fetchMurals } from '$lib/supabase.js';
+  import { fetchHeroMurals } from '$lib/supabase.js';
   import { dragScroll } from '$lib/utils/dragScroll.js';
 
   let { 
@@ -15,41 +15,112 @@
   let currentIndex = $state(0);
   let isPaused = $state(false);
   let muralsList = $state(muralsData);
+  let isTallScreen = $state(false);
 
   // Touch swipe support
   let touchStartX = $state(0);
   let touchStartY = $state(0);
+  let touchMoved = $state(false);
   let isSwiping = $state(false);
+
+  // Helper to check if a database column flag is active
+  function isHeroActive(value) {
+    if (value === true || value === 1) return true;
+    if (typeof value === 'string') {
+      const v = value.trim().toLowerCase();
+      if (v === 'false' || v === '0' || v === '' || v === 'null' || v === 'undefined') return false;
+      return true;
+    }
+    return false;
+  }
+
+  // Helper to get custom image if column has filename/URL, otherwise fallback to mural.image
+  function getHeroImageSrc(mural, isPortrait) {
+    const specific = isPortrait ? mural.heroPortraits : mural.heroLandscape;
+    if (typeof specific === 'string') {
+      const trimmed = specific.trim();
+      const lower = trimmed.toLowerCase();
+      if (['true', 't', '1', 'yes'].includes(lower)) {
+        return mural.image;
+      }
+      if (trimmed.length > 0 && !['false', '0', 'null', 'undefined'].includes(lower)) {
+        if (trimmed.startsWith('http://') || trimmed.startsWith('https://') || trimmed.startsWith('/')) {
+          return trimmed;
+        }
+        return `https://jvxgqflxmumxhjeywmjp.supabase.co/storage/v1/object/public/julytest/${trimmed}`;
+      }
+    }
+    return mural.image;
+  }
+
+  // Detect tall screen (mobile / portrait) vs wide screen (PC / landscape)
+  $effect(() => {
+    function detectScreenRatio() {
+      if (typeof window === 'undefined') return;
+      const isPortraitByMedia = window.matchMedia('(orientation: portrait)').matches;
+      const isTallByRatio = window.innerHeight > window.innerWidth;
+      const isMobileWidth = window.innerWidth < 768;
+      isTallScreen = isPortraitByMedia || isTallByRatio || isMobileWidth;
+    }
+
+    detectScreenRatio();
+    window.addEventListener('resize', detectScreenRatio);
+    window.addEventListener('orientationchange', detectScreenRatio);
+    return () => {
+      window.removeEventListener('resize', detectScreenRatio);
+      window.removeEventListener('orientationchange', detectScreenRatio);
+    };
+  });
 
   // Load dynamic murals from Supabase on mount
   $effect(() => {
-    fetchMurals().then((data) => {
+    fetchHeroMurals().then((data) => {
       if (data && data.length > 0) {
         muralsList = data;
       }
     });
   });
 
+  // Filter murals separately for tall screen (portraits) vs wide screen (landscape)
+  let activeHeroMurals = $derived.by(() => {
+    if (isTallScreen) {
+      // Tall / mobile screen: use hero-portraits
+      const portraitMurals = muralsList.filter(m => isHeroActive(m.heroPortraits));
+      if (portraitMurals.length > 0) return portraitMurals;
+    } else {
+      // Wide / PC screen: use hero-landscape
+      const landscapeMurals = muralsList.filter(m => isHeroActive(m.heroLandscape));
+      if (landscapeMurals.length > 0) return landscapeMurals;
+    }
+    // Fallback if no matching records yet
+    return muralsList;
+  });
+
+  // Ensure current index is within bounds when list shifts
+  $effect(() => {
+    if (currentIndex >= activeHeroMurals.length) {
+      currentIndex = 0;
+    }
+  });
+
   // Auto-play interval
   $effect(() => {
-    if (isPaused || muralsList.length === 0) return;
+    if (isPaused || activeHeroMurals.length === 0) return;
     const timer = setInterval(() => {
-      currentIndex = (currentIndex + 1) % muralsList.length;
-    }, 3000);
+      currentIndex = (currentIndex + 1) % activeHeroMurals.length;
+    }, 4000);
     return () => clearInterval(timer);
   });
 
   function nextSlide() {
-    if (muralsList.length === 0) return;
-    currentIndex = (currentIndex + 1) % muralsList.length;
+    if (activeHeroMurals.length === 0) return;
+    currentIndex = (currentIndex + 1) % activeHeroMurals.length;
   }
 
   function prevSlide() {
-    if (muralsList.length === 0) return;
-    currentIndex = (currentIndex - 1 + muralsList.length) % muralsList.length;
+    if (activeHeroMurals.length === 0) return;
+    currentIndex = (currentIndex - 1 + activeHeroMurals.length) % activeHeroMurals.length;
   }
-
-  let touchMoved = $state(false);
 
   function handleTouchStart(e) {
     touchStartX = e.touches[0].clientX;
@@ -71,7 +142,7 @@
     }
 
     // Only swipe if horizontal movement > vertical (avoid hijacking scroll)
-    if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 50) {
+    if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 40) {
       if (deltaX > 0) {
         prevSlide();
       } else {
@@ -91,7 +162,15 @@
     onOpenModal(currentMural);
   }
 
-  let currentMural = $derived(muralsList[currentIndex] || muralsList[0]);
+  function scrollToContent(e) {
+    e.stopPropagation();
+    const el = document.getElementById('search-and-filters');
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+
+  let currentMural = $derived(activeHeroMurals[currentIndex % activeHeroMurals.length] || activeHeroMurals[0] || muralsList[0]);
 </script>
 
 <!-- svelte-ignore a11y_no_static_element_interactions -->
@@ -105,24 +184,29 @@
   role="button"
   tabindex="0"
   aria-label="View artwork details for {currentMural?.titleEn || currentMural?.titleBn}"
-  class="relative w-full bg-zinc-950 overflow-hidden group select-none border-b border-zinc-800/80 cursor-pointer focus:outline-none"
-  style="height: clamp(360px, 68svh, 820px);"
+  class="hero-viewport-container relative w-full overflow-hidden group select-none border-b border-zinc-800/80 cursor-pointer focus:outline-none"
+  class:is-tall={isTallScreen}
+  class:is-wide={!isTallScreen}
 >
-  <!-- Background Image Carousel with Crossfade -->
-  {#each muralsList as mural, idx (mural.id)}
+  <!-- Background Image Carousel with Crossfade & Responsive Image Sources -->
+  {#each activeHeroMurals as mural, idx (mural.id)}
     <div 
-      class="absolute inset-0 transition-opacity duration-700 ease-in-out {idx === currentIndex ? 'opacity-100 z-10' : 'opacity-0 z-0 pointer-events-none'}"
+      class="absolute inset-0 w-full h-full transition-opacity duration-700 ease-in-out {idx === currentIndex ? 'opacity-100 z-10' : 'opacity-0 z-0 pointer-events-none'}"
     >
-      <img 
-        src={mural.image} 
-        alt={mural.titleEn} 
-        class="w-full h-full object-cover object-center transform scale-105 transition-transform duration-[6000ms] ease-linear will-change-transform"
-        style={idx === currentIndex ? 'transform: scale(1.0);' : ''}
-        loading={idx < 3 ? 'eager' : 'lazy'}
-      />
-      <!-- Dark Gradient Overlay for optimal readability across any screen -->
-      <div class="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/45 to-zinc-950/30"></div>
-      <div class="absolute inset-0 bg-gradient-to-r from-zinc-950/85 via-zinc-950/30 to-transparent"></div>
+      <div 
+        class="absolute inset-0 w-full h-full bg-cover bg-center transform scale-105 transition-transform duration-[7000ms] ease-linear will-change-transform"
+        style="background-image: url('{getHeroImageSrc(mural, isTallScreen)}'); {idx === currentIndex ? 'transform: scale(1.0);' : ''}"
+      ></div>
+      <!-- Dark Gradient Overlay tuned separately for portrait vs landscape -->
+      {#if isTallScreen}
+        <!-- Tall / Mobile Screen Gradient Overlay -->
+        <div class="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/50 to-zinc-950/25"></div>
+        <div class="absolute inset-0 bg-gradient-to-b from-zinc-950/40 via-transparent to-transparent"></div>
+      {:else}
+        <!-- Wide / PC Screen Gradient Overlay -->
+        <div class="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/40 to-transparent"></div>
+        <div class="absolute inset-0 bg-gradient-to-r from-zinc-950/90 via-zinc-950/30 to-transparent"></div>
+      {/if}
     </div>
   {/each}
 
@@ -144,34 +228,88 @@
     <svg class="w-4 h-4 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
   </button>
 
-  <!-- Bottom Left Text Overlay -->
-  <div class="absolute bottom-6 sm:bottom-10 lg:bottom-14 left-3 sm:left-8 lg:left-16 z-30 max-w-[calc(100%-4.5rem)] sm:max-w-xl lg:max-w-2xl space-y-2 sm:space-y-3 pointer-events-none">
-    
-    <!-- Location Badge -->
-    <div class="inline-flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3.5 py-1 rounded-full bg-zinc-950/75 backdrop-blur-md border border-zinc-700/80 text-zinc-300 text-[11px] sm:text-xs font-medium max-w-full">
-      <svg class="w-3 h-3 sm:w-3.5 sm:h-3.5 text-rose-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-      <span class="truncate">{currentMural.location}, {currentMural.district}</span>
+  <!-- Slide Counter Pill (Top-Right or Bottom-Right) -->
+  <div class="absolute top-4 right-4 sm:top-6 sm:right-6 z-30 pointer-events-none">
+    <div class="px-3 py-1 rounded-full bg-zinc-950/70 border border-zinc-700/70 backdrop-blur-md text-[11px] sm:text-xs text-zinc-300 font-mono shadow-lg">
+      {currentIndex + 1} / {activeHeroMurals.length}
     </div>
-
-    <!-- Main Title -->
-    <div>
-      <h1 class="font-bold font-serif-hero text-rose-100 tracking-tight leading-none drop-shadow-lg" style="font-size: clamp(1.6rem, 5vw, 4.25rem);">
-        Walls of July
-      </h1>
-      <h2 class="font-bold font-bengali text-amber-300 mt-1 sm:mt-2 truncate drop-shadow-md" style="font-size: clamp(0.95rem, 2.5vw, 1.75rem);">
-        {currentMural.titleBn}
-      </h2>
-    </div>
-
-    <!-- Description Subtitle -->
-    <p class="text-xs sm:text-sm md:text-base text-zinc-300 font-sans max-w-xl leading-relaxed drop-shadow-md line-clamp-2">
-      A photographic record of the graffiti left behind after the July Revolution.
-    </p>
   </div>
+
+  <!-- Text Overlay: Configured separately for Tall Screen (Mobile) vs Wide Screen (PC) -->
+  {#if isTallScreen}
+    <!-- TALL SCREEN (Mobile / Portrait) OVERLAY -->
+    <div class="absolute bottom-12 left-3 right-3 z-30 pointer-events-none space-y-2">
+      <!-- Location Badge -->
+      <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-zinc-950/80 backdrop-blur-md border border-zinc-700/80 text-zinc-300 text-[11px] font-medium max-w-full">
+        <svg class="w-3 h-3 text-rose-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+        <span class="truncate">{currentMural.location || currentMural.district}</span>
+      </div>
+
+      <!-- Main Titles for Tall Screen -->
+      <div>
+        <h1 class="font-bold font-serif-hero text-rose-100 tracking-tight leading-none drop-shadow-xl text-3xl sm:text-4xl">
+          Walls of July
+        </h1>
+        <h2 class="font-bold font-bengali text-amber-300 mt-1 truncate drop-shadow-md text-base sm:text-lg">
+          {currentMural.titleBn}
+        </h2>
+      </div>
+
+      <!-- Slogan / Subtitle for Tall Screen -->
+      {#if currentMural.slogan}
+        <p class="text-xs text-zinc-200 font-bengali font-semibold line-clamp-1 drop-shadow-md">
+          "{currentMural.slogan}"
+        </p>
+      {:else}
+        <p class="text-xs text-zinc-300 font-sans line-clamp-2 drop-shadow-md">
+          A photographic record of the graffiti left behind after the July Revolution.
+        </p>
+      {/if}
+    </div>
+  {:else}
+    <!-- WIDE / PC SCREEN (Desktop / Landscape) OVERLAY -->
+    <div class="absolute bottom-12 lg:bottom-16 left-8 lg:left-16 z-30 max-w-2xl xl:max-w-3xl space-y-3 pointer-events-none">
+      <!-- Location Badge -->
+      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-zinc-950/75 backdrop-blur-md border border-zinc-700/80 text-zinc-300 text-xs font-medium max-w-full shadow-lg">
+        <svg class="w-3.5 h-3.5 text-rose-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+        <span class="truncate">{currentMural.location}, {currentMural.district}</span>
+      </div>
+
+      <!-- Main Titles for Wide Screen -->
+      <div>
+        <h1 class="font-bold font-serif-hero text-rose-100 tracking-tight leading-none drop-shadow-2xl text-5xl lg:text-7xl">
+          Walls of July
+        </h1>
+        <h2 class="font-bold font-bengali text-amber-300 mt-2 truncate drop-shadow-md text-xl lg:text-3xl">
+          {currentMural.titleBn}
+        </h2>
+      </div>
+
+      <!-- Description Subtitle for Wide Screen -->
+      <p class="text-sm lg:text-base text-zinc-300 font-sans max-w-xl leading-relaxed drop-shadow-md">
+        {#if currentMural.slogan}
+          <span class="text-amber-200/90 font-bengali font-semibold">"{currentMural.slogan}"</span> — 
+        {/if}
+        A photographic record of the graffiti left behind after the July Revolution.
+      </p>
+    </div>
+  {/if}
+
+  <!-- Subtle Scroll / Explore Down Indicator -->
+  <button 
+    onclick={scrollToContent}
+    class="absolute bottom-2.5 sm:bottom-4 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center gap-0.5 text-zinc-400 hover:text-white transition-all hover:scale-105 active:scale-95"
+    aria-label="Scroll to search and explore artworks"
+  >
+    <span class="text-[10px] uppercase tracking-widest font-mono opacity-80">Explore</span>
+    <svg class="w-4 h-4 animate-bounce text-rose-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+    </svg>
+  </button>
 </div>
 
-<!-- Search & Category Filters Bar (Below Carousel) -->
-<section class="py-4 sm:py-8 bg-wall-pattern border-b border-zinc-800/80">
+<!-- Search & Category Filters Bar (Below Full-Height Carousel) -->
+<section id="search-and-filters" class="py-5 sm:py-8 bg-wall-pattern border-b border-zinc-800/80 scroll-mt-20">
   <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 space-y-3 sm:space-y-6">
     <div class="max-w-3xl mx-auto space-y-3 sm:space-y-4 text-center">
       
@@ -201,7 +339,7 @@
       <!-- Categories Pill Filter -->
       <div 
         use:dragScroll
-        class="flex items-center gap-1.5 sm:gap-2 overflow-x-auto pb-2 pt-1 custom-h-scrollbar scroll-smooth justify-start sm:justify-center cursor-grab active:cursor-grabbing select-none -mx-2 px-2"
+        class="flex items-center gap-1.5 sm:gap-2 overflow-x-auto pb-2 pt-1 px-2 mx-auto custom-h-scrollbar scroll-smooth cursor-grab active:cursor-grabbing select-none"
       >
         {#each categories as cat}
           <button
@@ -216,3 +354,20 @@
     </div>
   </div>
 </section>
+
+<style>
+  .hero-viewport-container {
+    width: 100%;
+    /* Default to mobile/tall screen height */
+    height: calc(100dvh - 4rem);
+    min-height: 520px;
+  }
+
+  /* WIDE / PC SCREEN VIEW: Whole height of screen minus desktop navbar (80px) */
+  @media (min-width: 768px) and (orientation: landscape) {
+    .hero-viewport-container {
+      height: calc(100dvh - 5rem);
+      min-height: 640px;
+    }
+  }
+</style>

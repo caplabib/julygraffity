@@ -59,7 +59,7 @@
     />
 
     <!-- Top-Left React Heart Badge -->
-    <button 
+    <!-- <button 
       onclick={toggleLike}
       aria-label="React to artwork"
       class="absolute top-2 sm:top-3 left-2 sm:left-3 z-20 inline-flex items-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-1 sm:py-1.5 rounded-full bg-zinc-950/70 border border-zinc-700/80 backdrop-blur-md text-white hover:border-rose-500 transition-all text-[11px] sm:text-xs font-bold shadow-lg"
@@ -72,7 +72,7 @@
         <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
       </svg>
       <span>{likeCount}</span>
-    </button>
+    </button> -->
 
     <!-- Bottom Dark Gradient Overlay (Anchored to Bottom of Image) -->
     <div class="absolute inset-x-0 bottom-0 z-10 pt-12 sm:pt-16 pb-3 sm:pb-4 px-3 sm:px-4 bg-gradient-to-t from-zinc-950 via-zinc-950/75 to-transparent flex flex-col justify-end space-y-0.5 sm:space-y-1 pointer-events-none">

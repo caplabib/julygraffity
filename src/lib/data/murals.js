@@ -37,7 +37,9 @@ export const muralsData = [
     descriptionEn: 'Painted on the front walls of Rangpur Government Library Building.',
     slogan: "Let's Rebuild Our Nation",
     likes: 0,
-    tags: ['Rangpur', 'Rebuild', 'Hope']
+    tags: ['Rangpur', 'Rebuild', 'Hope'],
+    heroLandscape: true,
+    heroPortraits: false
   },
   {
     id: 'rangpur-02',
@@ -56,7 +58,9 @@ export const muralsData = [
     descriptionEn: 'Painted on the front walls of Rangpur Government Library Building.',
     slogan: "Won't attend the politician's rally.",
     likes: 0,
-    tags: ['Rangpur', 'Calligraphy', 'Slogan']
+    tags: ['Rangpur', 'Calligraphy', 'Slogan'],
+    heroLandscape: true,
+    heroPortraits: true
   },
   {
     id: 'rangpur-03',
@@ -75,7 +79,9 @@ export const muralsData = [
     descriptionEn: '---',
     slogan: '---',
     likes: 0,
-    tags: ['Rangpur', 'Gen-Z']
+    tags: ['Rangpur', 'Gen-Z'],
+    heroLandscape: false,
+    heroPortraits: true
   },
   {
     id: 'rangpur-04',
@@ -94,7 +100,9 @@ export const muralsData = [
     descriptionEn: '---',
     slogan: '---',
     likes: 0,
-    tags: ['Rangpur', 'Song Lyric', 'Rhyme', 'Poem']
+    tags: ['Rangpur', 'Song Lyric', 'Rhyme', 'Poem'],
+    heroLandscape: true,
+    heroPortraits: false
   },
   {
     id: 'rangpur-05',
