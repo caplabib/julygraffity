@@ -57,3 +57,87 @@ export async function fetchMurals() {
     return null;
   }
 }
+
+/**
+ * Fetch contributors directory from Supabase
+ */
+export async function fetchContributors() {
+  try {
+    const { data, error } = await supabase
+      .from('contributors')
+      .select('*')
+      .order('id', { ascending: true });
+
+    if (error || !data || data.length === 0) {
+      return null;
+    }
+
+    return data.map((item) => ({
+      id: item.id,
+      name: item.name,
+      role: item.role,
+      roleBn: item.role_bn || item.roleBn || '',
+      category: item.category,
+      location: item.location,
+      contributions: item.contributions,
+      icon: item.icon || '/icons/person.svg',
+      badge: item.badge || 'Contributor'
+    }));
+  } catch (err) {
+    console.error('Failed to fetch contributors from Supabase:', err);
+    return null;
+  }
+}
+
+/**
+ * Fetch team members for the Team Section from Supabase
+ */
+export async function fetchTeamMembers() {
+  try {
+    const { data, error } = await supabase
+      .from('team_members')
+      .select('*')
+      .order('id', { ascending: true });
+
+    if (error || !data || data.length === 0) {
+      return null;
+    }
+
+    return data.map((item) => ({
+      id: item.id,
+      name: item.name,
+      location: item.location,
+      icon: item.icon || '/icons/person.svg',
+      roleGroup: item.role_group || item.roleGroup || 'developers'
+    }));
+  } catch (err) {
+    console.error('Failed to fetch team members from Supabase:', err);
+    return null;
+  }
+}
+
+/**
+ * Fetch contributor statistics from Supabase
+ */
+export async function fetchContributorStats() {
+  try {
+    const { data, error } = await supabase
+      .from('contributor_stats')
+      .select('*')
+      .order('id', { ascending: true });
+
+    if (error || !data || data.length === 0) {
+      return null;
+    }
+
+    return data.map((item) => ({
+      label: item.label,
+      value: item.value,
+      labelBn: item.label_bn || item.labelBn || ''
+    }));
+  } catch (err) {
+    console.error('Failed to fetch contributor stats from Supabase:', err);
+    return null;
+  }
+}
+

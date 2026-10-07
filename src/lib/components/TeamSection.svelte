@@ -1,22 +1,38 @@
 <script>
+  import { fetchTeamMembers } from '$lib/supabase.js';
+
   let { 
     showViewAll = true,
     title = "THE JULY GRAFFITY ARCHIVE TEAM"
   } = $props();
 
-  const developers = [
+  let developers = $state([
     { name: 'Cap Labib', location: 'RANGPUR, BANGLADESH', icon: '/icons/person.svg' }
-  ];
+  ]);
 
-  const photographers = [
+  let photographers = $state([
     { name: 'Riazul Alam Rony', location: 'RANGPUR, BANGLADESH', icon: '/icons/person.svg' },
     { name: 'Rafi Ahmed', location: 'THAKURGAON, BANGLADESH', icon: '/icons/person.svg' }
-  ];
+  ]);
 
-  const artists = [
+  let artists = $state([
     { name: 'Faculty of Fine Arts (Charukala) Student Alliance', location: 'RANGPUR, BANGLADESH', icon: '/icons/groups.svg' },
     { name: 'Begum Rokeya University (BRUR) Youth Collective', location: 'RANGPUR, BANGLADESH', icon: '/icons/groups.svg' }
-  ];
+  ]);
+
+  $effect(() => {
+    fetchTeamMembers().then((data) => {
+      if (data && data.length > 0) {
+        const devs = data.filter((m) => m.roleGroup === 'developers');
+        const photos = data.filter((m) => m.roleGroup === 'photographers');
+        const arts = data.filter((m) => m.roleGroup === 'artists');
+
+        if (devs.length > 0) developers = devs;
+        if (photos.length > 0) photographers = photos;
+        if (arts.length > 0) artists = arts;
+      }
+    });
+  });
 </script>
 
 <div class="space-y-6 pt-4">
