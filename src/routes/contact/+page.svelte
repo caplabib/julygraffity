@@ -43,25 +43,25 @@
 <div class="min-h-screen flex flex-col bg-zinc-950 text-zinc-100 font-sans selection:bg-rose-500 selection:text-white">
   <Navbar activeTab="contact" />
 
-  <main class="flex-1 py-16 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto space-y-12">
+  <main class="flex-1 py-10 sm:py-16 px-3 sm:px-6 lg:px-8 max-w-5xl mx-auto space-y-8 sm:space-y-12 w-full">
     <!-- Header -->
-    <div class="text-center space-y-4">
-      <span class="px-4 py-1.5 rounded-full text-xs font-bold bg-rose-500/20 text-rose-400 border border-rose-500/30 uppercase tracking-widest">
+    <div class="text-center space-y-3 sm:space-y-4">
+      <span class="px-3.5 py-1 sm:px-4 sm:py-1.5 rounded-full text-[11px] sm:text-xs font-bold bg-rose-500/20 text-rose-400 border border-rose-500/30 uppercase tracking-widest inline-block">
         Direct Archival Channel
       </span>
-      <h1 class="text-4xl sm:text-6xl font-extrabold font-serif-hero text-white tracking-tight">
+      <h1 class="text-3xl sm:text-5xl lg:text-6xl font-extrabold font-serif-hero text-white tracking-tight">
         Contact & Inquiries
       </h1>
-      <p class="text-lg text-zinc-300 max-w-2xl mx-auto font-bengali leading-relaxed">
+      <p class="text-sm sm:text-base lg:text-lg text-zinc-300 max-w-2xl mx-auto font-bengali leading-relaxed px-2">
         দেয়ালচিত্রের তথ্য সংশোধন, আলোকচিত্রীর কৃতিত্ব যোগ, বা যে কোনো অনুসন্ধানের জন্য আমাদের সাথে যোগাযোগ করুন।
       </p>
     </div>
 
     <!-- Main Content Layout -->
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
       
       <!-- Contact Form -->
-      <div class="lg:col-span-2 glass-card p-8 rounded-3xl border border-zinc-800 bg-zinc-900/50 space-y-6">
+      <div class="lg:col-span-2 glass-card p-5 sm:p-8 rounded-2xl sm:rounded-3xl border border-zinc-800 bg-zinc-900/50 space-y-5 sm:space-y-6">
         {#if isSubmitted}
           <div class="p-8 text-center space-y-4 animate-fadeIn">
             <div class="w-16 h-16 rounded-full bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 text-3xl flex items-center justify-center mx-auto">

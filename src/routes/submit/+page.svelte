@@ -32,32 +32,32 @@
 <div class="min-h-screen flex flex-col bg-zinc-950 text-zinc-100 font-sans selection:bg-rose-500 selection:text-white">
   <Navbar activeTab="submit" />
 
-  <main class="flex-1 py-16 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto space-y-10">
+  <main class="flex-1 py-10 sm:py-16 px-3 sm:px-6 lg:px-8 max-w-4xl mx-auto space-y-8 sm:space-y-10 w-full">
     <!-- Header -->
     <div class="text-center space-y-3">
-      <span class="px-4 py-1.5 rounded-full text-xs font-bold bg-rose-500/20 text-rose-400 border border-rose-500/30 uppercase tracking-widest">
+      <span class="px-3.5 py-1 sm:px-4 sm:py-1.5 rounded-full text-[11px] sm:text-xs font-bold bg-rose-500/20 text-rose-400 border border-rose-500/30 uppercase tracking-widest inline-block">
         Community Contribution
       </span>
-      <h1 class="text-4xl sm:text-5xl font-extrabold font-serif-hero text-white tracking-tight">
+      <h1 class="text-3xl sm:text-5xl font-extrabold font-serif-hero text-white tracking-tight">
         Submit July Revolution Murals
       </h1>
-      <p class="text-base text-zinc-300 max-w-2xl mx-auto font-bengali">
+      <p class="text-sm sm:text-base text-zinc-300 max-w-2xl mx-auto font-bengali px-2 leading-relaxed">
         আপনার এলাকার জুলাই বিপ্লবের দেয়ালচিত্রের ছবি ও বিস্তারিত তথ্য জমা দিয়ে ডিজিটাল আর্カイভ রক্ষায় সাহায্য করুন।
       </p>
     </div>
 
     <!-- Submission Form -->
-    <div class="glass-card p-8 sm:p-10 rounded-3xl border border-zinc-800 shadow-2xl relative">
+    <div class="glass-card p-5 sm:p-10 rounded-2xl sm:rounded-3xl border border-zinc-800 shadow-2xl relative">
       {#if isSubmitted}
-        <div class="p-8 rounded-2xl bg-emerald-600/20 border border-emerald-500/40 text-center space-y-3 animate-fadeIn">
-          <div class="text-4xl">✓</div>
-          <h2 class="text-2xl font-bold font-bengali text-emerald-400">ধন্যবাদ! ছবি জমা সম্পন্ন হয়েছে।</h2>
-          <p class="text-sm text-zinc-300 font-bengali max-w-md mx-auto">
+        <div class="p-6 sm:p-8 rounded-2xl bg-emerald-600/20 border border-emerald-500/40 text-center space-y-3 animate-fadeIn">
+          <div class="text-3xl sm:text-4xl">✓</div>
+          <h2 class="text-xl sm:text-2xl font-bold font-bengali text-emerald-400">ধন্যবাদ! ছবি জমা সম্পন্ন হয়েছে।</h2>
+          <p class="text-xs sm:text-sm text-zinc-300 font-bengali max-w-md mx-auto">
             আমাদের দল আপনার পাঠানো ছবি ও তথ্য পর্যালোচনা করে মূল আর্カイভে অন্তর্ভুক্ত করবে।
           </p>
         </div>
       {:else}
-        <form onsubmit={handleSubmit} class="space-y-6">
+        <form onsubmit={handleSubmit} class="space-y-5 sm:space-y-6">
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <!-- Location -->
             <div>

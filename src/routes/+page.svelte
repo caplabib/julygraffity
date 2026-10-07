@@ -89,18 +89,18 @@
 		/>
 
 		<!-- Gallery Grid Section (Top 12 Results) -->
-		<section class="mx-auto max-w-7xl space-y-8 px-4 py-12 sm:px-6 lg:px-8">
+		<section class="mx-auto max-w-7xl space-y-6 sm:space-y-8 px-3 sm:px-6 lg:px-8 py-8 sm:py-12">
 			<!-- Gallery Header & Filter Stats -->
 			<div
-				class="flex flex-col items-start justify-between gap-4 border-b border-zinc-800 pb-4 sm:flex-row sm:items-center"
+				class="flex flex-col items-start justify-between gap-3 sm:gap-4 border-b border-zinc-800 pb-4 sm:flex-row sm:items-center"
 			>
 				<div>
 					<h2
-						class="font-bengali flex items-center gap-3 text-2xl font-bold text-white sm:text-3xl"
+						class="font-bengali flex flex-wrap items-center gap-2 sm:gap-3 text-xl font-bold text-white sm:text-3xl"
 					>
 						<span>সংরক্ষিত দেয়ালচিত্রসমূহ</span>
 						<span
-							class="rounded-full border border-rose-500/30 bg-rose-500/20 px-3 py-1 text-xs font-semibold text-rose-400"
+							class="rounded-full border border-rose-500/30 bg-rose-500/20 px-2.5 sm:px-3 py-0.5 sm:py-1 text-[11px] sm:text-xs font-semibold text-rose-400"
 						>
 							Showing {displayedMurals.length} of {filteredMurals.length} Artworks
 						</span>
@@ -136,13 +136,13 @@
 				</div>
 
 				<!-- View All in Browse CTA Button -->
-				<div class="pt-8 text-center">
+				<div class="pt-6 sm:pt-8 text-center px-2">
 					<a
 						href="/browse"
-						class="group inline-flex items-center gap-2 rounded-2xl border border-zinc-800 bg-zinc-900 px-8 py-4 text-sm font-bold text-white shadow-xl transition-all duration-300 hover:border-rose-500 hover:bg-rose-600"
+						class="group inline-flex items-center justify-center gap-2 rounded-2xl border border-zinc-800 bg-zinc-900 px-6 sm:px-8 py-3.5 sm:py-4 text-xs sm:text-sm font-bold text-white shadow-xl transition-all duration-300 hover:border-rose-500 hover:bg-rose-600 max-w-full"
 					>
-						<span>Browse All {filteredMurals.length} Murals & Advanced Filters</span>
-						<span class="transition-transform group-hover:translate-x-1">→</span>
+						<span class="truncate">Browse All {filteredMurals.length} Murals & Advanced Filters</span>
+						<span class="transition-transform group-hover:translate-x-1 shrink-0">→</span>
 					</a>
 				</div>
 			{:else}

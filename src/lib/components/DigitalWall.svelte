@@ -83,27 +83,27 @@
   ];
 </script>
 
-<section class="py-12 bg-wall-pattern">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+<section class="py-8 sm:py-12 bg-wall-pattern">
+  <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 space-y-6 sm:space-y-10">
     <!-- Header -->
-    <div class="text-center max-w-3xl mx-auto space-y-3">
-      <span class="px-3.5 py-1 rounded-full text-xs font-semibold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 uppercase tracking-widest">
+    <div class="text-center max-w-3xl mx-auto space-y-2 sm:space-y-3">
+      <span class="px-3.5 py-1 rounded-full text-[11px] sm:text-xs font-semibold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 uppercase tracking-widest inline-block">
         Interactive Canvas
       </span>
-      <h2 class="text-3xl sm:text-5xl font-extrabold font-graffiti text-white">
+      <h2 class="text-2xl sm:text-4xl lg:text-5xl font-extrabold font-graffiti text-white">
         THE PEOPLE'S DIGITAL SPRAY WALL
       </h2>
-      <p class="text-zinc-400 text-sm sm:text-base font-bengali">
+      <p class="text-zinc-400 text-xs sm:text-base font-bengali px-2">
         আমাদের মুক্ত দেয়াল। আপনার স্বপ্ন, স্লোগান ও শ্রদ্ধার বার্তা স্প্রে দিয়ে আমাদের ডিজিটাল ক্যানভাসে যোগ করুন।
       </p>
     </div>
 
     <!-- Interactive Spray Station Input Card -->
-    <div class="max-w-3xl mx-auto glass-card p-6 sm:p-8 rounded-3xl border border-zinc-800 shadow-2xl relative">
-      <div class="space-y-6">
+    <div class="max-w-3xl mx-auto glass-card p-4 sm:p-8 rounded-2xl sm:rounded-3xl border border-zinc-800 shadow-2xl relative">
+      <div class="space-y-4 sm:space-y-6">
         <!-- Input Textarea -->
         <div>
-          <label for="wallMessageInput" class="block text-xs font-bold uppercase tracking-wider text-zinc-400 mb-2">
+          <label for="wallMessageInput" class="block text-[11px] sm:text-xs font-bold uppercase tracking-wider text-zinc-400 mb-1.5 sm:mb-2">
             Write Your Graffiti Slogan / Message (Bengali or English)
           </label>
           <textarea
@@ -111,37 +111,37 @@
             rows="3"
             bind:value={userText}
             placeholder="e.g. নতুন বাংলাদেশে স্বৈরাচারের স্থান নেই / Freedom for All..."
-            class="w-full p-4 bg-zinc-950 border border-zinc-700 focus:border-rose-500 rounded-2xl text-white text-base focus:outline-none focus:ring-2 focus:ring-rose-500/20 transition-all font-bengali"
+            class="w-full p-3.5 sm:p-4 bg-zinc-950 border border-zinc-700 focus:border-rose-500 rounded-xl sm:rounded-2xl text-white text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-rose-500/20 transition-all font-bengali"
           ></textarea>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
           <!-- Author Name -->
           <div>
-            <label for="authorNameInput" class="block text-xs font-bold uppercase tracking-wider text-zinc-400 mb-2">
+            <label for="authorNameInput" class="block text-[11px] sm:text-xs font-bold uppercase tracking-wider text-zinc-400 mb-1.5 sm:mb-2">
               Your Name / Student Union / Campus
             </label>
             <input
               id="authorNameInput"
               type="text"
               bind:value={authorName}
-              placeholder="e.g. Anonym / JU Student"
-              class="w-full px-4 py-3 bg-zinc-950 border border-zinc-700 focus:border-rose-500 rounded-xl text-white text-sm focus:outline-none focus:ring-2 focus:ring-rose-500/20 font-bengali"
+              placeholder="e.g. Anonymous / JU Student"
+              class="w-full px-3.5 sm:px-4 py-2.5 sm:py-3 bg-zinc-950 border border-zinc-700 focus:border-rose-500 rounded-xl text-white text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-rose-500/20 font-bengali"
             />
           </div>
 
           <!-- Color Palette Picker -->
           <div>
-            <label id="sprayColorLabel" class="block text-xs font-bold uppercase tracking-wider text-zinc-400 mb-2">
+            <label id="sprayColorLabel" class="block text-[11px] sm:text-xs font-bold uppercase tracking-wider text-zinc-400 mb-1.5 sm:mb-2">
               Spray Paint Color
             </label>
-            <div aria-labelledby="sprayColorLabel" class="flex items-center gap-2 pt-1">
+            <div aria-labelledby="sprayColorLabel" class="flex items-center gap-2 pt-1 flex-wrap">
               {#each sprayColors as color}
                 <button
                   type="button"
                   onclick={() => selectedColor = color.hex}
                   title={color.name}
-                  class="w-8 h-8 rounded-full transition-transform border-2 {selectedColor === color.hex ? 'scale-125 border-white shadow-lg' : 'border-transparent opacity-80 hover:opacity-100'}"
+                  class="w-7 h-7 sm:w-8 sm:h-8 rounded-full transition-transform border-2 {selectedColor === color.hex ? 'scale-115 border-white shadow-lg' : 'border-transparent opacity-80 hover:opacity-100'}"
                   style="background-color: {color.hex};"
                 ></button>
               {/each}
@@ -153,7 +153,7 @@
         <button
           onclick={addSprayMessage}
           disabled={!userText.trim()}
-          class="w-full py-4 rounded-2xl bg-gradient-to-r from-rose-600 to-emerald-600 hover:from-rose-500 hover:to-emerald-500 disabled:opacity-50 text-white font-bold text-base shadow-xl shadow-rose-950/50 transition-all flex items-center justify-center gap-2"
+          class="w-full py-3.5 sm:py-4 rounded-xl sm:rounded-2xl bg-gradient-to-r from-rose-600 to-emerald-600 hover:from-rose-500 hover:to-emerald-500 disabled:opacity-50 text-white font-bold text-xs sm:text-base shadow-xl shadow-rose-950/50 transition-all flex items-center justify-center gap-2 active:scale-98"
         >
           <span>🎨</span> Spray Message onto the Wall (দেয়ালে আঁকুন)
         </button>

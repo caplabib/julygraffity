@@ -42,29 +42,29 @@
 >
 	<Navbar activeTab="about" />
 
-	<main class="mx-auto max-w-5xl flex-1 space-y-14 px-4 py-16 sm:px-6 lg:px-8">
+	<main class="mx-auto max-w-5xl flex-1 space-y-10 sm:space-y-14 px-3 sm:px-6 lg:px-8 py-10 sm:py-16 w-full">
 		<!-- Header Title -->
-		<div class="space-y-4 text-center">
+		<div class="space-y-3 sm:space-y-4 text-center">
 			<span
-				class="rounded-full border border-rose-500/30 bg-rose-500/20 px-4 py-1.5 text-xs font-bold tracking-widest text-rose-400 uppercase"
+				class="rounded-full border border-rose-500/30 bg-rose-500/20 px-3.5 py-1 sm:px-4 sm:py-1.5 text-[11px] sm:text-xs font-bold tracking-widest text-rose-400 uppercase inline-block"
 			>
 				Digital Archiving & Historical Context
 			</span>
-			<h1 class="font-serif-hero text-4xl font-extrabold tracking-tight text-white sm:text-6xl">
+			<h1 class="font-serif-hero text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white">
 				Walls of July: The Visual History
 			</h1>
-			<p class="font-bengali mx-auto max-w-3xl text-lg leading-relaxed text-zinc-300">
+			<p class="font-bengali mx-auto max-w-3xl text-sm sm:text-base lg:text-lg leading-relaxed text-zinc-300 px-2">
 				জুলাই ২০২৪ এর গণঅভ্যুত্থানে বাংলাদেশ জুড়ে ছাত্র-জনতার আঁকা দেয়ালচিত্র, ক্যালিগ্রাফি এবং
 				গ্রাফিতির ডিজিটাল সংরক্ষণাগার।
 			</p>
 		</div>
 
 		<!-- Main Content Grid -->
-		<div class="grid grid-cols-1 gap-8 pt-2 md:grid-cols-2">
+		<div class="grid grid-cols-1 gap-5 sm:gap-8 pt-2 md:grid-cols-2">
 			<!-- Card 1 -->
-			<div class="glass-card space-y-4 rounded-3xl border border-zinc-800 p-8">
+			<div class="glass-card space-y-3 sm:space-y-4 rounded-2xl sm:rounded-3xl border border-zinc-800 p-5 sm:p-8">
 				<div
-					class="font-graffiti flex h-12 w-12 items-center justify-center rounded-2xl border border-rose-500/30 bg-rose-500/20 text-2xl text-rose-400"
+					class="font-graffiti flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-xl sm:rounded-2xl border border-rose-500/30 bg-rose-500/20 text-xl sm:text-2xl text-rose-400"
 				>
 					✊
 				</div>
@@ -79,13 +79,13 @@
 			</div>
 
 			<!-- Card 2 -->
-			<div class="glass-card space-y-4 rounded-3xl border border-zinc-800 p-8">
+			<div class="glass-card space-y-3 sm:space-y-4 rounded-2xl sm:rounded-3xl border border-zinc-800 p-5 sm:p-8">
 				<div
-					class="font-graffiti flex h-12 w-12 items-center justify-center rounded-2xl border border-emerald-500/30 bg-emerald-500/20 text-2xl text-emerald-400"
+					class="font-graffiti flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-xl sm:rounded-2xl border border-emerald-500/30 bg-emerald-500/20 text-xl sm:text-2xl text-emerald-400"
 				>
 					🎨
 				</div>
-				<h2 class="font-bengali text-2xl font-bold text-white">
+				<h2 class="font-bengali text-xl sm:text-2xl font-bold text-white">
 					২. বাংলা ক্যালিগ্রাফি ও শিল্পধারা
 				</h2>
 				<p class="font-bengali text-sm leading-relaxed text-zinc-300">
@@ -96,13 +96,13 @@
 			</div>
 
 			<!-- Card 3 -->
-			<div class="glass-card space-y-4 rounded-3xl border border-zinc-800 p-8">
+			<div class="glass-card space-y-3 sm:space-y-4 rounded-2xl sm:rounded-3xl border border-zinc-800 p-5 sm:p-8">
 				<div
-					class="font-graffiti flex h-12 w-12 items-center justify-center rounded-2xl border border-amber-500/30 bg-amber-500/20 text-2xl text-amber-400"
+					class="font-graffiti flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-xl sm:rounded-2xl border border-amber-500/30 bg-amber-500/20 text-xl sm:text-2xl text-amber-400"
 				>
 					🏛️
 				</div>
-				<h2 class="font-bengali text-2xl font-bold text-white">৩. সংরক্ষণাগারের প্রয়োজনীয়তা</h2>
+				<h2 class="font-bengali text-xl sm:text-2xl font-bold text-white">৩. সংরক্ষণাগারের প্রয়োজনীয়তা</h2>
 				<p class="font-bengali text-sm leading-relaxed text-zinc-300">
 					আবহাওয়া, রোদ-বৃষ্টি ও সময়ের সাথে বহিরাঙ্গনের দেয়ালচিত্র ক্ষয়ে যেতে পারে। এই আর্カイভের মূল
 					উদ্দেশ্য এই মূল্যবান শিল্পকর্মগুলোকে উচ্চমানের ফটোগ্রাফি ও মেট্রিক ডেটা সহ চিরতরে সংরক্ষণ
@@ -111,13 +111,13 @@
 			</div>
 
 			<!-- Card 4 -->
-			<div class="glass-card space-y-4 rounded-3xl border border-zinc-800 p-8">
+			<div class="glass-card space-y-3 sm:space-y-4 rounded-2xl sm:rounded-3xl border border-zinc-800 p-5 sm:p-8">
 				<div
-					class="font-graffiti flex h-12 w-12 items-center justify-center rounded-2xl border border-sky-500/30 bg-sky-500/20 text-2xl text-sky-400"
+					class="font-graffiti flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-xl sm:rounded-2xl border border-sky-500/30 bg-sky-500/20 text-xl sm:text-2xl text-sky-400"
 				>
 					🤝
 				</div>
-				<h2 class="font-bengali text-2xl font-bold text-white">৪. উন্মুক্ত ও অলাভজনক উদ্যোগ</h2>
+				<h2 class="font-bengali text-xl sm:text-2xl font-bold text-white">৪. উন্মুক্ত ও অলাভজনক উদ্যোগ</h2>
 				<p class="font-bengali text-sm leading-relaxed text-zinc-300">
 					জুলাই গ্রাফিতি একটি অলাভজনক উন্মুক্ত নাগরিক উদ্যোগ। গবেষক, শিক্ষার্থী ও সাধারণ নাগরিক
 					সকলেই বিনামূল্যে এই আর্カイভ থেকে তথ্য ও ছবি সংগ্রহ করতে পারবেন।
@@ -131,15 +131,15 @@
 		<TeamSection showViewAll={true} />
 
 		<!-- Archival Purpose & Legal Disclaimer Banner -->
-		<div class="glass-card space-y-4 rounded-3xl border border-zinc-800 bg-zinc-900/50 p-8">
+		<div class="glass-card space-y-4 rounded-2xl sm:rounded-3xl border border-zinc-800 bg-zinc-900/50 p-5 sm:p-8">
 			<div class="flex items-center gap-3">
 				<span class="text-lg font-bold text-rose-400">⚖️</span>
-				<h3 class="font-bengali text-xl font-bold text-white">
+				<h3 class="font-bengali text-lg sm:text-xl font-bold text-white">
 					সংরক্ষণ ও সর্বজনীন দাবিত্যাগ (Archival Purpose & Disclaimer)
 				</h3>
 			</div>
 			<div
-				class="font-bengali grid grid-cols-1 gap-6 text-xs leading-relaxed text-zinc-300 md:grid-cols-2"
+				class="font-bengali grid grid-cols-1 gap-4 sm:gap-6 text-xs leading-relaxed text-zinc-300 md:grid-cols-2"
 			>
 				<div class="space-y-2">
 					<p class="font-semibold text-zinc-100">
@@ -168,7 +168,7 @@
 		<!-- ========================================== -->
 		<!-- EMBEDDED CONTACT SECTION -->
 		<!-- ========================================== -->
-		<div class="glass-card space-y-6 rounded-3xl border border-zinc-800 bg-zinc-900/60 p-8 sm:p-10">
+		<div class="glass-card space-y-6 rounded-2xl sm:rounded-3xl border border-zinc-800 bg-zinc-900/60 p-5 sm:p-10">
 			<div class="space-y-2 text-center">
 				<span
 					class="rounded-full border border-rose-500/30 bg-rose-500/20 px-3.5 py-1 text-[11px] font-bold tracking-widest text-rose-400 uppercase"

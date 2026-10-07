@@ -18,30 +18,30 @@
 <div class="min-h-screen flex flex-col bg-zinc-950 text-zinc-100 font-sans selection:bg-rose-500 selection:text-white">
   <Navbar activeTab="support" />
 
-  <main class="flex-1 py-16 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto space-y-12">
+  <main class="flex-1 py-10 sm:py-16 px-3 sm:px-6 lg:px-8 max-w-5xl mx-auto space-y-8 sm:space-y-12 w-full">
     <!-- Title -->
-    <div class="text-center space-y-4">
-      <span class="px-4 py-1.5 rounded-full text-xs font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 uppercase tracking-widest">
+    <div class="text-center space-y-3 sm:space-y-4">
+      <span class="px-3.5 py-1 sm:px-4 sm:py-1.5 rounded-full text-[11px] sm:text-xs font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 uppercase tracking-widest inline-block">
         Support & Preserve History
       </span>
-      <h1 class="text-4xl sm:text-6xl font-extrabold font-serif-hero text-white tracking-tight">
+      <h1 class="text-3xl sm:text-5xl lg:text-6xl font-extrabold font-serif-hero text-white tracking-tight">
         Support the July Archive Project
       </h1>
-      <p class="text-lg text-zinc-300 max-w-3xl mx-auto font-bengali leading-relaxed">
+      <p class="text-sm sm:text-base lg:text-lg text-zinc-300 max-w-3xl mx-auto font-bengali leading-relaxed px-2">
         আমাদের মুক্ত নাগরিক আর্কাইভ সমৃদ্ধ করতে এবং ইতিহাস সংরক্ষণে আপনি কীভাবে সাহায্য করতে পারেন।
       </p>
     </div>
 
     <!-- Support Options Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-8">
       
       <!-- Option 1: Share Archive -->
-      <div class="glass-card p-8 rounded-3xl border border-zinc-800 space-y-4 flex flex-col justify-between">
-        <div class="space-y-4">
-          <div class="w-12 h-12 rounded-2xl bg-rose-500/20 border border-rose-500/30 text-rose-400 flex items-center justify-center text-2xl font-bold">
+      <div class="glass-card p-5 sm:p-8 rounded-2xl sm:rounded-3xl border border-zinc-800 space-y-4 flex flex-col justify-between">
+        <div class="space-y-3 sm:space-y-4">
+          <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-rose-500/20 border border-rose-500/30 text-rose-400 flex items-center justify-center text-xl sm:text-2xl font-bold">
             📢
           </div>
-          <h2 class="text-2xl font-bold font-bengali text-white">১. আর্カイভ শেয়ার করুন</h2>
+          <h2 class="text-xl sm:text-2xl font-bold font-bengali text-white">১. আর্カイভ শেয়ার করুন</h2>
           <p class="text-sm text-zinc-300 font-bengali leading-relaxed">
             সামাজিক যোগাযোগ মাধ্যমে জুলাই বিপ্লবের এই ডিজিটাল দেয়ালচিত্র আর্কাইভ শেয়ার করে সর্বস্তরের মানুষের কাছে পৌঁছে দিন।
           </p>
@@ -60,12 +60,12 @@
       </div>
 
       <!-- Option 2: Submit Photos -->
-      <div class="glass-card p-8 rounded-3xl border border-zinc-800 space-y-4 flex flex-col justify-between">
-        <div class="space-y-4">
-          <div class="w-12 h-12 rounded-2xl bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 flex items-center justify-center text-2xl font-bold">
+      <div class="glass-card p-5 sm:p-8 rounded-2xl sm:rounded-3xl border border-zinc-800 space-y-4 flex flex-col justify-between">
+        <div class="space-y-3 sm:space-y-4">
+          <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 flex items-center justify-center text-xl sm:text-2xl font-bold">
             📷
           </div>
-          <h2 class="text-2xl font-bold font-bengali text-white">২. ম্যুরাল ছবি প্রদান</h2>
+          <h2 class="text-xl sm:text-2xl font-bold font-bengali text-white">২. ম্যুরাল ছবি প্রদান</h2>
           <p class="text-sm text-zinc-300 font-bengali leading-relaxed">
             আপনার বিশ্ববিদ্যালয় বা জেলা শহরের আঁকা গ্রাফিতির ছবি ও বিস্তারিত স্থান সম্পর্কিত তথ্য দিয়ে আমাদের আর্カイভ সমৃদ্ধ করুন।
           </p>
@@ -80,12 +80,12 @@
       </div>
 
       <!-- Option 3: Volunteer & Archiving -->
-      <div class="glass-card p-8 rounded-3xl border border-zinc-800 space-y-4 flex flex-col justify-between">
-        <div class="space-y-4">
-          <div class="w-12 h-12 rounded-2xl bg-amber-500/20 border border-amber-500/30 text-amber-400 flex items-center justify-center text-2xl font-bold">
+      <div class="glass-card p-5 sm:p-8 rounded-2xl sm:rounded-3xl border border-zinc-800 space-y-4 flex flex-col justify-between">
+        <div class="space-y-3 sm:space-y-4">
+          <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-amber-500/20 border border-amber-500/30 text-amber-400 flex items-center justify-center text-xl sm:text-2xl font-bold">
             💻
           </div>
-          <h2 class="text-2xl font-bold font-bengali text-white">৩. ভলান্টিয়ার আর্カイভিং</h2>
+          <h2 class="text-xl sm:text-2xl font-bold font-bengali text-white">৩. ভলান্টিয়ার আর্カイভিং</h2>
           <p class="text-sm text-zinc-300 font-bengali leading-relaxed">
             মেটাডেটা এন্ট্রি, অনুবাদ, ক্যালিগ্রাফি সংগ্রহ এবং প্রযুক্তিগত উন্নয়নে স্বেচ্ছাসেবী হিসেবে কাজ করতে যোগ দিন।
           </p>
@@ -102,9 +102,9 @@
     </div>
 
     <!-- Non-Profit Statement -->
-    <div class="glass-card p-8 rounded-3xl border border-zinc-800/80 text-center space-y-3 bg-zinc-950">
-      <h3 class="text-xl font-bold font-bengali text-white">অলাভজনক নাগরিক সংরক্ষণাগার (Open Citizen Archive)</h3>
-      <p class="text-xs sm:text-sm text-zinc-400 font-bengali max-w-2xl mx-auto">
+    <div class="glass-card p-5 sm:p-8 rounded-2xl sm:rounded-3xl border border-zinc-800/80 text-center space-y-3 bg-zinc-950">
+      <h3 class="text-lg sm:text-xl font-bold font-bengali text-white">অলাভজনক নাগরিক সংরক্ষণাগার (Open Citizen Archive)</h3>
+      <p class="text-xs sm:text-sm text-zinc-400 font-bengali max-w-2xl mx-auto leading-relaxed px-2">
         এই ডিজিটাল প্ল্যাটফর্মটি কোনো বাণিজ্য উদ্দেশ্যে ব্যবহার করা হয় না। এটি ২০২৪ সালের জুলাই গণঅভ্যুত্থানের সকল বীর শহীদ ও ছাত্র-জনতার প্রতি গভীর শ্রদ্ধা জানাতে সম্পূর্ণ বিনামূল্যে পরিবেশিত।
       </p>
     </div>

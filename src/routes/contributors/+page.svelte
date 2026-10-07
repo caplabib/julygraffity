@@ -97,41 +97,41 @@
 >
 	<Navbar activeTab="contributors" />
 
-	<main class="mx-auto max-w-5xl flex-1 space-y-12 px-4 py-16 sm:px-6 lg:px-8">
+	<main class="mx-auto max-w-5xl flex-1 space-y-8 sm:space-y-12 px-3 sm:px-6 lg:px-8 py-10 sm:py-16 w-full">
 		<!-- Header Title -->
-		<div class="space-y-4 text-center">
+		<div class="space-y-3 sm:space-y-4 text-center">
 			<span
-				class="rounded-full border border-rose-500/30 bg-rose-500/20 px-4 py-1.5 text-xs font-bold tracking-widest text-rose-400 uppercase"
+				class="rounded-full border border-rose-500/30 bg-rose-500/20 px-3.5 py-1 sm:px-4 sm:py-1.5 text-[11px] sm:text-xs font-bold tracking-widest text-rose-400 uppercase inline-block"
 			>
 				Community Honor Roll & Credits
 			</span>
-			<h1 class="font-serif-hero text-4xl font-extrabold tracking-tight text-white sm:text-6xl">
+			<h1 class="font-serif-hero text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white">
 				Contributors & Team
 			</h1>
-			<p class="font-bengali mx-auto max-w-3xl text-lg leading-relaxed text-zinc-300">
+			<p class="font-bengali mx-auto max-w-3xl text-sm sm:text-base lg:text-lg leading-relaxed text-zinc-300 px-2">
 				জুলাই ২০২৪ এর দেয়ালচিত্র, ক্যালিগ্রাফি এবং আলোকচিত্র সংরক্ষণকারী আলোকচিত্রী, ছাত্র-শিল্পী
 				এবং প্রযুক্তি স্বেচ্ছাসেবকদের প্রতি আন্তরিক শ্রদ্ধা।
 			</p>
 		</div>
 
 		<!-- Stats Bar -->
-		<div class="grid grid-cols-2 gap-4 pt-4 md:grid-cols-4">
+		<div class="grid grid-cols-2 gap-3 sm:gap-4 pt-2 sm:pt-4 md:grid-cols-4">
 			{#each stats as stat}
 				<div
-					class="glass-card space-y-1 rounded-2xl border border-zinc-800 bg-zinc-900/40 p-6 text-center"
+					class="glass-card space-y-1 rounded-xl sm:rounded-2xl border border-zinc-800 bg-zinc-900/40 p-3.5 sm:p-6 text-center"
 				>
-					<p class="font-sans text-3xl font-extrabold text-rose-400 sm:text-4xl">{stat.value}</p>
-					<p class="text-xs font-bold text-white">{stat.label}</p>
-					<p class="font-bengali text-[11px] text-zinc-400">{stat.labelBn}</p>
+					<p class="font-sans text-2xl font-extrabold text-rose-400 sm:text-4xl">{stat.value}</p>
+					<p class="text-[11px] sm:text-xs font-bold text-white">{stat.label}</p>
+					<p class="font-bengali text-[10px] sm:text-[11px] text-zinc-400">{stat.labelBn}</p>
 				</div>
 			{/each}
 		</div>
 
 		<!-- Category Filter Buttons -->
-		<div class="flex flex-wrap items-center justify-center gap-2 pt-2">
+		<div class="flex flex-wrap items-center justify-center gap-1.5 sm:gap-2 pt-2">
 			<button
 				onclick={() => (selectedCategory = 'all')}
-				class="rounded-full px-5 py-2 text-xs font-bold transition-all {selectedCategory === 'all'
+				class="rounded-full px-3.5 sm:px-5 py-1.5 sm:py-2 text-[11px] sm:text-xs font-bold transition-all {selectedCategory === 'all'
 					? 'bg-rose-600 text-white shadow-md shadow-rose-600/30'
 					: 'border border-zinc-800 bg-zinc-900 text-zinc-400 hover:text-white'}"
 			>
@@ -139,7 +139,7 @@
 			</button>
 			<button
 				onclick={() => (selectedCategory = 'tech')}
-				class="rounded-full px-5 py-2 text-xs font-bold transition-all {selectedCategory === 'tech'
+				class="rounded-full px-3.5 sm:px-5 py-1.5 sm:py-2 text-[11px] sm:text-xs font-bold transition-all {selectedCategory === 'tech'
 					? 'bg-rose-600 text-white shadow-md shadow-rose-600/30'
 					: 'border border-zinc-800 bg-zinc-900 text-zinc-400 hover:text-white'}"
 			>
@@ -147,7 +147,7 @@
 			</button>
 			<button
 				onclick={() => (selectedCategory = 'photo')}
-				class="rounded-full px-5 py-2 text-xs font-bold transition-all {selectedCategory === 'photo'
+				class="rounded-full px-3.5 sm:px-5 py-1.5 sm:py-2 text-[11px] sm:text-xs font-bold transition-all {selectedCategory === 'photo'
 					? 'bg-rose-600 text-white shadow-md shadow-rose-600/30'
 					: 'border border-zinc-800 bg-zinc-900 text-zinc-400 hover:text-white'}"
 			>
@@ -155,7 +155,7 @@
 			</button>
 			<button
 				onclick={() => (selectedCategory = 'artists')}
-				class="rounded-full px-5 py-2 text-xs font-bold transition-all {selectedCategory ===
+				class="rounded-full px-3.5 sm:px-5 py-1.5 sm:py-2 text-[11px] sm:text-xs font-bold transition-all {selectedCategory ===
 				'artists'
 					? 'bg-rose-600 text-white shadow-md shadow-rose-600/30'
 					: 'border border-zinc-800 bg-zinc-900 text-zinc-400 hover:text-white'}"
@@ -166,21 +166,21 @@
 
 		<!-- Extended Team Grid with Emerald Styling -->
 		<div
-			class="space-y-6 rounded-3xl border border-emerald-500/40 bg-[#07140b] p-6 shadow-2xl sm:p-10"
+			class="space-y-4 sm:space-y-6 rounded-2xl sm:rounded-3xl border border-emerald-500/40 bg-[#07140b] p-4 sm:p-10 shadow-2xl"
 		>
 			<h2 class="font-sans text-xs font-bold tracking-widest text-zinc-300 uppercase sm:text-sm">
 				DETAILED CONTRIBUTOR DIRECTORY
 			</h2>
 
-			<div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+			<div class="grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-2">
 				{#each filteredContributors as contributor (contributor.id)}
 					<div
-						class="flex items-start gap-4 rounded-2xl border border-emerald-400/20 bg-[#376b5a]/20 p-5"
+						class="flex items-start gap-3 sm:gap-4 rounded-xl sm:rounded-2xl border border-emerald-400/20 bg-[#376b5a]/20 p-3.5 sm:p-5"
 					>
 						<div
-							class="flex h-16 w-16 shrink-0 items-center justify-center rounded-full border border-emerald-400/30 bg-[#376b5a]"
+							class="flex h-12 w-12 sm:h-16 sm:w-16 shrink-0 items-center justify-center rounded-full border border-emerald-400/30 bg-[#376b5a]"
 						>
-							<img src={contributor.icon} alt={contributor.name} class="h-10 w-10 brightness-0" />
+							<img src={contributor.icon} alt={contributor.name} class="h-7 w-7 sm:h-10 sm:w-10 brightness-0" />
 						</div>
 						<div class="space-y-1">
 							<div class="flex flex-wrap items-center gap-2">
