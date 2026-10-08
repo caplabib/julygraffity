@@ -47,14 +47,24 @@ export function dragScroll(node) {
 
   function onWheel(e) {
     if (e.deltaY !== 0) {
+      const maxScrollLeft = node.scrollWidth - node.clientWidth;
+      const isAtLeftEdge = node.scrollLeft <= 0;
+      const isAtRightEdge = node.scrollLeft >= maxScrollLeft - 1;
+
+      // Allow native vertical page scrolling if we are at the edges
+      if ((isAtLeftEdge && e.deltaY < 0) || (isAtRightEdge && e.deltaY > 0) || maxScrollLeft <= 0) {
+        return; 
+      }
+
       e.preventDefault();
       node.scrollLeft += e.deltaY;
     }
   }
 
   node.addEventListener('mousedown', onMouseDown);
-  window.addEventListener('mousemove', onMouseMove);
+  window.addEventListener('mousemove', onMouseMove, { passive: false });
   window.addEventListener('mouseup', onMouseUp);
+  window.addEventListener('blur', onMouseUp); // Release drag if window loses focus
   node.addEventListener('click', onClickCapture, true);
   node.addEventListener('wheel', onWheel, { passive: false });
 
@@ -63,6 +73,7 @@ export function dragScroll(node) {
       node.removeEventListener('mousedown', onMouseDown);
       window.removeEventListener('mousemove', onMouseMove);
       window.removeEventListener('mouseup', onMouseUp);
+      window.removeEventListener('blur', onMouseUp);
       node.removeEventListener('click', onClickCapture, true);
       node.removeEventListener('wheel', onWheel);
     }

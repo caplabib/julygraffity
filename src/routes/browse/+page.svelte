@@ -188,8 +188,7 @@
           Filter by Category:
         </span>
         <div 
-          use:dragScroll
-          class="flex items-center gap-1.5 sm:gap-2 overflow-x-auto pb-2 pt-1 custom-h-scrollbar scroll-smooth cursor-grab active:cursor-grabbing select-none -mx-1 px-1"
+          class="flex items-center gap-1.5 sm:gap-2 overflow-x-auto pb-2 pt-1 custom-h-scrollbar scroll-smooth -mx-1 px-1"
         >
           {#each categories as cat}
             <button

@@ -51,7 +51,6 @@
 
     <!-- District Selection Cards -->
     <div 
-      use:dragScroll
       class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-8 gap-2 sm:gap-3 select-none"
     >
       {#each districtLocationsMap as dist}

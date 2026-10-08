@@ -1,7 +1,7 @@
 <script>
   import { muralsData, categories } from '../data/murals.js';
   import { fetchHeroMurals } from '$lib/supabase.js';
-  import { dragScroll } from '$lib/utils/dragScroll.js';
+  import { fetchHeroMurals } from '$lib/supabase.js';
 
   let { 
     searchQuery = '', 
@@ -338,8 +338,7 @@
 
       <!-- Categories Pill Filter -->
       <div 
-        use:dragScroll
-        class="flex items-center gap-1.5 sm:gap-2 overflow-x-auto pb-2 pt-1 px-2 mx-auto custom-h-scrollbar scroll-smooth cursor-grab active:cursor-grabbing select-none"
+        class="flex items-center gap-1.5 sm:gap-2 overflow-x-auto pb-2 pt-1 px-2 mx-auto custom-h-scrollbar scroll-smooth"
       >
         {#each categories as cat}
           <button
