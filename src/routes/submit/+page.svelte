@@ -1,6 +1,7 @@
 <script>
   import Navbar from '$lib/components/Navbar.svelte';
   import Footer from '$lib/components/Footer.svelte';
+  import { submitMuralToSupabase } from '$lib/supabase.js';
 
   // Primary form fields requested
   let email = $state('');
@@ -17,7 +18,9 @@
   let jsonError = $state('');
   let copiedJson = $state(false);
 
+  let isSubmitting = $state(false);
   let isSubmitted = $state(false);
+  let submissionErrorMessage = $state('');
   let submittedSummary = $state(null);
 
   const sampleJsonObject = {
@@ -109,25 +112,54 @@
     jsonContent = JSON.stringify(generated, null, 2);
   }
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
     if (!email.trim() || !location.trim() || !imageUrl.trim()) return;
 
-    submittedSummary = {
-      email,
-      location,
-      photographerName: photographerName || 'Anonymous',
-      artistName: artistName || 'Unknown',
-      imageUrl,
-      thoughts: thoughts || 'None provided',
-      hasJson: Boolean(jsonContent || jsonFile)
+    isSubmitting = true;
+    submissionErrorMessage = '';
+
+    let parsedJson = null;
+    if (jsonContent.trim()) {
+      try {
+        parsedJson = JSON.parse(jsonContent.trim());
+      } catch (err) {
+        console.warn('Could not parse JSON content:', err);
+      }
+    }
+
+    const payload = {
+      email: email.trim(),
+      detaillocation: location.trim(),
+      photographerName: photographerName.trim() || 'Anonymous',
+      artistName: artistName.trim() || 'Unknown',
+      imageUrl: imageUrl.trim(),
+      thoughts: thoughts.trim(),
+      jsonData: parsedJson
     };
 
-    isSubmitted = true;
+    try {
+      const res = await submitMuralToSupabase(payload);
+      isSubmitting = false;
+
+      submittedSummary = {
+        ...payload,
+        id: res.data?.[0]?.id || 'submitted-' + Date.now(),
+        hasJson: Boolean(jsonContent || jsonFile),
+        isFallback: res.isFallback
+      };
+
+      isSubmitted = true;
+    } catch (err) {
+      isSubmitting = false;
+      submissionErrorMessage = err.message || 'Submission failed. Please try again.';
+    }
   }
 
   function resetForm() {
     isSubmitted = false;
+    isSubmitting = false;
+    submissionErrorMessage = '';
     submittedSummary = null;
     email = '';
     location = '';
@@ -163,16 +195,24 @@
       <p class="text-sm sm:text-base lg:text-lg text-zinc-300 font-bengali leading-relaxed px-2">
         জুলাই বিপ্লবের রক্তঝরা দিনগুলোর ঐতিহাসিক দেয়ালচিত্র, স্লোগান ও গ্রাফিতি সংরক্ষণ করতে আপনার তোলা ছবি ও প্রামাণ্য তথ্য জমা দিন।
       </p>
+
+      <!-- Link to Submissions Status Page -->
+      <div class="pt-1 sm:pt-2 px-2 flex justify-center">
+        <a
+          href="/submissions"
+          class="inline-flex items-center justify-center gap-2 px-4 py-2 sm:px-5 sm:py-2 rounded-full text-xs sm:text-sm font-medium sm:font-semibold bg-blue-900/80 hover:bg-blue-800/90 border border-zinc-700/80 hover:border-rose-500 text-zinc-200 hover:text-white transition-all shadow-md group text-center max-w-full"
+        >
+          <span>Check Submission Status <span class="text-zinc-400 group-hover:text-zinc-200 text-[11px] sm:text-xs font-bengali">(আগের সাবমিশন ট্র্যাক করুন)</span></span>
+          <span class="text-rose-400 group-hover:translate-x-0.5 transition-transform shrink-0">➔</span>
+        </a>
+      </div>
     </div>
 
     <!-- 1. IMPORTANT DISCLAIMERS (প্রথমেই ডিসক্লেইমার) -->
     <section class="space-y-4">
       <div class="flex items-center gap-3">
-        <span class="px-2.5 py-1 rounded-md text-xs font-bold uppercase tracking-wider bg-rose-500/20 text-rose-400 border border-rose-500/30">
-          Section 1
-        </span>
         <h2 class="text-xl sm:text-2xl font-bold font-serif-hero text-white flex items-center gap-2">
-          <span>⚠️</span> Important Submission Disclaimers <span class="text-xs sm:text-sm font-normal text-zinc-400 font-bengali">(জমা দেওয়ার শর্তাবলী ও ঘোষণা)</span>
+          Important Submission Disclaimers <span class="text-xs sm:text-sm font-normal text-zinc-400 font-bengali">(জমা দেওয়ার শর্তাবলী ও ঘোষণা)</span>
         </h2>
       </div>
 
@@ -232,9 +272,6 @@
     <!-- 2. DETAILED DESCRIPTION OF HOW TO SUBMIT (কিভাবে জমা দেবেন এবং কি কি তথ্য লাগবে) -->
     <section class="space-y-4">
       <div class="flex items-center gap-3">
-        <span class="px-2.5 py-1 rounded-md text-xs font-bold uppercase tracking-wider bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
-          Section 2
-        </span>
         <h2 class="text-xl sm:text-2xl font-bold font-serif-hero text-white flex items-center gap-2">
           <span>📋</span> How to Submit & What We Need on the Site <span class="text-xs sm:text-sm font-normal text-zinc-400 font-bengali">(কীভাবে জমা দেবেন ও প্রয়োজনীয় তথ্যাবলী)</span>
         </h2>
@@ -315,11 +352,8 @@
     <!-- 3. SUBMISSION FORM WITH DATABASE JSON FILE (রিওয়ার্কড সাবমিট ফর্ম ও ডাটাবেজ JSON) -->
     <section class="space-y-4">
       <div class="flex items-center gap-3">
-        <span class="px-2.5 py-1 rounded-md text-xs font-bold uppercase tracking-wider bg-rose-500/20 text-rose-400 border border-rose-500/30">
-          Section 3
-        </span>
         <h2 class="text-xl sm:text-2xl font-bold font-serif-hero text-white flex items-center gap-2">
-          <span>📮</span> Complete Submission Form <span class="text-xs sm:text-sm font-normal text-zinc-400 font-bengali">(ফর্ম পূরণ ও ডাটাবেজ ফাইল সাবমিশন)</span>
+          Complete Submission Form <span class="text-xs sm:text-sm font-normal text-zinc-400 font-bengali">(ফর্ম পূরণ ও ডাটাবেজ ফাইল সাবমিশন)</span>
         </h2>
       </div>
 
@@ -362,12 +396,20 @@
               </div>
             </div>
 
-            <button
-              onclick={resetForm}
-              class="px-6 py-2.5 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-white font-semibold text-sm transition-all"
-            >
-              Submit Another Mural (আরেকটি জমা দিন)
-            </button>
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
+              <a
+                href="/submissions"
+                class="w-full sm:w-auto px-6 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-white font-semibold text-sm transition-all flex items-center justify-center gap-2 shadow-lg shadow-rose-600/30"
+              >
+                <span>📋</span> Track on Submissions Page (স্ট্যাটাস ট্র্যাক করুন) ➔
+              </a>
+              <button
+                onclick={resetForm}
+                class="w-full sm:w-auto px-6 py-2.5 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-zinc-200 font-semibold text-sm transition-all"
+              >
+                Submit Another Mural (আরেকটি জমা দিন)
+              </button>
+            </div>
           </div>
         {:else}
           <form onsubmit={handleSubmit} class="space-y-6 sm:space-y-8">
@@ -591,12 +633,25 @@
               </div>
             </div>
 
+            {#if submissionErrorMessage}
+              <div class="p-3.5 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-400 text-xs text-center font-medium">
+                ⚠️ {submissionErrorMessage}
+              </div>
+            {/if}
+
             <!-- Submit Action Button -->
             <button
               type="submit"
-              class="w-full py-4 rounded-2xl bg-gradient-to-r from-rose-600 to-rose-700 hover:from-rose-500 hover:to-rose-600 text-white font-bold text-base shadow-xl shadow-rose-600/30 hover:shadow-rose-600/50 transition-all font-bengali flex items-center justify-center gap-2 transform active:scale-[0.99]"
+              disabled={isSubmitting}
+              class="w-full py-4 rounded-2xl bg-gradient-to-r from-rose-600 to-rose-700 hover:from-rose-500 hover:to-rose-600 disabled:opacity-60 disabled:cursor-not-allowed text-white font-bold text-base shadow-xl shadow-rose-600/30 hover:shadow-rose-600/50 transition-all font-bengali flex items-center justify-center gap-2 transform active:scale-[0.99]"
             >
-              <span class="text-lg">📷</span> Submit Mural for Digital Archiving (আর্কাইভে জমা দিন)
+              {#if isSubmitting}
+                <span class="animate-spin text-lg">⏳</span>
+                <span>Submitting to Database (ডাটাবেজে পাঠানো হচ্ছে)...</span>
+              {:else}
+                <span class="text-lg">📷</span>
+                <span>Submit Mural for Digital Archiving (আর্কাইভে জমা দিন)</span>
+              {/if}
             </button>
           </form>
         {/if}

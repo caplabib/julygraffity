@@ -1,7 +1,6 @@
 <script>
   import { muralsData, categories } from '../data/murals.js';
   import { fetchHeroMurals } from '$lib/supabase.js';
-  import { fetchHeroMurals } from '$lib/supabase.js';
 
   let { 
     searchQuery = '', 
