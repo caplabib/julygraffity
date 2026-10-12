@@ -18,7 +18,7 @@
           </div>
         </div>
         <div>
-          <span class="font-graffiti text-base sm:text-xl text-white tracking-wide">JULY GRAFFITI ARCHIVE</span>
+          <span class="font-graffiti text-base sm:text-xl text-white tracking-wide">JULY GRAFFITI</span>
           <p class="text-[10px] sm:text-xs text-zinc-500 font-bengali">জুলাই ২০২৪ দেয়াল চিত্র সংরক্ষণাগার</p>
         </div>
       </div>

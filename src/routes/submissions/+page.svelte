@@ -4,8 +4,10 @@
   import Footer from '$lib/components/Footer.svelte';
   import { fetchSubmissionsFromSupabase, updateSubmissionInSupabase } from '$lib/supabase.js';
 
-  let submissions = $state([]);
-  let isLoading = $state(true);
+  let { data } = $props();
+
+  let submissions = $state(data?.submissions || []);
+  let isLoading = $state(false);
   let errorMessage = $state('');
   let searchQuery = $state('');
   let selectedFilter = $state('all'); // all, pending, approved, rejected, needs_info
@@ -23,48 +25,14 @@
   let copiedGraffitiJs = $state(false);
 
   onMount(async () => {
+    // Sync latest submissions from database if available
     await loadSubmissions();
   });
 
   async function loadSubmissions() {
-    isLoading = true;
-    errorMessage = '';
     const res = await fetchSubmissionsFromSupabase();
-    isLoading = false;
-
     if (res.data && res.data.length > 0) {
       submissions = res.data;
-    } else {
-      // Default sample if database is empty yet
-      submissions = [
-        {
-          id: 'sample-01',
-          created_at: new Date(Date.now() - 86400000 * 2).toISOString(),
-          email: 'sample.contributor@julyarchive.org',
-          detaillocation: 'Old Auditorium, Townhall Rangpur',
-          photographer_name: 'Tanvir Ahmed',
-          artist_name: 'DU Fine Arts Collective',
-          image_url: 'https://drive.google.com/file/d/sample-view-link/view',
-          thoughts: 'Painted during the resistance rally at Rangpur Town Hall. Preserving the memory of youth courage.',
-          status: 'approved',
-          admin_notes: 'Verified location and clear photography. Added to primary catalog.',
-          json_data: {
-            image: '/pictures/IMG_20260925_150215.png',
-            titleBn: 'জেন জি একত্রিত',
-            titleEn: 'United Gen Z',
-            detaillocation: 'Old Auditorium, Townhall Rangpur',
-            division: 'Rangpur',
-            district: 'Rangpur',
-            upzila: 'Rangpur Sadar',
-            datePainted: 'Some Time in 2024',
-            dateCaptured: '25 September, 2026',
-            artist: 'DU Fine Arts Collective',
-            descriptionBn: 'জেন জি তরুণদের ঐক্যবদ্ধ প্রতিরোধ',
-            descriptionEn: 'United Gen Z resistance graffiti',
-            slogan: 'We Want Justice'
-          }
-        }
-      ];
     }
   }
 

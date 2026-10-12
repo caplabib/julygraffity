@@ -161,12 +161,11 @@
 					যোগাযোগ ও তথ্য সংশোধন (Contact & Archival Inquiries)
 				</h3>
 				<p class="font-bengali mx-auto max-w-xl text-xs leading-relaxed text-zinc-300 sm:text-sm">
-					দেয়ালচিত্রের স্থান, সময় বা নাম সংশোধন করতে, আলোকচিত্রীর কৃতিত্ব যোগ করতে, কিংবা যে কোনো
-					প্রশ্নের জন্য নিচের ফর্মে বার্তা পাঠান।
+					জুলাই গ্রাফিতি টিম এর সাথে যোগাযোগ করার জন্য নিচের দেওয়া ডিসকর্ড সার্ভারে যুক্ত হোন অথবা ইমেইল করুন - _______ তে 
 				</p>
 			</div>
 
-			{#if isSubmitted}
+			<!-- {#if isSubmitted}
 				<div
 					class="animate-fadeIn space-y-3 rounded-2xl border border-emerald-500/30 bg-zinc-950/80 p-8 text-center"
 				>
@@ -186,11 +185,11 @@
 					>
 						Send Another Message (আরেকটি বার্তা পাঠান)
 					</button>
-				</div>
-			{:else}
+				</div> -->
+			<!-- {:else}
 				<form onsubmit={handleSubmit} class="mx-auto max-w-2xl space-y-4">
 					<div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-						<!-- Name -->
+					
 						<div class="space-y-1.5">
 							<label
 								for="name"
@@ -208,7 +207,7 @@
 							/>
 						</div>
 
-						<!-- Email -->
+					
 						<div class="space-y-1.5">
 							<label
 								for="email"
@@ -227,7 +226,7 @@
 						</div>
 					</div>
 
-					<!-- Category -->
+				
 					<div class="space-y-1.5">
 						<label
 							for="category"
@@ -249,7 +248,7 @@
 						</select>
 					</div>
 
-					<!-- Message -->
+				
 					<div class="space-y-1.5">
 						<label
 							for="message"
@@ -267,7 +266,7 @@
 						></textarea>
 					</div>
 
-					<!-- Submit Button -->
+				
 					<button
 						type="submit"
 						disabled={isSubmitting}
@@ -280,7 +279,7 @@
 						{/if}
 					</button>
 				</form>
-			{/if}
+			{/if} -->
 		</div>
 	</main>
 

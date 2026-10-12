@@ -44,9 +44,7 @@
       <h2 class="text-2xl sm:text-3xl lg:text-5xl font-extrabold font-bengali text-white leading-normal pt-1">
         স্থান ও জেলাভিত্তিক দেয়ালচিত্র পরিক্রমা
       </h2>
-      <p class="text-zinc-400 text-xs sm:text-sm lg:text-base font-bengali leading-relaxed px-2">
-        ঢাকা বিশ্ববিদ্যালয়, জাহাঙ্গীরনগর, রাজশাহী, চট্টগ্রাম ও রংপুরের শহীদ স্মারক ও আন্দোলনের চিত্রশিল্প।
-      </p>
+      
     </div>
 
     <!-- District Selection Cards -->

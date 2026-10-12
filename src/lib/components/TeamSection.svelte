@@ -102,31 +102,5 @@
       </div>
     </div>
 
-    <div class="border-b border-emerald-900/60"></div>
-
-    <!-- SECTION 3: PAINTERS & ARTISTS -->
-    <div class="space-y-4 sm:space-y-6">
-      <h3 class="font-sans text-xs font-bold tracking-widest text-zinc-300 uppercase sm:text-sm">
-        PAINTERS & ARTISTS
-      </h3>
-
-      <!-- Artists Flex Grid -->
-      <div class="flex flex-wrap items-start justify-center gap-6 sm:justify-start sm:gap-12">
-        {#each artists as artist}
-          <div class="flex max-w-[140px] sm:max-w-[170px] md:max-w-[200px] flex-col items-center text-center">
-            <div class="mb-2 sm:mb-3 flex h-20 w-20 sm:h-28 sm:w-28 items-center justify-center rounded-full border-2 border-emerald-400/20 bg-[#376b5a] shadow-inner">
-              <img src={artist.icon} alt={artist.name} class="h-12 w-12 sm:h-16 sm:w-16 brightness-0" />
-            </div>
-            <p class="mb-1 font-sans text-xs font-bold leading-tight tracking-wider text-white uppercase sm:text-sm">
-              {artist.name}
-            </p>
-            <p class="font-sans text-[9px] sm:text-[10px] md:text-[11px] font-medium tracking-widest text-zinc-400 uppercase">
-              {artist.location}
-            </p>
-          </div>
-        {/each}
-      </div>
-    </div>
-
   </div>
 </div>
