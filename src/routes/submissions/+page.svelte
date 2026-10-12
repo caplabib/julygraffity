@@ -206,8 +206,34 @@
     }
   }
 
+  function maskEmail(email) {
+    if (!email || !email.includes('@')) return 'Protected Email';
+    const [user, domain] = email.split('@');
+    if (user.length <= 2) return `${user[0]}***@${domain}`;
+    return `${user.slice(0, 2)}***${user.slice(-1)}@${domain}`;
+  }
+
+  function getSafeJsonForDisplay(item) {
+    const raw = item?.json_data || item;
+    if (!raw) return {};
+    if (isAdminMode) return raw;
+
+    const cloned = JSON.parse(JSON.stringify(raw));
+    if (cloned.image && (cloned.image.startsWith('http') || cloned.image.includes('drive'))) {
+      cloned.image = '[Protected Link - Review only]';
+    }
+    if (cloned.image_url && (cloned.image_url.startsWith('http') || cloned.image_url.includes('drive'))) {
+      cloned.image_url = '[Protected Link - Review only]';
+    }
+    if (cloned.email) {
+      cloned.email = maskEmail(cloned.email);
+    }
+    return cloned;
+  }
+
   function copyJsonString(obj) {
-    navigator.clipboard.writeText(JSON.stringify(obj, null, 2));
+    const toCopy = getSafeJsonForDisplay(obj);
+    navigator.clipboard.writeText(JSON.stringify(toCopy, null, 2));
     copiedModalJson = true;
     setTimeout(() => (copiedModalJson = false), 2000);
   }
@@ -460,23 +486,37 @@
                   <span class="text-[10px] font-bold uppercase tracking-wider text-zinc-500 block mb-1">
                     Submitter Email
                   </span>
-                  <p class="text-xs font-mono text-zinc-300 truncate">
-                    {item.email}
-                  </p>
+                  {#if isAdminMode}
+                    <p class="text-xs font-mono text-zinc-200 truncate select-all" title={item.email}>
+                      {item.email}
+                    </p>
+                  {:else}
+                    <p class="text-xs font-mono text-zinc-400 truncate flex items-center gap-1.5" title="Email hidden for contributor privacy">
+                      <span class="text-[10px] text-zinc-500">🔒</span>
+                      <span>{maskEmail(item.email)}</span>
+                    </p>
+                  {/if}
                 </div>
 
                 <div>
                   <span class="text-[10px] font-bold uppercase tracking-wider text-zinc-500 block mb-1">
                     Drive / Cloud Media Link
                   </span>
-                  <a
-                    href={item.image_url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="text-xs text-rose-400 hover:text-rose-300 font-medium underline flex items-center gap-1 break-all"
-                  >
-                    Open Photo Link ➔
-                  </a>
+                  {#if isAdminMode}
+                    <a
+                      href={item.image_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="text-xs text-rose-400 hover:text-rose-300 font-medium underline flex items-center gap-1 break-all"
+                    >
+                      <span>🔗</span> Open Photo Link ➔
+                    </a>
+                  {:else}
+                    <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-zinc-900 border border-zinc-800 text-[11px] text-zinc-400 font-mono">
+                      <span class="text-emerald-400">✓</span>
+                      <span>Attached (Moderators Only)</span>
+                    </div>
+                  {/if}
                 </div>
               </div>
 
@@ -530,26 +570,34 @@
                   {/if}
                 </div>
 
-                <div class="flex flex-wrap items-center gap-2 pt-2">
-                  <button
-                    onclick={() => (selectedModalSubmission = item)}
-                    class="px-3 py-1.5 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-zinc-200 text-xs font-semibold transition-colors flex items-center gap-1.5"
-                  >
-                    View Full Details
-                  </button>
+                {#if isAdminMode}
+                  <div class="flex flex-wrap items-center gap-2 pt-2">
+                    <button
+                      onclick={() => (selectedModalSubmission = item)}
+                      class="px-3 py-1.5 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-zinc-200 text-xs font-semibold transition-colors flex items-center gap-1.5"
+                    >
+                      View Full Details
+                    </button>
 
-                  <button
-                    onclick={() => copyAsGraffitiJsEntry(item)}
-                    class="px-3 py-1.5 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 text-xs font-semibold transition-colors border border-rose-500/30 flex items-center gap-1.5"
-                    title="Export formatted object ready to paste into graffiti.js"
-                  >
-                    {#if copiedGraffitiJs}
-                      <span>✓ Copied entry!</span>
-                    {:else}
-                      <span>Copy for graffiti.js</span>
-                    {/if}
-                  </button>
-                </div>
+                    <button
+                      onclick={() => copyAsGraffitiJsEntry(item)}
+                      class="px-3 py-1.5 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 text-xs font-semibold transition-colors border border-rose-500/30 flex items-center gap-1.5"
+                      title="Export formatted object ready to paste into graffiti.js"
+                    >
+                      {#if copiedGraffitiJs}
+                        <span>✓ Copied entry!</span>
+                      {:else}
+                        <span>Copy for graffiti.js</span>
+                      {/if}
+                    </button>
+                  </div>
+                {:else}
+                  <div class="pt-2">
+                    <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-zinc-900 border border-zinc-800 text-[11px] text-zinc-500 font-mono">
+                      <span>🔒</span> Full Details & Code Restricted to Moderators
+                    </span>
+                  </div>
+                {/if}
               </div>
             </div>
 
@@ -624,8 +672,8 @@
     {/if}
   </main>
 
-  <!-- Detailed Modal for Viewing Submission JSON & Information -->
-  {#if selectedModalSubmission}
+  <!-- Detailed Modal for Viewing Submission JSON & Information (Moderators Only) -->
+  {#if selectedModalSubmission && isAdminMode}
     <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-zinc-950/80 backdrop-blur-sm animate-fadeIn">
       <div class="glass-card w-full max-w-2xl max-h-[90vh] overflow-y-auto p-6 rounded-3xl border border-zinc-800 shadow-2xl space-y-6 relative custom-h-scrollbar">
         <!-- Close Button -->
@@ -654,7 +702,14 @@
           </div>
           <div>
             <span class="text-zinc-500 block">Submitted Email:</span>
-            <span class="font-mono text-zinc-300">{selectedModalSubmission.email}</span>
+            {#if isAdminMode}
+              <span class="font-mono text-zinc-200 select-all">{selectedModalSubmission.email}</span>
+            {:else}
+              <span class="font-mono text-zinc-400 inline-flex items-center gap-1.5" title="Email hidden for contributor privacy">
+                <span class="text-[10px]">🔒</span>
+                <span>{maskEmail(selectedModalSubmission.email)}</span>
+              </span>
+            {/if}
           </div>
           <div>
             <span class="text-zinc-500 block">Photographer Credit:</span>
@@ -666,14 +721,21 @@
           </div>
           <div class="col-span-2">
             <span class="text-zinc-500 block">Image URL / Drive Link:</span>
-            <a
-              href={selectedModalSubmission.image_url}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="text-rose-400 underline font-mono text-[11px] break-all"
-            >
-              {selectedModalSubmission.image_url}
-            </a>
+            {#if isAdminMode}
+              <a
+                href={selectedModalSubmission.image_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-rose-400 underline font-mono text-[11px] break-all"
+              >
+                {selectedModalSubmission.image_url}
+              </a>
+            {:else}
+              <div class="font-mono text-[11px] text-zinc-400 bg-zinc-900/90 px-3 py-1.5 rounded-lg border border-zinc-800 inline-flex items-center gap-2">
+                <span>🔒</span>
+                <span>Protected Link (Visible to verified moderators only)</span>
+              </div>
+            {/if}
           </div>
         </div>
 
@@ -682,7 +744,7 @@
           <div class="flex items-center justify-between text-xs">
             <span class="font-bold uppercase tracking-wider text-zinc-400">Attached Database JSON:</span>
             <button
-              onclick={() => copyJsonString(selectedModalSubmission.json_data || selectedModalSubmission)}
+              onclick={() => copyJsonString(selectedModalSubmission)}
               class="px-2.5 py-1 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-200 text-xs font-mono transition-colors"
             >
               {copiedModalJson ? '✓ Copied JSON' : 'Copy JSON'}
@@ -690,7 +752,7 @@
           </div>
 
           <div class="bg-zinc-950 p-4 rounded-xl border border-zinc-800 font-mono text-xs overflow-x-auto max-h-56 custom-h-scrollbar">
-            <pre class="text-zinc-300"><code>{JSON.stringify(selectedModalSubmission.json_data || selectedModalSubmission, null, 2)}</code></pre>
+            <pre class="text-zinc-300"><code>{JSON.stringify(getSafeJsonForDisplay(selectedModalSubmission), null, 2)}</code></pre>
           </div>
         </div>
 

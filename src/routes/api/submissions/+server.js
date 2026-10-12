@@ -2,12 +2,24 @@ import { json } from '@sveltejs/kit';
 import { supabase } from '$lib/supabase.js';
 import { getModeratorSecret, verifyAdminToken } from '$lib/server/admin.js';
 
+function maskEmail(email) {
+  if (!email || !email.includes('@')) return 'Protected Email';
+  const [user, domain] = email.split('@');
+  if (user.length <= 2) return `${user[0]}***@${domain}`;
+  return `${user.slice(0, 2)}***${user.slice(-1)}@${domain}`;
+}
+
 /**
  * GET /api/submissions
- * Fetch all submissions
+ * Fetch all submissions (masks private emails and drive links for public requests)
  */
-export async function GET() {
+export async function GET({ request }) {
   try {
+    const authHeader = request.headers.get('authorization');
+    const token = authHeader?.startsWith('Bearer ') ? authHeader.slice(7) : null;
+    const secret = getModeratorSecret();
+    const isAuthorized = token ? verifyAdminToken(token, secret) : false;
+
     const { data, error } = await supabase
       .from('submissions')
       .select('*')
@@ -17,7 +29,30 @@ export async function GET() {
       return json({ success: false, error: error.message }, { status: 400 });
     }
 
-    return json({ success: true, data });
+    if (!data) {
+      return json({ success: true, data: [] });
+    }
+
+    if (isAuthorized) {
+      return json({ success: true, data });
+    }
+
+    // Mask for public requests
+    const sanitized = data.map((item) => {
+      const copy = { ...item };
+      copy.email = maskEmail(copy.email);
+      copy.image_url = '[Protected link - Visible to moderators only]';
+      if (copy.json_data && typeof copy.json_data === 'object') {
+        const jsonCopy = { ...copy.json_data };
+        if (jsonCopy.image) jsonCopy.image = '[Protected link]';
+        if (jsonCopy.image_url) jsonCopy.image_url = '[Protected link]';
+        if (jsonCopy.email) jsonCopy.email = maskEmail(jsonCopy.email);
+        copy.json_data = jsonCopy;
+      }
+      return copy;
+    });
+
+    return json({ success: true, data: sanitized });
   } catch (err) {
     return json({ success: false, error: err.message }, { status: 500 });
   }
