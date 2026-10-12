@@ -1,4 +1,4 @@
-﻿<script>
+<script>
   import { onMount } from 'svelte';
   import Navbar from '$lib/components/Navbar.svelte';
   import Footer from '$lib/components/Footer.svelte';
@@ -68,13 +68,37 @@
     }
   }
 
-  function unlockAdmin() {
-    // Default demo passcode is "july2024" or "admin"
-    if (adminPasswordInput.trim() === 'july2024' || adminPasswordInput.trim() === 'admin') {
-      isAdminMode = true;
-      adminAuthError = '';
-    } else {
-      adminAuthError = 'Incorrect passcode. Try "july2024" to unlock moderator tools.';
+  let adminToken = $state('');
+  let isAuthenticating = $state(false);
+
+  async function unlockAdmin() {
+    if (!adminPasswordInput.trim()) {
+      adminAuthError = 'Please enter a passcode.';
+      return;
+    }
+    isAuthenticating = true;
+    adminAuthError = '';
+
+    try {
+      const res = await fetch('/api/admin/verify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ passcode: adminPasswordInput.trim() })
+      });
+      const data = await res.json();
+      isAuthenticating = false;
+
+      if (data.success && data.token) {
+        isAdminMode = true;
+        adminToken = data.token;
+        adminPasswordInput = '';
+        adminAuthError = '';
+      } else {
+        adminAuthError = data.error || 'Invalid moderator passcode.';
+      }
+    } catch (err) {
+      isAuthenticating = false;
+      adminAuthError = 'Verification request failed. Please check connection.';
     }
   }
 
@@ -82,22 +106,52 @@
     updatingId = submission.id;
     updateSuccessId = null;
 
-    const res = await updateSubmissionInSupabase(submission.id, {
-      status: newStatus,
-      adminNotes: notes
-    });
+    try {
+      // 1. Try updating via protected server API with admin token
+      const res = await fetch('/api/submissions', {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${adminToken}`
+        },
+        body: JSON.stringify({
+          id: submission.id,
+          status: newStatus,
+          adminNotes: notes,
+          adminToken
+        })
+      });
 
-    updatingId = null;
+      const result = await res.json();
+      updatingId = null;
 
-    if (!res.error) {
-      submission.status = newStatus;
-      submission.admin_notes = notes;
-      updateSuccessId = submission.id;
-      setTimeout(() => {
-        updateSuccessId = null;
-      }, 3000);
-    } else {
-      alert('Could not update status: ' + res.error);
+      if (result.success) {
+        submission.status = newStatus;
+        submission.admin_notes = notes;
+        updateSuccessId = submission.id;
+        setTimeout(() => {
+          updateSuccessId = null;
+        }, 3000);
+      } else {
+        // Fallback update in case using local mock database
+        const fb = await updateSubmissionInSupabase(submission.id, {
+          status: newStatus,
+          adminNotes: notes
+        });
+        if (!fb.error) {
+          submission.status = newStatus;
+          submission.admin_notes = notes;
+          updateSuccessId = submission.id;
+          setTimeout(() => {
+            updateSuccessId = null;
+          }, 3000);
+        } else {
+          alert('Could not update status: ' + (result.error || fb.error));
+        }
+      }
+    } catch (err) {
+      updatingId = null;
+      alert('Error updating submission: ' + err.message);
     }
   }
 
@@ -253,15 +307,20 @@
           <input
             type="password"
             bind:value={adminPasswordInput}
-            placeholder="Passcode: july2024"
+            placeholder="Passcode"
             class="px-3 py-1.5 bg-zinc-950 border border-zinc-700 rounded-xl text-xs text-white focus:outline-none focus:border-rose-500 w-full sm:w-36 font-mono"
             onkeydown={(e) => e.key === 'Enter' && unlockAdmin()}
           />
           <button
             onclick={unlockAdmin}
-            class="px-4 py-1.5 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-zinc-200 hover:text-white text-xs font-semibold shrink-0 transition-all border border-zinc-700"
+            disabled={isAuthenticating}
+            class="px-4 py-1.5 rounded-xl bg-zinc-800 hover:bg-zinc-700 disabled:opacity-60 text-zinc-200 hover:text-white text-xs font-semibold shrink-0 transition-all border border-zinc-700 flex items-center gap-1.5"
           >
-            Unlock Mode
+            {#if isAuthenticating}
+              <span class="animate-spin">⏳</span> Verifying...
+            {:else}
+              Unlock Mode
+            {/if}
           </button>
         </div>
       {:else}

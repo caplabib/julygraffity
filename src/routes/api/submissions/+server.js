@@ -1,5 +1,6 @@
 import { json } from '@sveltejs/kit';
 import { supabase } from '$lib/supabase.js';
+import { getModeratorSecret, verifyAdminToken } from '$lib/server/admin.js';
 
 /**
  * GET /api/submissions
@@ -25,12 +26,21 @@ export async function GET() {
 /**
  * PATCH /api/submissions
  * Update submission status or admin notes in backend
- * Request body: { id, status, adminNotes }
+ * Requires authorization token
  */
 export async function PATCH({ request }) {
   try {
+    const authHeader = request.headers.get('authorization');
+    const tokenFromHeader = authHeader?.startsWith('Bearer ') ? authHeader.slice(7) : null;
     const body = await request.json();
-    const { id, status, adminNotes } = body;
+    const { id, status, adminNotes, adminToken } = body;
+
+    const token = tokenFromHeader || adminToken;
+    const secret = getModeratorSecret();
+
+    if (!token || !verifyAdminToken(token, secret)) {
+      return json({ success: false, error: 'Unauthorized: Valid moderator credentials required' }, { status: 401 });
+    }
 
     if (!id) {
       return json({ success: false, error: 'Missing submission ID' }, { status: 400 });
