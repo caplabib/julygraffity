@@ -1,4 +1,4 @@
-<script>
+﻿<script>
   import { onMount } from 'svelte';
   import Navbar from '$lib/components/Navbar.svelte';
   import Footer from '$lib/components/Footer.svelte';
@@ -20,7 +20,7 @@
   // Detail / JSON modal
   let selectedModalSubmission = $state(null);
   let copiedModalJson = $state(false);
-  let copiedMuralJs = $state(false);
+  let copiedGraffitiJs = $state(false);
 
   onMount(async () => {
     await loadSubmissions();
@@ -60,7 +60,7 @@
             dateCaptured: '25 September, 2026',
             artist: 'DU Fine Arts Collective',
             descriptionBn: 'জেন জি তরুণদের ঐক্যবদ্ধ প্রতিরোধ',
-            descriptionEn: 'United Gen Z resistance mural',
+            descriptionEn: 'United Gen Z resistance graffiti',
             slogan: 'We Want Justice'
           }
         }
@@ -125,21 +125,21 @@
           label: 'Approved & Archived (অনুমোদিত)',
           classes: 'bg-emerald-500/20 text-emerald-400 border-emerald-500/40',
           dot: 'bg-emerald-400',
-          icon: '✅'
+          icon: ''
         };
       case 'rejected':
         return {
           label: 'Rejected (বাতিল)',
           classes: 'bg-rose-500/20 text-rose-400 border-rose-500/40',
           dot: 'bg-rose-400',
-          icon: '❌'
+          icon: ''
         };
       case 'needs_info':
         return {
           label: 'Needs Info (অতিরিক্ত তথ্য প্রয়োজন)',
           classes: 'bg-sky-500/20 text-sky-400 border-sky-500/40',
           dot: 'bg-sky-400',
-          icon: '⚠️'
+          icon: ''
         };
       case 'pending':
       default:
@@ -147,7 +147,7 @@
           label: 'Under Review (পর্যালোচনাধীন)',
           classes: 'bg-amber-500/20 text-amber-400 border-amber-500/40',
           dot: 'bg-amber-400',
-          icon: '🕒'
+          icon: ''
         };
     }
   }
@@ -158,12 +158,12 @@
     setTimeout(() => (copiedModalJson = false), 2000);
   }
 
-  function copyAsMuralsJsEntry(item) {
+  function copyAsGraffitiJsEntry(item) {
     const formatted = `  {
-    id: 'mural-${item.id.slice(0, 8)}',
+    id: 'graffiti-${item.id.slice(0, 8)}',
     image: '${item.json_data?.image || item.image_url}',
     titleBn: '${item.json_data?.titleBn || 'জুলাই বিপ্লব দেয়ালচিত্র'}',
-    titleEn: '${item.json_data?.titleEn || 'July Revolution Mural'}',
+    titleEn: '${item.json_data?.titleEn || 'July Revolution Graffiti'}',
     location: '${item.detaillocation}',
     division: '${item.json_data?.division || 'Dhaka'}',
     district: '${item.json_data?.district || 'Dhaka'}',
@@ -182,14 +182,14 @@
   },`;
 
     navigator.clipboard.writeText(formatted);
-    copiedMuralJs = true;
-    setTimeout(() => (copiedMuralJs = false), 2500);
+    copiedGraffitiJs = true;
+    setTimeout(() => (copiedGraffitiJs = false), 2500);
   }
 </script>
 
 <svelte:head>
   <title>Submissions Status & Tracking | July Graffiti Archive</title>
-  <meta name="description" content="Check the status of submitted July Revolution murals, view pending/approved contributions, or manage entries." />
+  <meta name="description" content="Check the status of submitted July Revolution graffities, view pending/approved contributions, or manage entries." />
 </svelte:head>
 
 <div class="min-h-screen flex flex-col bg-zinc-950 text-zinc-100 font-sans selection:bg-rose-500 selection:text-white bg-wall-pattern">
@@ -200,11 +200,10 @@
     <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-zinc-800 pb-8">
       <div class="space-y-3 max-w-2xl">
         <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold bg-rose-500/10 text-rose-400 border border-rose-500/30 uppercase tracking-widest shadow-sm">
-          <span>📋</span>
           Archival Submissions Hub
         </div>
         <h1 class="text-3xl sm:text-5xl font-extrabold font-serif-hero text-white tracking-tight">
-          Track Mural Submissions
+          Track Graffiti Submissions
         </h1>
         <p class="text-sm sm:text-base text-zinc-300 font-bengali leading-relaxed">
           নাগরিকদের পাঠানো প্রতিটি দেয়ালচিত্রের বর্তমান অবস্থা (রিভিউ, অনুমোদন বা সংশোধন) ট্র্যাক করুন।
@@ -217,7 +216,7 @@
           href="/submit"
           class="px-5 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-white font-bold text-xs sm:text-sm shadow-lg shadow-rose-600/30 transition-all flex items-center gap-2"
         >
-          <span>➕</span> Submit New Mural
+          Submit New Graffity
         </a>
 
         <button
@@ -225,7 +224,8 @@
           class="p-2.5 rounded-xl bg-zinc-900 border border-zinc-800 hover:border-zinc-700 text-zinc-300 hover:text-white transition-all text-xs flex items-center gap-1.5"
           title="Refresh List"
         >
-          <span>🔄</span> Refresh
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+          Refresh
         </button>
       </div>
     </div>
@@ -233,7 +233,6 @@
     <!-- Admin / Moderator Bar -->
     <div class="glass-card p-4 sm:p-5 rounded-2xl border border-zinc-800 bg-zinc-900/60 flex flex-col sm:flex-row items-center justify-between gap-4">
       <div class="flex items-center gap-3 w-full sm:w-auto">
-        <span class="text-xl">🛡️</span>
         <div>
           <h3 class="text-xs sm:text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
             Moderator & Backend Update Tools
@@ -277,7 +276,7 @@
 
     {#if adminAuthError}
       <div class="p-3 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-400 text-xs font-medium">
-        ⚠️ {adminAuthError}
+        {adminAuthError}
       </div>
     {/if}
 
@@ -295,25 +294,25 @@
           onclick={() => (selectedFilter = 'pending')}
           class="px-3 py-1.5 rounded-xl text-xs font-semibold transition-all flex items-center gap-1.5 {selectedFilter === 'pending' ? 'bg-amber-600 text-white shadow-md shadow-amber-600/30' : 'text-zinc-400 hover:text-white'}"
         >
-          <span>🕒</span> Under Review ({submissions.filter((s) => s.status === 'pending').length})
+          <span class="w-2 h-2 rounded-full bg-amber-400"></span> Under Review ({submissions.filter((s) => s.status === 'pending').length})
         </button>
         <button
           onclick={() => (selectedFilter = 'approved')}
           class="px-3 py-1.5 rounded-xl text-xs font-semibold transition-all flex items-center gap-1.5 {selectedFilter === 'approved' ? 'bg-emerald-600 text-white shadow-md shadow-emerald-600/30' : 'text-zinc-400 hover:text-white'}"
         >
-          <span>✅</span> Approved ({submissions.filter((s) => s.status === 'approved').length})
+          <span class="w-2 h-2 rounded-full bg-emerald-400"></span> Approved ({submissions.filter((s) => s.status === 'approved').length})
         </button>
         <button
           onclick={() => (selectedFilter = 'needs_info')}
           class="px-3 py-1.5 rounded-xl text-xs font-semibold transition-all flex items-center gap-1.5 {selectedFilter === 'needs_info' ? 'bg-sky-600 text-white shadow-md shadow-sky-600/30' : 'text-zinc-400 hover:text-white'}"
         >
-          <span>⚠️</span> Needs Info ({submissions.filter((s) => s.status === 'needs_info').length})
+          <span class="w-2 h-2 rounded-full bg-sky-400"></span> Needs Info ({submissions.filter((s) => s.status === 'needs_info').length})
         </button>
         <button
           onclick={() => (selectedFilter = 'rejected')}
           class="px-3 py-1.5 rounded-xl text-xs font-semibold transition-all flex items-center gap-1.5 {selectedFilter === 'rejected' ? 'bg-rose-600 text-white shadow-md shadow-rose-600/30' : 'text-zinc-400 hover:text-white'}"
         >
-          <span>❌</span> Rejected ({submissions.filter((s) => s.status === 'rejected').length})
+          <span class="w-2 h-2 rounded-full bg-rose-400"></span> Rejected ({submissions.filter((s) => s.status === 'rejected').length})
         </button>
       </div>
 
@@ -339,12 +338,17 @@
     <!-- Submissions Cards Grid -->
     {#if isLoading}
       <div class="py-20 text-center space-y-3">
-        <span class="animate-spin text-3xl inline-block">⏳</span>
+        <svg class="animate-spin w-8 h-8 mx-auto text-rose-500" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+        </svg>
         <p class="text-sm text-zinc-400 font-bengali">লোড হচ্ছে... ডাটাবেজ থেকে তথ্য আনা হচ্ছে</p>
       </div>
     {:else if filteredSubmissions.length === 0}
       <div class="glass-card p-12 text-center rounded-3xl border border-zinc-800 space-y-4">
-        <div class="text-4xl">📭</div>
+        <div class="w-12 h-12 mx-auto rounded-full bg-zinc-800/80 flex items-center justify-center text-zinc-400">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2 2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"></path></svg>
+        </div>
         <h3 class="text-lg font-bold text-white font-bengali">কোনো সাবমিশন খুঁজে পাওয়া যায়নি</h3>
         <p class="text-xs text-zinc-400 max-w-sm mx-auto font-bengali">
           আপনার অনুসন্ধানের সাথে মিল রেখে কোনো দেয়ালচিত্র পাওয়া যায়নি অথবা এখনো কোনো এন্ট্রি জমা হয়নি।
@@ -353,7 +357,7 @@
           href="/submit"
           class="inline-block px-5 py-2 rounded-xl bg-rose-600 hover:bg-rose-500 text-white font-semibold text-xs transition-all"
         >
-          Submit the First Mural ➔
+          Submit the First Graffiti ➔
         </a>
       </div>
     {:else}
@@ -367,7 +371,7 @@
               <div class="flex items-center gap-2.5 flex-wrap">
                 <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold border {badge.classes}">
                   <span class="w-2 h-2 rounded-full {badge.dot} animate-pulse"></span>
-                  {badge.icon} {badge.label}
+                  {badge.label}
                 </span>
 
                 <span class="text-xs text-zinc-500 font-mono">
@@ -376,7 +380,7 @@
               </div>
 
               <div class="text-xs text-zinc-400 font-mono flex items-center gap-2">
-                <span>🕒 {new Date(item.created_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
+                <span>{new Date(item.created_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
               </div>
             </div>
 
@@ -412,7 +416,7 @@
                     rel="noopener noreferrer"
                     class="text-xs text-rose-400 hover:text-rose-300 font-medium underline flex items-center gap-1 break-all"
                   >
-                    <span>🔗</span> Open Photo Link ➔
+                    Open Photo Link ➔
                   </a>
                 </div>
               </div>
@@ -472,18 +476,18 @@
                     onclick={() => (selectedModalSubmission = item)}
                     class="px-3 py-1.5 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-zinc-200 text-xs font-semibold transition-colors flex items-center gap-1.5"
                   >
-                    <span>📜</span> View Full Details
+                    View Full Details
                   </button>
 
                   <button
-                    onclick={() => copyAsMuralsJsEntry(item)}
+                    onclick={() => copyAsGraffitiJsEntry(item)}
                     class="px-3 py-1.5 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 text-xs font-semibold transition-colors border border-rose-500/30 flex items-center gap-1.5"
-                    title="Export formatted object ready to paste into murals.js"
+                    title="Export formatted object ready to paste into graffiti.js"
                   >
-                    {#if copiedMuralJs}
+                    {#if copiedGraffitiJs}
                       <span>✓ Copied entry!</span>
                     {:else}
-                      <span>📋 Copy for murals.js</span>
+                      <span>Copy for graffiti.js</span>
                     {/if}
                   </button>
                 </div>
@@ -496,7 +500,7 @@
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                   <div class="flex items-center gap-2">
                     <span class="text-xs font-bold uppercase tracking-wider text-amber-400">
-                      ⚡ Quick Status Action:
+                      Quick Status Action:
                     </span>
                     {#if updateSuccessId === item.id}
                       <span class="text-xs text-emerald-400 font-bold animate-fadeIn">
@@ -518,7 +522,7 @@
                       onclick={() => handleStatusUpdate(item, 'needs_info', item.admin_notes || 'Please provide clear wall photo or location')}
                       class="px-3 py-1 rounded-lg bg-sky-600 hover:bg-sky-500 disabled:opacity-50 text-white text-xs font-bold transition-all flex items-center gap-1"
                     >
-                      ⚠️ Needs Info
+                      Needs Info
                     </button>
                     <button
                       disabled={updatingId === item.id}
@@ -622,7 +626,7 @@
               onclick={() => copyJsonString(selectedModalSubmission.json_data || selectedModalSubmission)}
               class="px-2.5 py-1 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-200 text-xs font-mono transition-colors"
             >
-              {copiedModalJson ? '✓ Copied JSON' : '📋 Copy JSON'}
+              {copiedModalJson ? '✓ Copied JSON' : 'Copy JSON'}
             </button>
           </div>
 

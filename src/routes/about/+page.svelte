@@ -63,11 +63,7 @@
 		<div class="grid grid-cols-1 gap-5 sm:gap-8 pt-2 md:grid-cols-2">
 			<!-- Card 1 -->
 			<div class="glass-card space-y-3 sm:space-y-4 rounded-2xl sm:rounded-3xl border border-zinc-800 p-5 sm:p-8">
-				<div
-					class="font-graffiti flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-xl sm:rounded-2xl border border-rose-500/30 bg-rose-500/20 text-xl sm:text-2xl text-rose-400"
-				>
-					✊
-				</div>
+				
 				<h2 class="font-bengali text-2xl font-bold text-white">
 					১. প্রতিরোধ ও গণমানুষের বাকস্বাধীনতা
 				</h2>
@@ -80,11 +76,7 @@
 
 			<!-- Card 2 -->
 			<div class="glass-card space-y-3 sm:space-y-4 rounded-2xl sm:rounded-3xl border border-zinc-800 p-5 sm:p-8">
-				<div
-					class="font-graffiti flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-xl sm:rounded-2xl border border-emerald-500/30 bg-emerald-500/20 text-xl sm:text-2xl text-emerald-400"
-				>
-					🎨
-				</div>
+				
 				<h2 class="font-bengali text-xl sm:text-2xl font-bold text-white">
 					২. বাংলা ক্যালিগ্রাফি ও শিল্পধারা
 				</h2>
@@ -97,11 +89,6 @@
 
 			<!-- Card 3 -->
 			<div class="glass-card space-y-3 sm:space-y-4 rounded-2xl sm:rounded-3xl border border-zinc-800 p-5 sm:p-8">
-				<div
-					class="font-graffiti flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-xl sm:rounded-2xl border border-amber-500/30 bg-amber-500/20 text-xl sm:text-2xl text-amber-400"
-				>
-					🏛️
-				</div>
 				<h2 class="font-bengali text-xl sm:text-2xl font-bold text-white">৩. সংরক্ষণাগারের প্রয়োজনীয়তা</h2>
 				<p class="font-bengali text-sm leading-relaxed text-zinc-300">
 					আবহাওয়া, রোদ-বৃষ্টি ও সময়ের সাথে বহিরাঙ্গনের দেয়ালচিত্র ক্ষয়ে যেতে পারে। এই আর্カイভের মূল
@@ -112,11 +99,7 @@
 
 			<!-- Card 4 -->
 			<div class="glass-card space-y-3 sm:space-y-4 rounded-2xl sm:rounded-3xl border border-zinc-800 p-5 sm:p-8">
-				<div
-					class="font-graffiti flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-xl sm:rounded-2xl border border-sky-500/30 bg-sky-500/20 text-xl sm:text-2xl text-sky-400"
-				>
-					🤝
-				</div>
+				
 				<h2 class="font-bengali text-xl sm:text-2xl font-bold text-white">৪. উন্মুক্ত ও অলাভজনক উদ্যোগ</h2>
 				<p class="font-bengali text-sm leading-relaxed text-zinc-300">
 					জুলাই গ্রাফিতি একটি অলাভজনক উন্মুক্ত নাগরিক উদ্যোগ। গবেষক, শিক্ষার্থী ও সাধারণ নাগরিক
@@ -133,7 +116,6 @@
 		<!-- Archival Purpose & Legal Disclaimer Banner -->
 		<div class="glass-card space-y-4 rounded-2xl sm:rounded-3xl border border-zinc-800 bg-zinc-900/50 p-5 sm:p-8">
 			<div class="flex items-center gap-3">
-				<span class="text-lg font-bold text-rose-400">⚖️</span>
 				<h3 class="font-bengali text-lg sm:text-xl font-bold text-white">
 					সংরক্ষণ ও সর্বজনীন দাবিত্যাগ (Archival Purpose & Disclaimer)
 				</h3>
@@ -143,7 +125,7 @@
 			>
 				<div class="space-y-2">
 					<p class="font-semibold text-zinc-100">
-						📌 অলাভজনক সংরক্ষণাগার (Preservation Purpose Only):
+						অলাভজনক সংরক্ষণাগার (Preservation Purpose Only):
 					</p>
 					<p>
 						এই প্ল্যাটফর্মটি সম্পূর্ণ অলাভজনক, নিরপেক্ষ ও নাগরিক উদ্যোগে নির্মিত। ২০২৪ সালের জুলাই
@@ -153,7 +135,7 @@
 				</div>
 				<div class="space-y-2">
 					<p class="font-semibold text-zinc-100">
-						🤝 অবদান ও উন্নয়ন (Development & Open Source Credit):
+						অবদান ও উন্নয়ন (Development & Open Source Credit):
 					</p>
 					<p>
 						প্ল্যাটফর্মটির উন্নয়ন ও রক্ষণাবেক্ষণে: <span

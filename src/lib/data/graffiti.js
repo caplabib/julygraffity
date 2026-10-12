@@ -1,4 +1,4 @@
-/**
+﻿/**
  * @typedef {Object} Mural
  * @property {string} id
  * @property {string} image
@@ -19,7 +19,7 @@
  */
 
 /** @type {Mural[]} */
-export const muralsData = [
+export const graffitiData = [
   {
     id: 'rangpur-01',
     image: '/pictures/IMG_20260925_145338_HDR.png',

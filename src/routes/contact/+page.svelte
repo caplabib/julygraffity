@@ -141,7 +141,7 @@
                 id="subject"
                 required
                 bind:value={formData.subject}
-                placeholder="e.g. Location correction for Mural #04 in TSC"
+                placeholder="e.g. Location correction for Graffity #04 in TSC"
                 class="w-full px-4 py-3 rounded-xl bg-zinc-950 border border-zinc-800 text-zinc-100 placeholder-zinc-600 focus:outline-none focus:border-rose-500 text-xs transition-colors"
               />
             </div>
@@ -168,7 +168,11 @@
               class="w-full py-3.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-white font-bold text-xs shadow-lg shadow-rose-600/30 transition-all flex items-center justify-center gap-2"
             >
               {#if isSubmitting}
-                <span class="animate-spin text-sm">⏳</span> Sending Message...
+                <svg class="animate-spin w-4 h-4 text-white" fill="none" viewBox="0 0 24 24">
+                  <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                  <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+                </svg>
+                Sending Message...
               {:else}
                 Send Message (বার্তা পাঠান) ➔
               {/if}
@@ -183,17 +187,17 @@
         <!-- Archival Policy Card -->
         <div class="glass-card p-6 rounded-3xl border border-zinc-800 bg-zinc-900/40 space-y-3">
           <div class="flex items-center gap-2 text-rose-400 font-bold text-sm">
-            <span>🛡️</span> Correction & Takedown Policy
+            Correction & Takedown Policy
           </div>
           <p class="text-xs text-zinc-300 font-bengali leading-relaxed">
-            আমরা প্রতিটি ম্যুরাল ও আলোকচিত্রের মূল স্রষ্টা এবং চিত্রগ্রাহকের অধিকারকে সম্মান করি। কোনো তথ্য ভুল থাকলে বা নাম যুক্ত করতে চাইলে আমাদের সাথে যোগাযোগ করুন।
+            আমরা প্রতিটি গ্রাফিতি ও আলোকচিত্রের মূল স্রষ্টা এবং চিত্রগ্রাহকের অধিকারকে সম্মান করি। কোনো তথ্য ভুল থাকলে বা নাম যুক্ত করতে চাইলে আমাদের সাথে যোগাযোগ করুন।
           </p>
         </div>
 
         <!-- Direct Info Card -->
         <div class="glass-card p-6 rounded-3xl border border-zinc-800 bg-zinc-900/40 space-y-4">
           <div class="flex items-center gap-2 text-emerald-400 font-bold text-sm">
-            <span>💻</span> Open Source Maintainer
+            Open Source Maintainer
           </div>
           <div class="text-xs space-y-2 text-zinc-300">
             <p><strong class="text-zinc-100">Project Lead:</strong> Cap Labib</p>
@@ -207,7 +211,7 @@
           <h4 class="text-xs font-bold text-white uppercase tracking-wider">Quick Navigation</h4>
           <ul class="text-xs space-y-2 text-zinc-400">
             <li><a href="/contributors" class="hover:text-rose-400 transition-colors">➔ View Contributors Honor Roll</a></li>
-            <li><a href="/submit" class="hover:text-rose-400 transition-colors">➔ Submit New Mural Photo</a></li>
+            <li><a href="/submit" class="hover:text-rose-400 transition-colors">➔ Submit New Graffity Photo</a></li>
             <li><a href="/about" class="hover:text-rose-400 transition-colors">➔ Read Historical Mission</a></li>
           </ul>
         </div>

@@ -1,23 +1,23 @@
-<script>
-  import { muralsData, districts } from '../data/murals.js';
-  import { fetchMurals } from '$lib/supabase.js';
+﻿<script>
+  import { graffitiData, districts } from '../data/graffiti.js';
+  import { fetchGraffiti } from '$lib/supabase.js';
   import { dragScroll } from '$lib/utils/dragScroll.js';
 
   let { selectedDistrict = 'All Districts', onSelectDistrict = () => {} } = $props();
-  let muralsList = $state(muralsData);
+  let graffitiList = $state(graffitiData);
 
   $effect(() => {
-    fetchMurals().then((data) => {
+    fetchGraffiti().then((data) => {
       if (data && data.length > 0) {
-        muralsList = data;
+        graffitiList = data;
       }
     });
   });
 
-  // Dynamically compute mural counts per district from actual db data
+  // Dynamically compute graffiti counts per district from actual db data
   let districtLocationsMap = $derived.by(() => {
     const counts = {};
-    for (const m of muralsList) {
+    for (const m of graffitiList) {
       if (m.district) {
         counts[m.district] = (counts[m.district] || 0) + 1;
       }
@@ -63,8 +63,8 @@
             <span class="text-sm sm:text-lg font-bold font-bengali block truncate">{dist.name}</span>
           </div>
           <div class="flex items-center justify-between text-[10px] sm:text-xs pt-1.5 sm:pt-2 border-t border-white/10">
-            <span>{dist.count} Mural{dist.count === 1 ? '' : 's'}</span>
-            <span class="text-rose-400 font-bold">📍</span>
+            <span>{dist.count} Graffiti</span>
+            <span class="text-rose-400 font-bold text-[10px]">▲</span>
           </div>
         </button>
       {/each}

@@ -1,17 +1,17 @@
-<script>
-  let { mural = {}, onOpenModal = () => {} } = $props();
+﻿<script>
+  let { graffiti = {}, onOpenModal = () => {} } = $props();
 
   let isLiked = $state(false);
   let extraLikes = $state(0);
-  let likeCount = $derived((mural.likes || 0) + extraLikes);
+  let likeCount = $derived((graffiti.likes || 0) + extraLikes);
 
   let fallbackImageSrc = $state(null);
-  let currentImageSrc = $derived(fallbackImageSrc || mural.image);
+  let currentImageSrc = $derived(fallbackImageSrc || graffiti.image);
 
   $effect(() => {
     fallbackImageSrc = null;
     try {
-      const savedLikes = localStorage.getItem(`like_${mural.id}`);
+      const savedLikes = localStorage.getItem(`like_${graffiti.id}`);
       if (savedLikes === 'true') {
         isLiked = true;
         extraLikes = 1;
@@ -27,13 +27,13 @@
     isLiked = !isLiked;
     extraLikes = isLiked ? 1 : 0;
     try {
-      localStorage.setItem(`like_${mural.id}`, isLiked ? 'true' : 'false');
+      localStorage.setItem(`like_${graffiti.id}`, isLiked ? 'true' : 'false');
     } catch (e) {}
   }
 
   function handleImageError() {
-    if (mural.image && mural.image.includes('/pictures/')) {
-      fallbackImageSrc = mural.image.replace('/pictures/', 'https://jvxgqflxmumxhjeywmjp.supabase.co/storage/v1/object/public/julytest/');
+    if (graffiti.image && graffiti.image.includes('/pictures/')) {
+      fallbackImageSrc = graffiti.image.replace('/pictures/', 'https://jvxgqflxmumxhjeywmjp.supabase.co/storage/v1/object/public/julytest/');
     }
   }
 </script>
@@ -42,8 +42,8 @@
 <div 
   role="button"
   tabindex="0"
-  onclick={() => onOpenModal(mural)}
-  onkeydown={(e) => (e.key === 'Enter' || e.key === ' ') && onOpenModal(mural)}
+  onclick={() => onOpenModal(graffiti)}
+  onkeydown={(e) => (e.key === 'Enter' || e.key === ' ') && onOpenModal(graffiti)}
   class="group inline-block w-full align-top cursor-pointer break-inside-avoid mb-6 select-none"
 >
   <!-- Image Wrapper (Guarantees Overlay is Attached Directly to Image) -->
@@ -52,7 +52,7 @@
     <!-- Image preserving natural aspect ratio -->
     <img 
       src={currentImageSrc} 
-      alt={mural.titleEn}
+      alt={graffiti.titleEn}
       loading="lazy"
       onerror={handleImageError}
       class="w-full h-auto block object-cover group-hover:scale-103 transition-transform duration-500 ease-out"
@@ -80,17 +80,17 @@
       <!-- Location -->
       <div class="text-[11px] sm:text-xs text-zinc-300 font-bengali font-medium flex items-center gap-1 sm:gap-1.5">
         <svg class="w-3 h-3 sm:w-3.5 sm:h-3.5 text-rose-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-        <span class="truncate">{mural.location}</span>
+        <span class="truncate">{graffiti.location}</span>
       </div>
 
       <!-- Main Title -->
       <h3 class="text-base sm:text-xl md:text-2xl font-extrabold font-bengali text-white group-hover:text-rose-300 transition-colors leading-tight drop-shadow-md">
-        {mural.titleBn}
+        {graffiti.titleBn}
       </h3>
 
       <!-- Date Painted -->
       <div class="text-[10px] sm:text-[11px] text-zinc-400 font-bengali pt-0.5">
-        অঙ্কিত: {mural.datePainted || mural.date}
+        অঙ্কিত: {graffiti.datePainted || graffiti.date}
       </div>
 
     </div>

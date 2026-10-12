@@ -106,7 +106,7 @@
         onclick={closeMobileMenu}
         class="block px-4 py-3 rounded-xl text-sm sm:text-base font-medium {activeTab === 'browse' ? 'bg-zinc-900 text-rose-400 font-bold' : 'text-zinc-300 hover:bg-zinc-900'}"
       >
-        Browse All Murals
+        Browse All Graffiti
       </a>
 
       <a

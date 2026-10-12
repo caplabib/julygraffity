@@ -1,9 +1,9 @@
-<script>
-  import { muralsData, categories, districts } from '$lib/data/murals.js';
-  import { fetchMurals } from '$lib/supabase.js';
+﻿<script>
+  import { graffitiData, categories, districts } from '$lib/data/graffiti.js';
+  import { fetchGraffiti } from '$lib/supabase.js';
   import Navbar from '$lib/components/Navbar.svelte';
-  import MuralCard from '$lib/components/MuralCard.svelte';
-  import MuralModal from '$lib/components/MuralModal.svelte';
+  import GraffitiCard from '$lib/components/GraffitiCard.svelte';
+  import GraffitiModal from '$lib/components/GraffitiModal.svelte';
   import Footer from '$lib/components/Footer.svelte';
   import { dragScroll } from '$lib/utils/dragScroll.js';
 
@@ -11,40 +11,40 @@
   let selectedCategory = $state('All');
   let selectedDistrict = $state('All Districts');
   let sortBy = $state('featured'); // 'featured', 'likes', 'title'
-  let selectedMural = $state(null);
+  let selectedGraffiti = $state(null);
   let currentPage = $state(1);
   const itemsPerPage = 32;
-  let muralsList = $state(muralsData);
+  let graffitiList = $state(graffitiData);
 
-  // Load dynamic murals from Supabase on mount
+  // Load dynamic graffiti from Supabase on mount
   $effect(() => {
-    fetchMurals().then((data) => {
+    fetchGraffiti().then((data) => {
       if (data && data.length > 0) {
-        muralsList = data;
+        graffitiList = data;
       }
     });
   });
 
-  // Filter & Sort Murals
-  let filteredMurals = $derived(
-    muralsList
-      .filter((mural) => {
+  // Filter & Sort Graffiti
+  let filteredGraffiti = $derived(
+    graffitiList
+      .filter((graffiti) => {
         const matchesSearch = 
           !searchQuery.trim() ||
-          mural.titleBn?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          mural.titleEn?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          mural.location?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          mural.slogan?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          mural.artist?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          mural.tags?.some(t => t.toLowerCase().includes(searchQuery.toLowerCase()));
+          graffiti.titleBn?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          graffiti.titleEn?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          graffiti.location?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          graffiti.slogan?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          graffiti.artist?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          graffiti.tags?.some(t => t.toLowerCase().includes(searchQuery.toLowerCase()));
 
         const matchesCategory = 
           selectedCategory === 'All' || 
-          mural.category === selectedCategory;
+          graffiti.category === selectedCategory;
 
         const matchesDistrict = 
           selectedDistrict === 'All Districts' || 
-          mural.district === selectedDistrict;
+          graffiti.district === selectedDistrict;
 
         return matchesSearch && matchesCategory && matchesDistrict;
       })
@@ -55,10 +55,10 @@
       })
   );
 
-  let totalPages = $derived(Math.max(1, Math.ceil(filteredMurals.length / itemsPerPage)));
+  let totalPages = $derived(Math.max(1, Math.ceil(filteredGraffiti.length / itemsPerPage)));
 
-  let paginatedMurals = $derived(
-    filteredMurals.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
+  let paginatedGraffiti = $derived(
+    filteredGraffiti.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
   );
 
   let visiblePages = $derived.by(() => {
@@ -111,31 +111,31 @@
     currentPage = 1;
   }
 
-  function openMuralModal(mural) {
-    selectedMural = mural;
+  function openGraffitiModal(graffiti) {
+    selectedGraffiti = graffiti;
   }
 
   function closeModal() {
-    selectedMural = null;
+    selectedGraffiti = null;
   }
 
-  function nextMural() {
-    if (!selectedMural) return;
-    const currentIndex = filteredMurals.findIndex(m => m.id === selectedMural.id);
-    const nextIndex = (currentIndex + 1) % filteredMurals.length;
-    selectedMural = filteredMurals[nextIndex];
+  function nextGraffiti() {
+    if (!selectedGraffiti) return;
+    const currentIndex = filteredGraffiti.findIndex(m => m.id === selectedGraffiti.id);
+    const nextIndex = (currentIndex + 1) % filteredGraffiti.length;
+    selectedGraffiti = filteredGraffiti[nextIndex];
   }
 
-  function prevMural() {
-    if (!selectedMural) return;
-    const currentIndex = filteredMurals.findIndex(m => m.id === selectedMural.id);
-    const prevIndex = (currentIndex - 1 + filteredMurals.length) % filteredMurals.length;
-    selectedMural = filteredMurals[prevIndex];
+  function prevGraffiti() {
+    if (!selectedGraffiti) return;
+    const currentIndex = filteredGraffiti.findIndex(m => m.id === selectedGraffiti.id);
+    const prevIndex = (currentIndex - 1 + filteredGraffiti.length) % filteredGraffiti.length;
+    selectedGraffiti = filteredGraffiti[prevIndex];
   }
 </script>
 
 <svelte:head>
-  <title>Browse All Murals | July Graffiti Archive</title>
+  <title>Browse All Graffiti | July Graffiti Archive</title>
 </svelte:head>
 
 <div class="min-h-screen flex flex-col bg-zinc-950 text-zinc-100 font-sans selection:bg-rose-500 selection:text-white">
@@ -150,7 +150,7 @@
         Complete Digital Collection
       </span>
       <h1 class="text-3xl sm:text-5xl lg:text-6xl font-extrabold font-serif-hero text-white tracking-tight">
-        Browse All July Murals
+        Browse All July Graffiti
       </h1>
       <p class="text-xs sm:text-base text-zinc-400 font-bengali leading-relaxed px-2">
         জুলাই বিপ্লবের সংগৃহীত সকল দেয়ালচিত্র অনুসন্ধান করুন, ক্যাটাগরি ও জেলা ফিল্টার প্রয়োগ করে আপনার পছন্দের শিল্পকর্মগুলো বিস্তারিত দেখুন।
@@ -220,7 +220,7 @@
 
         <div>
           <label for="sortSelectBrowse" class="block text-[11px] sm:text-xs font-bold uppercase tracking-wider text-zinc-400 mb-1.5 sm:mb-2">
-            Sort Murals By:
+            Sort Graffiti By:
           </label>
           <select
             id="sortSelectBrowse"
@@ -241,9 +241,9 @@
       <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4 border-b border-zinc-800 pb-4">
         <div>
           <h2 class="text-lg sm:text-2xl font-bold font-bengali text-white flex items-center gap-2 sm:gap-3 flex-wrap">
-            <span>সকল ম্যুরাল ক্যাটালগ</span>
+            <span>সকল গ্রাফিতি ক্যাটালগ</span>
             <span class="text-[11px] sm:text-xs font-semibold px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-full bg-rose-500/20 text-rose-400 border border-rose-500/30">
-              Showing {filteredMurals.length > 0 ? (currentPage - 1) * itemsPerPage + 1 : 0} - {Math.min(currentPage * itemsPerPage, filteredMurals.length)} of {filteredMurals.length} Artworks
+              Showing {filteredGraffiti.length > 0 ? (currentPage - 1) * itemsPerPage + 1 : 0} - {Math.min(currentPage * itemsPerPage, filteredGraffiti.length)} of {filteredGraffiti.length} Artworks
             </span>
           </h2>
         </div>
@@ -258,21 +258,21 @@
         {/if}
       </div>
 
-      {#if paginatedMurals.length > 0}
+      {#if paginatedGraffiti.length > 0}
         <!-- Masonry Grid -->
         <div class="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-2">
-          {#each paginatedMurals as mural (mural.id)}
-            <MuralCard 
-              {mural} 
-              onOpenModal={openMuralModal} 
+          {#each paginatedGraffiti as graffiti (graffiti.id)}
+            <GraffitiCard 
+              {graffiti} 
+              onOpenModal={openGraffitiModal} 
             />
           {/each}
         </div>
 
         <!-- Pagination Bar -->
-        <nav aria-label="Murals pagination" class="pt-6 sm:pt-8 pb-4 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-zinc-800/80">
+        <nav aria-label="Graffity pagination" class="pt-6 sm:pt-8 pb-4 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-zinc-800/80">
           <div class="text-xs text-zinc-400 text-center sm:text-left">
-            Page <span class="text-white font-semibold">{currentPage}</span> of <span class="text-white font-semibold">{totalPages}</span> ({filteredMurals.length} murals total)
+            Page <span class="text-white font-semibold">{currentPage}</span> of <span class="text-white font-semibold">{totalPages}</span> ({filteredGraffiti.length} artworks total)
           </div>
 
           <div class="flex items-center gap-1.5 sm:gap-2 flex-wrap justify-center">
@@ -318,7 +318,9 @@
 
       {:else}
         <div class="glass-card p-12 rounded-3xl text-center max-w-xl mx-auto space-y-4 border border-zinc-800">
-          <div class="text-5xl">🎨</div>
+          <div class="w-14 h-14 mx-auto rounded-full bg-zinc-800/80 flex items-center justify-center text-zinc-400">
+            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+          </div>
           <h3 class="text-xl font-bold font-bengali text-white">কোনো ফলাফল পাওয়া যায়নি</h3>
           <p class="text-sm text-zinc-400 font-bengali">
             আপনার ফিল্টার অনুযায়ী কোনো দেয়ালচিত্র পাওয়া যায়নি। ফিল্টার পরিবর্তন করে আবার চেষ্টা করুন।
@@ -336,11 +338,11 @@
   </main>
 
   <!-- Fullscreen Modal -->
-  <MuralModal 
-    mural={selectedMural} 
+  <GraffitiModal 
+    graffiti={selectedGraffiti} 
     onClose={closeModal} 
-    onNext={nextMural} 
-    onPrev={prevMural} 
+    onNext={nextGraffiti} 
+    onPrev={prevGraffiti} 
   />
 
   <Footer />

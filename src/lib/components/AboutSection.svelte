@@ -1,16 +1,16 @@
-<script>
+﻿<script>
   let isSubmitted = $state(false);
-  let muralUrl = $state('');
-  let muralLocation = $state('');
+  let graffitiUrl = $state('');
+  let graffitiLocation = $state('');
 
-  function handleSubmitMural(e) {
+  function handleSubmitGraffiti(e) {
     e.preventDefault();
-    if (!muralLocation) return;
+    if (!graffitiLocation) return;
     isSubmitted = true;
     setTimeout(() => {
       isSubmitted = false;
-      muralUrl = '';
-      muralLocation = '';
+      graffitiUrl = '';
+      graffitiLocation = '';
     }, 4000);
   }
 </script>
@@ -88,18 +88,18 @@
           ✓ আপনার জমা দেয়া তথ্য সফলভাবে গ্রহণ করা হয়েছে! পর্যালোচনার পর আর্カイভে যুক্ত হবে। ধন্যবাদ।
         </div>
       {:else}
-        <form onsubmit={handleSubmitMural} class="max-w-xl mx-auto space-y-3 sm:space-y-4">
+        <form onsubmit={handleSubmitGraffiti} class="max-w-xl mx-auto space-y-3 sm:space-y-4">
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
             <input
               type="text"
               required
-              bind:value={muralLocation}
+              bind:value={graffitiLocation}
               placeholder="স্থান/এলাকা (e.g. TSC, Mirpur 10)"
               class="px-4 py-3 bg-zinc-950 border border-zinc-700 rounded-xl text-white text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-rose-500 font-bengali"
             />
             <input
               type="url"
-              bind:value={muralUrl}
+              bind:value={graffitiUrl}
               placeholder="ছবি বা ড্রাইভ লিংক (Drive / Imgur URL)"
               class="px-4 py-3 bg-zinc-950 border border-zinc-700 rounded-xl text-white text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-rose-500"
             />

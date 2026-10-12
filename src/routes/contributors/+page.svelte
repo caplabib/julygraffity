@@ -8,7 +8,7 @@
 	const stats = [
 		{ label: 'Total Contributors', value: '48+', labelBn: 'সর্বমোট অবদানকারী' },
 		{ label: 'Photographers & Archivists', value: '32+', labelBn: 'চিত্রগ্রাহক ও সংগ্রাহক' },
-		{ label: 'Mural Collectives', value: '12+', labelBn: 'দেয়ালচিত্র দল' },
+		{ label: 'Graffity Collectives', value: '12+', labelBn: 'দেয়ালচিত্র দল' },
 		{ label: 'Tech & Metadata Volunteers', value: '4+', labelBn: 'আইটি ও ডেটা স্বেচ্ছাসেবক' }
 	];
 
@@ -31,7 +31,7 @@
 			roleBn: 'চিত্রগ্রাহক ও কোর ফটো আর্কাইভ ভলান্টিয়ার',
 			category: 'photo',
 			location: 'RANGPUR, BANGLADESH',
-			contributions: 'High-definition photography documentation of Rangpur division street murals',
+			contributions: 'High-definition photography documentation of Rangpur division street graffities',
 			icon: '/icons/person.svg',
 			badge: 'Photographer'
 		},
@@ -49,7 +49,7 @@
 		{
 			id: 4,
 			name: 'Faculty of Fine Arts (Charukala) Student Alliance',
-			role: 'Mural Artists & Calligraphers',
+			role: 'Graffity Artists & Calligraphers',
 			roleBn: 'চারুকলা ছাত্র জোট ও দেয়ালচিত্র শিল্পী দল',
 			category: 'artists',
 			location: 'DHAKA / RANGPUR, BANGLADESH',
@@ -60,11 +60,11 @@
 		{
 			id: 5,
 			name: 'Begum Rokeya University (BRUR) Youth Collective',
-			role: 'Regional Mural Collectives',
+			role: 'Regional Graffity Collectives',
 			roleBn: 'রংপুর তরুণ সংগ্রাহক ও দেয়ালচিত্র শিল্পী দল',
 			category: 'artists',
 			location: 'RANGPUR, BANGLADESH',
-			contributions: 'Shaheed Abu Sayed memorial gate murals & campus boundary artwork',
+			contributions: 'Shaheed Abu Sayed memorial gate graffities & campus boundary artwork',
 			icon: '/icons/groups.svg',
 			badge: 'Art Collective'
 		},
@@ -75,7 +75,7 @@
 			roleBn: 'চট্টগ্রাম ও জাবি ছাত্র আলোকচিত্রী দল',
 			category: 'photo',
 			location: 'CHITTAGONG / SAVAR, BANGLADESH',
-			contributions: 'Photographic documentation of port city & JU campus resistance murals',
+			contributions: 'Photographic documentation of port city & JU campus resistance graffities',
 			icon: '/icons/groups.svg',
 			badge: 'Photographers'
 		}
@@ -143,7 +143,7 @@
 					? 'bg-rose-600 text-white shadow-md shadow-rose-600/30'
 					: 'border border-zinc-800 bg-zinc-900 text-zinc-400 hover:text-white'}"
 			>
-				💻 Developers
+				Developers
 			</button>
 			<button
 				onclick={() => (selectedCategory = 'photo')}
@@ -151,7 +151,7 @@
 					? 'bg-rose-600 text-white shadow-md shadow-rose-600/30'
 					: 'border border-zinc-800 bg-zinc-900 text-zinc-400 hover:text-white'}"
 			>
-				📸 Photographers & Editors
+				Photographers & Editors
 			</button>
 			<button
 				onclick={() => (selectedCategory = 'artists')}
@@ -160,7 +160,7 @@
 					? 'bg-rose-600 text-white shadow-md shadow-rose-600/30'
 					: 'border border-zinc-800 bg-zinc-900 text-zinc-400 hover:text-white'}"
 			>
-				🎨 Student Artists & Collectives
+				Student Artists & Collectives
 			</button>
 		</div>
 
@@ -198,7 +198,7 @@
 								{contributor.contributions}
 							</p>
 							<p class="pt-1 font-sans text-[10px] tracking-widest text-zinc-400 uppercase">
-								📍 {contributor.location}
+								{contributor.location}
 							</p>
 						</div>
 					</div>

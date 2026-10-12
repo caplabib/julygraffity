@@ -1,10 +1,10 @@
-<script>
-	import { muralsData } from '$lib/data/murals.js';
-	import { fetchMurals } from '$lib/supabase.js';
+﻿<script>
+	import { graffitiData } from '$lib/data/graffiti.js';
+	import { fetchGraffiti } from '$lib/supabase.js';
 	import Navbar from '$lib/components/Navbar.svelte';
 	import Hero from '$lib/components/Hero.svelte';
-	import MuralCard from '$lib/components/MuralCard.svelte';
-	import MuralModal from '$lib/components/MuralModal.svelte';
+	import GraffitiCard from '$lib/components/GraffitiCard.svelte';
+	import GraffitiModal from '$lib/components/GraffitiModal.svelte';
 	import MapExplorer from '$lib/components/MapExplorer.svelte';
 	import AboutSection from '$lib/components/AboutSection.svelte';
 	import Footer from '$lib/components/Footer.svelte';
@@ -13,62 +13,62 @@
 	let searchQuery = $state('');
 	let selectedCategory = $state('All');
 	let selectedDistrict = $state('All Districts');
-	let selectedMural = $state(null);
-	let muralsList = $state(muralsData);
+	let selectedGraffiti = $state(null);
+	let graffitiList = $state(graffitiData);
 
-	// Load dynamic murals from Supabase on mount
+	// Load dynamic graffiti from Supabase on mount
 	$effect(() => {
-		fetchMurals().then((data) => {
+		fetchGraffiti().then((data) => {
 			if (data && data.length > 0) {
-				muralsList = data;
+				graffitiList = data;
 			}
 		});
 	});
 
-	// Derived filtered murals
-	let filteredMurals = $derived(
-		muralsList.filter((mural) => {
+	// Derived filtered graffiti
+	let filteredGraffiti = $derived(
+		graffitiList.filter((graffiti) => {
 			const matchesSearch =
 				!searchQuery.trim() ||
-				mural.titleBn?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-				mural.titleEn?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-				mural.location?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-				mural.slogan?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-				mural.artist?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-				mural.tags?.some((t) => t.toLowerCase().includes(searchQuery.toLowerCase()));
+				graffiti.titleBn?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+				graffiti.titleEn?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+				graffiti.location?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+				graffiti.slogan?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+				graffiti.artist?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+				graffiti.tags?.some((t) => t.toLowerCase().includes(searchQuery.toLowerCase()));
 
-			const matchesCategory = selectedCategory === 'All' || mural.category === selectedCategory;
+			const matchesCategory = selectedCategory === 'All' || graffiti.category === selectedCategory;
 
 			const matchesDistrict =
-				selectedDistrict === 'All Districts' || mural.district === selectedDistrict;
+				selectedDistrict === 'All Districts' || graffiti.district === selectedDistrict;
 
 			return matchesSearch && matchesCategory && matchesDistrict;
 		})
 	);
 
 	// Home page shows max 12 best matching pictures at a time
-	let displayedMurals = $derived(filteredMurals.slice(0, 12));
+	let displayedGraffiti = $derived(filteredGraffiti.slice(0, 12));
 
-	function openMuralModal(mural) {
-		selectedMural = mural;
+	function openGraffitiModal(graffiti) {
+		selectedGraffiti = graffiti;
 	}
 
 	function closeModal() {
-		selectedMural = null;
+		selectedGraffiti = null;
 	}
 
-	function nextMural() {
-		if (!selectedMural) return;
-		const currentIndex = muralsList.findIndex((m) => m.id === selectedMural.id);
-		const nextIndex = (currentIndex + 1) % muralsList.length;
-		selectedMural = muralsList[nextIndex];
+	function nextGraffiti() {
+		if (!selectedGraffiti) return;
+		const currentIndex = graffitiList.findIndex((m) => m.id === selectedGraffiti.id);
+		const nextIndex = (currentIndex + 1) % graffitiList.length;
+		selectedGraffiti = graffitiList[nextIndex];
 	}
 
-	function prevMural() {
-		if (!selectedMural) return;
-		const currentIndex = muralsList.findIndex((m) => m.id === selectedMural.id);
-		const prevIndex = (currentIndex - 1 + muralsList.length) % muralsList.length;
-		selectedMural = muralsList[prevIndex];
+	function prevGraffiti() {
+		if (!selectedGraffiti) return;
+		const currentIndex = graffitiList.findIndex((m) => m.id === selectedGraffiti.id);
+		const prevIndex = (currentIndex - 1 + graffitiList.length) % graffitiList.length;
+		selectedGraffiti = graffitiList[prevIndex];
 	}
 </script>
 
@@ -85,7 +85,7 @@
 			onSearchChange={(q) => (searchQuery = q)}
 			{selectedCategory}
 			onCategoryChange={(cat) => (selectedCategory = cat)}
-			onOpenModal={openMuralModal}
+			onOpenModal={openGraffitiModal}
 		/>
 
 		<!-- Gallery Grid Section (Top 12 Results) -->
@@ -102,11 +102,11 @@
 						<span
 							class="rounded-full border border-rose-500/30 bg-rose-500/20 px-2.5 sm:px-3 py-0.5 sm:py-1 text-[11px] sm:text-xs font-semibold text-rose-400"
 						>
-							Showing {displayedMurals.length} of {filteredMurals.length} Artworks
+							Showing {displayedGraffiti.length} of {filteredGraffiti.length} Artworks
 						</span>
 					</h2>
 					<p class="mt-1 text-xs text-zinc-400">
-						Displaying top {displayedMurals.length} results {searchQuery
+						Displaying top {displayedGraffiti.length} results {searchQuery
 							? `matching "${searchQuery}"`
 							: ''}
 					</p>
@@ -128,10 +128,10 @@
 			</div>
 
 			<!-- Photos Masonry Columns (Natural Aspect Ratio) -->
-			{#if displayedMurals.length > 0}
+			{#if displayedGraffiti.length > 0}
 				<div class="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6">
-					{#each displayedMurals as mural (mural.id)}
-						<MuralCard {mural} onOpenModal={openMuralModal} />
+					{#each displayedGraffiti as graffiti (graffiti.id)}
+						<GraffitiCard {graffiti} onOpenModal={openGraffitiModal} />
 					{/each}
 				</div>
 
@@ -141,7 +141,7 @@
 						href="/browse"
 						class="group inline-flex items-center justify-center gap-2 rounded-2xl border border-zinc-800 bg-zinc-900 px-6 sm:px-8 py-3.5 sm:py-4 text-xs sm:text-sm font-bold text-white shadow-xl transition-all duration-300 hover:border-rose-500 hover:bg-rose-600 max-w-full"
 					>
-						<span class="truncate">Browse All {filteredMurals.length} Murals & Advanced Filters</span>
+						<span class="truncate">Browse All {filteredGraffiti.length} Graffity & Advanced Filters</span>
 						<span class="transition-transform group-hover:translate-x-1 shrink-0">→</span>
 					</a>
 				</div>
@@ -150,7 +150,9 @@
 				<div
 					class="glass-card mx-auto max-w-xl space-y-4 rounded-3xl border border-zinc-800 p-12 text-center"
 				>
-					<div class="text-5xl">🎨</div>
+					<div class="w-14 h-14 mx-auto rounded-full bg-zinc-800/80 flex items-center justify-center text-zinc-400">
+						<svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+					</div>
 					<h3 class="font-bengali text-xl font-bold text-white">
 						কোনো দেয়ালচিত্র খুঁজে পাওয়া যায়নি
 					</h3>
@@ -165,7 +167,7 @@
 						}}
 						class="rounded-xl bg-rose-600 px-6 py-2.5 text-sm font-semibold text-white shadow-lg shadow-rose-600/30 transition-all hover:bg-rose-500"
 					>
-						সব ম্যুরাল দেখুন
+						সব গ্রাফিতি দেখুন
 					</button>
 				</div>
 			{/if}
@@ -175,12 +177,12 @@
 		<MapExplorer
 			{selectedDistrict}
 			onSelectDistrict={(dist) => (selectedDistrict = dist)}
-			onSelectMural={openMuralModal}
+			onSelectGraffiti={openGraffitiModal}
 		/>
 	</main>
 
 	<!-- Fullscreen Modal -->
-	<MuralModal mural={selectedMural} onClose={closeModal} onNext={nextMural} onPrev={prevMural} />
+	<GraffitiModal graffiti={selectedGraffiti} onClose={closeModal} onNext={nextGraffiti} onPrev={prevGraffiti} />
 
 	<!-- Footer -->
 	<Footer onSelectTab={(tab) => (activeTab = tab)} />

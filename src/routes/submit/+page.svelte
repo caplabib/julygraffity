@@ -1,7 +1,7 @@
-<script>
+﻿<script>
   import Navbar from '$lib/components/Navbar.svelte';
   import Footer from '$lib/components/Footer.svelte';
-  import { submitMuralToSupabase } from '$lib/supabase.js';
+  import { submitGraffitiToSupabase } from '$lib/supabase.js';
 
   // Primary form fields requested
   let email = $state('');
@@ -54,7 +54,7 @@
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'mural_database_sample.json';
+    a.download = 'graffiti_database_sample.json';
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -139,7 +139,7 @@
     };
 
     try {
-      const res = await submitMuralToSupabase(payload);
+      const res = await submitGraffitiToSupabase(payload);
       isSubmitting = false;
 
       submittedSummary = {
@@ -176,7 +176,7 @@
 
 <svelte:head>
   <title>Submit Graffiti | July Revolution Archive</title>
-  <meta name="description" content="Submit July Revolution murals and street art with high-resolution links, detailed wall locations, credits, and database JSON files to help preserve history." />
+  <meta name="description" content="Submit July Revolution graffities and street art with high-resolution links, detailed wall locations, credits, and database JSON files to help preserve history." />
 </svelte:head>
 
 <div class="min-h-screen flex flex-col bg-zinc-950 text-zinc-100 font-sans selection:bg-rose-500 selection:text-white bg-wall-pattern">
@@ -190,7 +190,7 @@
         Community Archival Contribution
       </div>
       <h1 class="text-3xl sm:text-5xl lg:text-6xl font-extrabold font-serif-hero text-white tracking-tight">
-        Submit July Revolution Murals
+        Submit July Revolution Graffiti
       </h1>
       <p class="text-sm sm:text-base lg:text-lg text-zinc-300 font-bengali leading-relaxed px-2">
         জুলাই বিপ্লবের রক্তঝরা দিনগুলোর ঐতিহাসিক দেয়ালচিত্র, স্লোগান ও গ্রাফিতি সংরক্ষণ করতে আপনার তোলা ছবি ও প্রামাণ্য তথ্য জমা দিন।
@@ -225,7 +225,6 @@
           <!-- Disclaimer 1: Rights & Ownership -->
           <div class="p-4 sm:p-5 rounded-2xl bg-zinc-900/80 border border-zinc-800 space-y-2">
             <div class="flex items-center gap-2 text-rose-400 font-bold text-sm sm:text-base">
-              <span>📸</span>
               <span>Image Ownership & Originality (ছবির স্বত্ব)</span>
             </div>
             <p class="text-xs sm:text-sm text-zinc-300 leading-relaxed font-bengali">
@@ -236,7 +235,6 @@
           <!-- Disclaimer 2: Non-Commercial License -->
           <div class="p-4 sm:p-5 rounded-2xl bg-zinc-900/80 border border-zinc-800 space-y-2">
             <div class="flex items-center gap-2 text-rose-400 font-bold text-sm sm:text-base">
-              <span>🏛️</span>
               <span>Open Archival License (সংরক্ষণের অনুমতি)</span>
             </div>
             <p class="text-xs sm:text-sm text-zinc-300 leading-relaxed font-bengali">
@@ -247,7 +245,6 @@
           <!-- Disclaimer 3: Authenticity & Truthfulness -->
           <div class="p-4 sm:p-5 rounded-2xl bg-zinc-900/80 border border-zinc-800 space-y-2">
             <div class="flex items-center gap-2 text-rose-400 font-bold text-sm sm:text-base">
-              <span>🎯</span>
               <span>Authenticity & No AI/Fakes (সত্যতা ও কৃত্রিমতাহীনতা)</span>
             </div>
             <p class="text-xs sm:text-sm text-zinc-300 leading-relaxed font-bengali">
@@ -258,7 +255,6 @@
           <!-- Disclaimer 4: Privacy & Review -->
           <div class="p-4 sm:p-5 rounded-2xl bg-zinc-900/80 border border-zinc-800 space-y-2">
             <div class="flex items-center gap-2 text-rose-400 font-bold text-sm sm:text-base">
-              <span>🛡️</span>
               <span>Privacy & Editorial Verification (যাচাই-বাছাই)</span>
             </div>
             <p class="text-xs sm:text-sm text-zinc-300 leading-relaxed font-bengali">
@@ -273,7 +269,7 @@
     <section class="space-y-4">
       <div class="flex items-center gap-3">
         <h2 class="text-xl sm:text-2xl font-bold font-serif-hero text-white flex items-center gap-2">
-          <span>📋</span> How to Submit & What We Need on the Site <span class="text-xs sm:text-sm font-normal text-zinc-400 font-bengali">(কীভাবে জমা দেবেন ও প্রয়োজনীয় তথ্যাবলী)</span>
+          How to Submit & What We Need on the Site <span class="text-xs sm:text-sm font-normal text-zinc-400 font-bengali">(কীভাবে জমা দেবেন ও প্রয়োজনীয় তথ্যাবলী)</span>
         </h2>
       </div>
 
@@ -320,7 +316,7 @@
         <!-- Required Elements Checklist -->
         <div class="p-5 rounded-2xl bg-zinc-950/60 border border-zinc-800 space-y-3">
           <h4 class="text-xs sm:text-sm font-bold uppercase tracking-wider text-zinc-300 flex items-center gap-2">
-            <span>✨</span> Checklist of Required Details for Site Entry:
+            Checklist of Required Details for Site Entry:
           </h4>
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 text-xs text-zinc-300 font-bengali">
             <div class="flex items-center gap-2">
@@ -401,13 +397,13 @@
                 href="/submissions"
                 class="w-full sm:w-auto px-6 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-white font-semibold text-sm transition-all flex items-center justify-center gap-2 shadow-lg shadow-rose-600/30"
               >
-                <span>📋</span> Track on Submissions Page (স্ট্যাটাস ট্র্যাক করুন) ➔
+                Track on Submissions Page (স্ট্যাটাস ট্র্যাক করুন) ➔
               </a>
               <button
                 onclick={resetForm}
                 class="w-full sm:w-auto px-6 py-2.5 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-zinc-200 font-semibold text-sm transition-all"
               >
-                Submit Another Mural (আরেকটি জমা দিন)
+                Submit Another Graffiti (আরেকটি জমা দিন)
               </button>
             </div>
           </div>
@@ -468,7 +464,6 @@
                 class="w-full px-4 py-3 bg-zinc-950 border border-zinc-700 focus:border-rose-500 rounded-xl text-white text-sm focus:outline-none focus:ring-2 focus:ring-rose-500/20 font-bengali"
               />
               <p class="text-xs text-amber-400/90 flex items-start gap-1.5 font-bengali">
-                <span>💡</span>
                 <span><strong>জরুরি দ্রষ্টব্য:</strong> এই তথ্যটি দিয়ে আমাদের জানাতে হবে গ্রাফিতিটি ঠিক কোন দেয়ালে বা ভবনে আঁকা হয়েছিল (যেমন: অমুক লাইব্রেরির সম্মুখ দেয়াল, অডিটোরিয়াম প্রাচীর ইত্যাদি)।</span>
               </p>
             </div>
@@ -523,7 +518,6 @@
               <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-zinc-800 pb-4">
                 <div class="space-y-1">
                   <div class="flex items-center gap-2">
-                    <span class="text-base sm:text-lg">🗄️</span>
                     <h3 class="text-sm sm:text-base font-bold text-white uppercase tracking-wider">
                       Database JSON File / Schema (ডাটাবেজ JSON ফাইল)
                     </h3>
@@ -542,7 +536,7 @@
                     {#if copiedJson}
                       <span class="text-emerald-400">✓ Copied!</span>
                     {:else}
-                      <span>📋 Copy Template</span>
+                      <span>Copy Template</span>
                     {/if}
                   </button>
 
@@ -551,7 +545,7 @@
                     onclick={downloadTemplate}
                     class="px-3 py-1.5 rounded-lg bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 text-xs font-semibold transition-all flex items-center gap-1.5 border border-rose-500/30"
                   >
-                    <span>⬇️ Download .json</span>
+                    <span>Download .json</span>
                   </button>
                 </div>
               </div>
@@ -565,7 +559,7 @@
                     onclick={generateJsonFromFields}
                     class="text-xs text-rose-400 hover:text-rose-300 underline font-bengali"
                   >
-                    ⚡ ওপরের তথ্য থেকে JSON তৈরি করুন
+                    ওপরের তথ্য থেকে JSON তৈরি করুন
                   </button>
                 </div>
 
@@ -635,7 +629,7 @@
 
             {#if submissionErrorMessage}
               <div class="p-3.5 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-400 text-xs text-center font-medium">
-                ⚠️ {submissionErrorMessage}
+                {submissionErrorMessage}
               </div>
             {/if}
 
@@ -646,11 +640,13 @@
               class="w-full py-4 rounded-2xl bg-gradient-to-r from-rose-600 to-rose-700 hover:from-rose-500 hover:to-rose-600 disabled:opacity-60 disabled:cursor-not-allowed text-white font-bold text-base shadow-xl shadow-rose-600/30 hover:shadow-rose-600/50 transition-all font-bengali flex items-center justify-center gap-2 transform active:scale-[0.99]"
             >
               {#if isSubmitting}
-                <span class="animate-spin text-lg">⏳</span>
+                <svg class="animate-spin w-5 h-5 text-white" fill="none" viewBox="0 0 24 24">
+                  <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                  <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+                </svg>
                 <span>Submitting to Database (ডাটাবেজে পাঠানো হচ্ছে)...</span>
               {:else}
-                <span class="text-lg">📷</span>
-                <span>Submit Mural for Digital Archiving (আর্কাইভে জমা দিন)</span>
+                <span>Submit Graffiti for Digital Archiving (আর্কাইভে জমা দিন)</span>
               {/if}
             </button>
           </form>

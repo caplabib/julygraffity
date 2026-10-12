@@ -1,6 +1,6 @@
-<script>
-  import { muralsData, categories } from '../data/murals.js';
-  import { fetchHeroMurals } from '$lib/supabase.js';
+﻿<script>
+  import { graffitiData, categories } from '../data/graffiti.js';
+  import { fetchHeroGraffiti } from '$lib/supabase.js';
 
   let { 
     searchQuery = '', 
@@ -13,7 +13,7 @@
 
   let currentIndex = $state(0);
   let isPaused = $state(false);
-  let muralsList = $state(muralsData);
+  let graffitiList = $state(graffitiData);
   let isTallScreen = $state(false);
 
   // Touch swipe support
@@ -33,14 +33,14 @@
     return false;
   }
 
-  // Helper to get custom image if column has filename/URL, otherwise fallback to mural.image
-  function getHeroImageSrc(mural, isPortrait) {
-    const specific = isPortrait ? mural.heroPortraits : mural.heroLandscape;
+  // Helper to get custom image if column has filename/URL, otherwise fallback to graffiti.image
+  function getHeroImageSrc(graffiti, isPortrait) {
+    const specific = isPortrait ? graffiti.heroPortraits : graffiti.heroLandscape;
     if (typeof specific === 'string') {
       const trimmed = specific.trim();
       const lower = trimmed.toLowerCase();
       if (['true', 't', '1', 'yes'].includes(lower)) {
-        return mural.image;
+        return graffiti.image;
       }
       if (trimmed.length > 0 && !['false', '0', 'null', 'undefined'].includes(lower)) {
         if (trimmed.startsWith('http://') || trimmed.startsWith('https://') || trimmed.startsWith('/')) {
@@ -49,7 +49,7 @@
         return `https://jvxgqflxmumxhjeywmjp.supabase.co/storage/v1/object/public/julytest/${trimmed}`;
       }
     }
-    return mural.image;
+    return graffiti.image;
   }
 
   // Detect tall screen (mobile / portrait) vs wide screen (PC / landscape)
@@ -71,54 +71,54 @@
     };
   });
 
-  // Load dynamic murals from Supabase on mount
+  // Load dynamic graffiti from Supabase on mount
   $effect(() => {
-    fetchHeroMurals().then((data) => {
+    fetchHeroGraffiti().then((data) => {
       if (data && data.length > 0) {
-        muralsList = data;
+        graffitiList = data;
       }
     });
   });
 
-  // Filter murals separately for tall screen (portraits) vs wide screen (landscape)
-  let activeHeroMurals = $derived.by(() => {
+  // Filter graffiti separately for tall screen (portraits) vs wide screen (landscape)
+  let activeHeroGraffiti = $derived.by(() => {
     if (isTallScreen) {
       // Tall / mobile screen: use hero-portraits
-      const portraitMurals = muralsList.filter(m => isHeroActive(m.heroPortraits));
-      if (portraitMurals.length > 0) return portraitMurals;
+      const portraitGraffiti = graffitiList.filter(m => isHeroActive(m.heroPortraits));
+      if (portraitGraffiti.length > 0) return portraitGraffiti;
     } else {
       // Wide / PC screen: use hero-landscape
-      const landscapeMurals = muralsList.filter(m => isHeroActive(m.heroLandscape));
-      if (landscapeMurals.length > 0) return landscapeMurals;
+      const landscapeGraffiti = graffitiList.filter(m => isHeroActive(m.heroLandscape));
+      if (landscapeGraffiti.length > 0) return landscapeGraffiti;
     }
     // Fallback if no matching records yet
-    return muralsList;
+    return graffitiList;
   });
 
   // Ensure current index is within bounds when list shifts
   $effect(() => {
-    if (currentIndex >= activeHeroMurals.length) {
+    if (currentIndex >= activeHeroGraffiti.length) {
       currentIndex = 0;
     }
   });
 
   // Auto-play interval
   $effect(() => {
-    if (isPaused || activeHeroMurals.length === 0) return;
+    if (isPaused || activeHeroGraffiti.length === 0) return;
     const timer = setInterval(() => {
-      currentIndex = (currentIndex + 1) % activeHeroMurals.length;
+      currentIndex = (currentIndex + 1) % activeHeroGraffiti.length;
     }, 4000);
     return () => clearInterval(timer);
   });
 
   function nextSlide() {
-    if (activeHeroMurals.length === 0) return;
-    currentIndex = (currentIndex + 1) % activeHeroMurals.length;
+    if (activeHeroGraffiti.length === 0) return;
+    currentIndex = (currentIndex + 1) % activeHeroGraffiti.length;
   }
 
   function prevSlide() {
-    if (activeHeroMurals.length === 0) return;
-    currentIndex = (currentIndex - 1 + activeHeroMurals.length) % activeHeroMurals.length;
+    if (activeHeroGraffiti.length === 0) return;
+    currentIndex = (currentIndex - 1 + activeHeroGraffiti.length) % activeHeroGraffiti.length;
   }
 
   function handleTouchStart(e) {
@@ -158,7 +158,7 @@
       touchMoved = false;
       return;
     }
-    onOpenModal(currentMural);
+    onOpenModal(currentGraffiti);
   }
 
   function scrollToContent(e) {
@@ -169,7 +169,7 @@
     }
   }
 
-  let currentMural = $derived(activeHeroMurals[currentIndex % activeHeroMurals.length] || activeHeroMurals[0] || muralsList[0]);
+  let currentGraffiti = $derived(activeHeroGraffiti[currentIndex % activeHeroGraffiti.length] || activeHeroGraffiti[0] || graffitiList[0]);
 </script>
 
 <!-- svelte-ignore a11y_no_static_element_interactions -->
@@ -179,22 +179,22 @@
   ontouchstart={handleTouchStart}
   ontouchend={handleTouchEnd}
   onclick={handleHeroClick}
-  onkeydown={(e) => (e.key === 'Enter' || e.key === ' ') && onOpenModal(currentMural)}
+  onkeydown={(e) => (e.key === 'Enter' || e.key === ' ') && onOpenModal(currentGraffiti)}
   role="button"
   tabindex="0"
-  aria-label="View artwork details for {currentMural?.titleEn || currentMural?.titleBn}"
+  aria-label="View artwork details for {currentGraffiti?.titleEn || currentGraffiti?.titleBn}"
   class="hero-viewport-container relative w-full overflow-hidden group select-none border-b border-zinc-800/80 cursor-pointer focus:outline-none"
   class:is-tall={isTallScreen}
   class:is-wide={!isTallScreen}
 >
   <!-- Background Image Carousel with Crossfade & Responsive Image Sources -->
-  {#each activeHeroMurals as mural, idx (mural.id)}
+  {#each activeHeroGraffiti as graffiti, idx (graffiti.id)}
     <div 
       class="absolute inset-0 w-full h-full transition-opacity duration-700 ease-in-out {idx === currentIndex ? 'opacity-100 z-10' : 'opacity-0 z-0 pointer-events-none'}"
     >
       <div 
         class="absolute inset-0 w-full h-full bg-cover bg-center transform scale-105 transition-transform duration-[7000ms] ease-linear will-change-transform"
-        style="background-image: url('{getHeroImageSrc(mural, isTallScreen)}'); {idx === currentIndex ? 'transform: scale(1.0);' : ''}"
+        style="background-image: url('{getHeroImageSrc(graffiti, isTallScreen)}'); {idx === currentIndex ? 'transform: scale(1.0);' : ''}"
       ></div>
       <!-- Dark Gradient Overlay tuned separately for portrait vs landscape -->
       {#if isTallScreen}
@@ -230,7 +230,7 @@
   <!-- Slide Counter Pill (Top-Right or Bottom-Right) -->
   <div class="absolute top-4 right-4 sm:top-6 sm:right-6 z-30 pointer-events-none">
     <div class="px-3 py-1 rounded-full bg-zinc-950/70 border border-zinc-700/70 backdrop-blur-md text-[11px] sm:text-xs text-zinc-300 font-mono shadow-lg">
-      {currentIndex + 1} / {activeHeroMurals.length}
+      {currentIndex + 1} / {activeHeroGraffiti.length}
     </div>
   </div>
 
@@ -241,7 +241,7 @@
       <!-- Location Badge -->
       <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-zinc-950/80 backdrop-blur-md border border-zinc-700/80 text-zinc-300 text-[11px] font-medium max-w-full">
         <svg class="w-3 h-3 text-rose-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-        <span class="truncate">{currentMural.location || currentMural.district}</span>
+        <span class="truncate">{currentGraffiti.location || currentGraffiti.district}</span>
       </div>
 
       <!-- Main Titles for Tall Screen -->
@@ -250,14 +250,14 @@
           Walls of July
         </h1>
         <h2 class="font-bold font-bengali text-amber-300 mt-1 truncate drop-shadow-md text-base sm:text-lg">
-          {currentMural.titleBn}
+          {currentGraffiti.titleBn}
         </h2>
       </div>
 
       <!-- Slogan / Subtitle for Tall Screen -->
-      {#if currentMural.slogan}
+      {#if currentGraffiti.slogan}
         <p class="text-xs text-zinc-200 font-bengali font-semibold line-clamp-1 drop-shadow-md">
-          "{currentMural.slogan}"
+          "{currentGraffiti.slogan}"
         </p>
       {:else}
         <p class="text-xs text-zinc-300 font-sans line-clamp-2 drop-shadow-md">
@@ -271,7 +271,7 @@
       <!-- Location Badge -->
       <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-zinc-950/75 backdrop-blur-md border border-zinc-700/80 text-zinc-300 text-xs font-medium max-w-full shadow-lg">
         <svg class="w-3.5 h-3.5 text-rose-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-        <span class="truncate">{currentMural.location}, {currentMural.district}</span>
+        <span class="truncate">{currentGraffiti.location}, {currentGraffiti.district}</span>
       </div>
 
       <!-- Main Titles for Wide Screen -->
@@ -280,14 +280,14 @@
           Walls of July
         </h1>
         <h2 class="font-bold font-bengali text-amber-300 mt-2 truncate drop-shadow-md text-xl lg:text-3xl">
-          {currentMural.titleBn}
+          {currentGraffiti.titleBn}
         </h2>
       </div>
 
       <!-- Description Subtitle for Wide Screen -->
       <p class="text-sm lg:text-base text-zinc-300 font-sans max-w-xl leading-relaxed drop-shadow-md">
-        {#if currentMural.slogan}
-          <span class="text-amber-200/90 font-bengali font-semibold">"{currentMural.slogan}"</span> — 
+        {#if currentGraffiti.slogan}
+          <span class="text-amber-200/90 font-bengali font-semibold">"{currentGraffiti.slogan}"</span> — 
         {/if}
         A photographic record of the graffiti left behind after the July Revolution.
       </p>

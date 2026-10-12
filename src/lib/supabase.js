@@ -1,4 +1,4 @@
-import { createClient } from '@supabase/supabase-js';
+﻿import { createClient } from '@supabase/supabase-js';
 
 const getEnv = (key) => {
   if (typeof import.meta !== 'undefined' && import.meta && import.meta.env && import.meta.env[key]) {
@@ -16,12 +16,12 @@ const supabaseAnonKey = getEnv('VITE_SUPABASE_ANON_KEY');
 export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 /**
- * Fetch murals from Supabase database and map database schema to frontend structure.
+ * Fetch graffiti from Supabase database and map database schema to frontend structure.
  */
-export async function fetchMurals() {
+export async function fetchGraffiti() {
   try {
     const { data, error } = await supabase
-      .from('murals')
+      .from('graffities')
       .select('*')
       .order('created_at', { ascending: false });
 
@@ -37,8 +37,8 @@ export async function fetchMurals() {
     return data.map((item) => ({
       id: item.id,
       image: item.image,
-      titleBn: item.title_bn || item.titleBn || item.title_en || 'Mural',
-      titleEn: item.title_en || item.titleEn || item.title_bn || 'Mural',
+      titleBn: item.title_bn || item.titleBn || item.title_en || 'Graffiti',
+      titleEn: item.title_en || item.titleEn || item.title_bn || 'Graffiti',
       location: item.location || '',
       district: item.district || '',
       upzila: item.upzila || '',
@@ -61,9 +61,9 @@ export async function fetchMurals() {
 }
 
 /**
- * Fetch hero murals from graffitybackup1 table.
+ * Fetch hero graffiti from graffitybackup1 table.
  */
-export async function fetchHeroMurals() {
+export async function fetchHeroGraffiti() {
   try {
     const { data, error } = await supabase
       .from('graffitybackup1')
@@ -82,8 +82,8 @@ export async function fetchHeroMurals() {
     return data.map((item) => ({
       id: item.id,
       image: item.image,
-      titleBn: item.title_bn || item.titleBn || item.title_en || 'Mural',
-      titleEn: item.title_en || item.titleEn || item.title_bn || 'Mural',
+      titleBn: item.title_bn || item.titleBn || item.title_en || 'Graffiti',
+      titleEn: item.title_en || item.titleEn || item.title_bn || 'Graffiti',
       location: item.location || '',
       district: item.district || '',
       slogan: item.slogan || '',
@@ -91,7 +91,7 @@ export async function fetchHeroMurals() {
       heroPortraits: item['hero-portraits'] ?? item['hero_portraits'] ?? item.heroPortraits ?? item['hero-portrait'] ?? item['hero_portrait'] ?? item.heroPortrait ?? null
     }));
   } catch (err) {
-    console.error('Failed to fetch hero murals from Supabase:', err);
+    console.error('Failed to fetch hero graffiti from Supabase:', err);
     return null;
   }
 }
@@ -205,9 +205,9 @@ function saveLocalSubmissions(submissions) {
 }
 
 /**
- * Submit a mural to Supabase submissions table
+ * Submit a graffiti to Supabase submissions table
  */
-export async function submitMuralToSupabase(payload) {
+export async function submitGraffitiToSupabase(payload) {
   const row = {
     email: payload.email,
     detaillocation: payload.detaillocation || payload.location,
@@ -245,7 +245,7 @@ export async function submitMuralToSupabase(payload) {
 
     return { data, error: null, isFallback: false };
   } catch (err) {
-    console.error('Failed to submit mural to Supabase:', err);
+    console.error('Failed to submit graffiti to Supabase:', err);
     // Save to local storage on error
     const fallbackItem = { ...row, id: 'local-' + Date.now(), isLocal: true };
     const localList = getLocalSubmissions();
