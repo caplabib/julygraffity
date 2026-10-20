@@ -78,7 +78,6 @@
     // track dependencies
     searchQuery;
     selectedCategory;
-    selectedDistrict;
     sortBy;
     currentPage = 1;
   });
@@ -102,6 +101,7 @@
   function resetFilters() {
     searchQuery = '';
     selectedCategory = 'All';
+    sortBy = 'featured';
     currentPage = 1;
   }
 
@@ -147,7 +147,7 @@
         Browse All July Graffiti
       </h1>
       <p class="text-xs sm:text-base text-zinc-400 font-bengali leading-relaxed px-2">
-        জুলাই বিপ্লবের সংগৃহীত সকল দেয়ালচিত্র অনুসন্ধান করুন, ক্যাটাগরি ও জেলা ফিল্টার প্রয়োগ করে আপনার পছন্দের শিল্পকর্মগুলো বিস্তারিত দেখুন।
+        জুলাই বিপ্লবের সংগৃহীত সকল দেয়ালচিত্র অনুসন্ধান করুন, ক্যাটাগরি ও ফিল্টার প্রয়োগ করে আপনার পছন্দের শিল্পকর্মগুলো বিস্তারিত দেখুন।
       </p>
     </div>
 
@@ -182,7 +182,8 @@
           Filter by Category:
         </span>
         <div 
-          class="flex items-center gap-1.5 sm:gap-2 overflow-x-auto pb-2 pt-1 custom-h-scrollbar scroll-smooth -mx-1 px-1"
+          use:dragScroll
+          class="flex items-center gap-1.5 sm:gap-2 overflow-x-auto pb-2 pt-1 custom-h-scrollbar scroll-smooth cursor-grab active:cursor-grabbing select-none -mx-1 px-1"
         >
           {#each categories as cat}
             <button
@@ -231,7 +232,7 @@
           </h2>
         </div>
 
-        {#if searchQuery || selectedCategory !== 'All' || selectedDistrict !== 'All Districts'}
+        {#if searchQuery || selectedCategory !== 'All' || sortBy !== 'featured'}
           <button
             onclick={resetFilters}
             class="text-xs text-rose-400 hover:text-rose-300 font-semibold underline"

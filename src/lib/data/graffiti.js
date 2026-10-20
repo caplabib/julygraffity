@@ -543,4 +543,16 @@ export const categories = [
   'Dynamicshot',
 ];
 
+export const districts = [
+  'All Districts',
+  'Dhaka',
+  'Rangpur',
+  'Chittagong',
+  'Rajshahi',
+  'Sylhet',
+  'Khulna',
+  'Mymensingh',
+  'Barishal'
+];
+
 
