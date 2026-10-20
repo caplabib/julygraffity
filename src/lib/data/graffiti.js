@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @typedef {Object} Mural
  * @property {string} id
  * @property {string} image
@@ -543,15 +543,4 @@ export const categories = [
   'Dynamicshot',
 ];
 
-export const districts = [
-  'All Districts',
-  'Dhaka',
-  'Savar',
-  'Rangpur',
-  'Chittagong',
-  'Rajshahi',
-  'Sylhet',
-  'Khulna',
-  'Mymensingh'
-];
 

@@ -1,11 +1,10 @@
-﻿<script>
+<script>
 	import { graffitiData } from '$lib/data/graffiti.js';
 	import { fetchGraffiti } from '$lib/supabase.js';
 	import Navbar from '$lib/components/Navbar.svelte';
 	import Hero from '$lib/components/Hero.svelte';
 	import GraffitiCard from '$lib/components/GraffitiCard.svelte';
 	import GraffitiModal from '$lib/components/GraffitiModal.svelte';
-	import MapExplorer from '$lib/components/MapExplorer.svelte';
 	import AboutSection from '$lib/components/AboutSection.svelte';
 	import Footer from '$lib/components/Footer.svelte';
 
@@ -172,13 +171,6 @@
 				</div>
 			{/if}
 		</section>
-
-		<!-- Map Explorer Section Preview -->
-		<MapExplorer
-			{selectedDistrict}
-			onSelectDistrict={(dist) => (selectedDistrict = dist)}
-			onSelectGraffiti={openGraffitiModal}
-		/>
 	</main>
 
 	<!-- Fullscreen Modal -->

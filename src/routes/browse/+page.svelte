@@ -1,5 +1,5 @@
-﻿<script>
-  import { graffitiData, categories, districts } from '$lib/data/graffiti.js';
+<script>
+  import { graffitiData, categories } from '$lib/data/graffiti.js';
   import { fetchGraffiti } from '$lib/supabase.js';
   import Navbar from '$lib/components/Navbar.svelte';
   import GraffitiCard from '$lib/components/GraffitiCard.svelte';
@@ -9,7 +9,6 @@
 
   let searchQuery = $state('');
   let selectedCategory = $state('All');
-  let selectedDistrict = $state('All Districts');
   let sortBy = $state('featured'); // 'featured', 'likes', 'title'
   let selectedGraffiti = $state(null);
   let currentPage = $state(1);
@@ -42,11 +41,7 @@
           selectedCategory === 'All' || 
           graffiti.category === selectedCategory;
 
-        const matchesDistrict = 
-          selectedDistrict === 'All Districts' || 
-          graffiti.district === selectedDistrict;
-
-        return matchesSearch && matchesCategory && matchesDistrict;
+        return matchesSearch && matchesCategory;
       })
       .sort((a, b) => {
         if (sortBy === 'likes') return (b.likes || 0) - (a.likes || 0);
@@ -107,7 +102,6 @@
   function resetFilters() {
     searchQuery = '';
     selectedCategory = 'All';
-    selectedDistrict = 'All Districts';
     currentPage = 1;
   }
 
@@ -201,31 +195,20 @@
         </div>
       </div>
 
-      <!-- Third Row: District & Sort Dropdowns -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 pt-2 border-t border-zinc-800/80">
-        <div>
-          <label for="districtSelectBrowse" class="block text-[11px] sm:text-xs font-bold uppercase tracking-wider text-zinc-400 mb-1.5 sm:mb-2">
-            Filter by District / Region:
-          </label>
-          <select
-            id="districtSelectBrowse"
-            bind:value={selectedDistrict}
-            class="w-full px-3.5 sm:px-4 py-2.5 sm:py-3 bg-zinc-950 border border-zinc-700 rounded-xl text-white text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-rose-500"
-          >
-            {#each districts as dist}
-              <option value={dist}>{dist}</option>
-            {/each}
-          </select>
-        </div>
+      <!-- Third Row: Sort Controls -->
+      <div class="flex items-center justify-between gap-3 pt-2 border-t border-zinc-800/80">
+        <span class="text-xs text-zinc-400">
+          Showing <strong class="text-white">{filteredGraffiti.length}</strong> artworks
+        </span>
 
-        <div>
-          <label for="sortSelectBrowse" class="block text-[11px] sm:text-xs font-bold uppercase tracking-wider text-zinc-400 mb-1.5 sm:mb-2">
-            Sort Graffiti By:
+        <div class="flex items-center gap-2">
+          <label for="sortSelectBrowse" class="text-xs font-bold uppercase tracking-wider text-zinc-400 shrink-0">
+            Sort By:
           </label>
           <select
             id="sortSelectBrowse"
             bind:value={sortBy}
-            class="w-full px-3.5 sm:px-4 py-2.5 sm:py-3 bg-zinc-950 border border-zinc-700 rounded-xl text-white text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-rose-500"
+            class="px-3.5 py-2 bg-zinc-950 border border-zinc-700 rounded-xl text-white text-xs focus:outline-none focus:ring-2 focus:ring-rose-500"
           >
             <option value="featured">Featured Order</option>
             <option value="likes">Most Popular (Likes)</option>
