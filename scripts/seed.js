@@ -1,5 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
-import { muralsData } from '../src/lib/data/murals.js';
+import { graffitiData } from '../src/lib/data/graffiti.js';
 import process from 'node:process';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -40,9 +40,9 @@ if (!supabaseUrl || !supabaseAnonKey) {
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 async function seed() {
-  console.log(`🚀 Starting upload of ${muralsData.length} murals to Supabase...`);
+  console.log(`🚀 Starting upload of ${graffitiData.length} murals to Supabase...`);
 
-  const records = muralsData.map((mural) => ({
+  const records = graffitiData.map((mural) => ({
     id: mural.id,
     image: mural.image.replace(/^\/pictures\//, ''),
     title_bn: mural.titleBn,

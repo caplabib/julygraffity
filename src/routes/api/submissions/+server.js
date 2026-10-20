@@ -1,6 +1,17 @@
 import { json } from '@sveltejs/kit';
-import { supabase } from '$lib/supabase.js';
+import { env as privateEnv } from '$env/dynamic/private';
+import { createClient } from '@supabase/supabase-js';
+import { supabase as defaultClient } from '$lib/supabase.js';
 import { getModeratorSecret, verifyAdminToken } from '$lib/server/admin.js';
+
+function getDatabaseClient() {
+  const serviceKey = privateEnv.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY;
+  const url = privateEnv.VITE_SUPABASE_URL || process.env.VITE_SUPABASE_URL;
+  if (serviceKey && url) {
+    return createClient(url, serviceKey, { auth: { persistSession: false } });
+  }
+  return defaultClient;
+}
 
 function maskEmail(email) {
   if (!email || !email.includes('@')) return 'Protected Email';
@@ -20,7 +31,8 @@ export async function GET({ request }) {
     const secret = getModeratorSecret();
     const isAuthorized = token ? verifyAdminToken(token, secret) : false;
 
-    const { data, error } = await supabase
+    const client = getDatabaseClient();
+    const { data, error } = await client
       .from('submissions')
       .select('*')
       .order('created_at', { ascending: false });
@@ -87,11 +99,13 @@ export async function PATCH({ request }) {
     if (status) updates.status = status;
     if (typeof adminNotes !== 'undefined') updates.admin_notes = adminNotes;
 
-    const { data, error } = await supabase
+    const client = getDatabaseClient();
+    const { data, error } = await client
       .from('submissions')
       .update(updates)
       .eq('id', id)
       .select();
+
 
     if (error) {
       return json({ success: false, error: error.message }, { status: 400 });

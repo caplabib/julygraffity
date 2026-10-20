@@ -56,22 +56,26 @@ JulyGrafityWeb/
 │   ├── app.html            # HTML shell with Google Fonts & SEO metadata
 │   ├── lib/
 │   │   ├── components/
-│   │   │   ├── Navbar.svelte       # Primary navigation bar
-│   │   │   ├── Hero.svelte         # Full-bleed Hero Carousel
-│   │   │   ├── MuralCard.svelte    # Natural aspect ratio overlay item
-│   │   │   ├── MuralModal.svelte   # Fullscreen Lightbox viewer
-│   │   │   ├── MapExplorer.svelte  # Geographic district filter
-│   │   │   ├── AboutSection.svelte # Historical overview component
-│   │   │   └── Footer.svelte       # Footer with tribute statement
+│   │   │   ├── Navbar.svelte         # Primary navigation bar
+│   │   │   ├── Hero.svelte           # Full-bleed Hero Carousel
+│   │   │   ├── GraffitiCard.svelte   # Natural aspect ratio overlay item
+│   │   │   ├── GraffitiModal.svelte  # Fullscreen Lightbox viewer
+│   │   │   ├── MapExplorer.svelte    # Geographic district filter
+│   │   │   ├── AboutSection.svelte   # Historical overview component
+│   │   │   ├── TeamSection.svelte    # Contributor & developer team showcase
+│   │   │   └── Footer.svelte         # Footer with tribute statement
 │   │   └── data/
-│   │       └── murals.js           # Archived murals dataset
+│   │       └── graffiti.js           # Archived graffiti dataset
 │   └── routes/
-│       ├── +page.svelte            # Home Page (Carousel, Top-12 Showcase, Map)
-│       ├── browse/+page.svelte     # Full Catalog & Advanced Filters
-│       ├── about/+page.svelte      # Dedicated History & Mission Page
-│       ├── submit/+page.svelte     # Dedicated Photo Submission Page
-│       └── support/+page.svelte    # Dedicated Project Support Page
-├── LICENSE                 # Creative Commons Attribution 4.0 International
+│       ├── +page.svelte              # Home Page (Carousel, Top-12 Showcase, Map)
+│       ├── browse/+page.svelte       # Full Catalog & Advanced Filters
+│       ├── about/+page.svelte        # Dedicated History & Mission Page
+│       ├── submit/+page.svelte       # Dedicated Photo Submission Page
+│       ├── submissions/+page.svelte  # Submissions Status Tracking & Moderator Hub
+│       ├── contributors/+page.svelte # Contributor Directory & Stats
+│       ├── contact/+page.svelte      # Contact & Feedback Form
+│       └── support/+page.svelte      # Dedicated Project Support Page
+├── LICENSE                           # Creative Commons Attribution 4.0 International
 └── package.json
 ```
 

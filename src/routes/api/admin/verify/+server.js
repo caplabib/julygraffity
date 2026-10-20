@@ -16,9 +16,14 @@ export async function POST({ request }) {
 
     const secret = getModeratorSecret();
 
+    if (!secret) {
+      return json({ success: false, error: 'Moderator access is not configured on this server.' }, { status: 503 });
+    }
+
     // Constant-time comparison to prevent timing attacks
     const bufferA = Buffer.from(passcode.trim());
     const bufferB = Buffer.from(secret.trim());
+
 
     const isMatch = bufferA.length === bufferB.length && crypto.timingSafeEqual(bufferA, bufferB);
 

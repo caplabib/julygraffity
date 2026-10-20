@@ -24,20 +24,29 @@
   let copiedModalJson = $state(false);
   let copiedGraffitiJs = $state(false);
 
+  let adminToken = $state('');
+  let isAuthenticating = $state(false);
+
   onMount(async () => {
-    // Sync latest submissions from database if available
+    // Sync latest submissions securely from server API
     await loadSubmissions();
   });
 
   async function loadSubmissions() {
-    const res = await fetchSubmissionsFromSupabase();
-    if (res.data && res.data.length > 0) {
-      submissions = res.data;
+    try {
+      const headers = {};
+      if (adminToken) {
+        headers['Authorization'] = `Bearer ${adminToken}`;
+      }
+      const res = await fetch('/api/submissions', { headers });
+      const json = await res.json();
+      if (json.success && Array.isArray(json.data) && json.data.length > 0) {
+        submissions = json.data;
+      }
+    } catch (err) {
+      console.warn('Failed to refresh submissions from server API:', err);
     }
   }
-
-  let adminToken = $state('');
-  let isAuthenticating = $state(false);
 
   async function unlockAdmin() {
     if (!adminPasswordInput.trim()) {
@@ -61,6 +70,8 @@
         adminToken = data.token;
         adminPasswordInput = '';
         adminAuthError = '';
+        // Fetch full unmasked data from protected API
+        await loadSubmissions();
       } else {
         adminAuthError = data.error || 'Invalid moderator passcode.';
       }
@@ -69,6 +80,7 @@
       adminAuthError = 'Verification request failed. Please check connection.';
     }
   }
+
 
   async function handleStatusUpdate(submission, newStatus, notes) {
     updatingId = submission.id;

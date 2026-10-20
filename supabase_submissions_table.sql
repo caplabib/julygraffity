@@ -27,27 +27,32 @@ GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO anon, authenticated, se
 -- 3. Enable Row Level Security (RLS) and create policies
 ALTER TABLE public.submissions ENABLE ROW LEVEL SECURITY;
 
+-- 3a. Read access: Public can view submissions (sensitive fields like email are masked by the application API)
 DROP POLICY IF EXISTS "Allow public select from submissions" ON public.submissions;
 CREATE POLICY "Allow public select from submissions"
 ON public.submissions
 FOR SELECT
-TO anon, authenticated
+TO anon, authenticated, service_role
 USING (true);
 
+-- 3b. Create access: Community members can submit entries
 DROP POLICY IF EXISTS "Allow public insert to submissions" ON public.submissions;
 CREATE POLICY "Allow public insert to submissions"
 ON public.submissions
 FOR INSERT
-TO anon, authenticated
+TO anon, authenticated, service_role
 WITH CHECK (true);
 
+-- 3c. Update access: Only the server-side service role (or authenticated moderators) can approve/reject entries
 DROP POLICY IF EXISTS "Allow public update submissions" ON public.submissions;
-CREATE POLICY "Allow public update submissions"
+DROP POLICY IF EXISTS "Allow service role update submissions" ON public.submissions;
+CREATE POLICY "Allow service role update submissions"
 ON public.submissions
 FOR UPDATE
-TO anon, authenticated
+TO service_role
 USING (true)
 WITH CHECK (true);
+
 
 -- 4. INSERT REALISTIC DUMMY SUBMISSION RECORDS
 INSERT INTO public.submissions (
