@@ -1,4 +1,4 @@
-﻿<script>
+<script>
   let { graffiti = {}, onOpenModal = () => {} } = $props();
 
   let isLiked = $state(false);
@@ -47,7 +47,7 @@
   class="group inline-block w-full align-top cursor-pointer break-inside-avoid mb-6 select-none"
 >
   <!-- Image Wrapper (Guarantees Overlay is Attached Directly to Image) -->
-  <div class="relative w-full overflow-hidden rounded-2xl border border-zinc-800/80 group-hover:border-rose-500/60 shadow-2xl transition-all duration-300">
+  <div class="relative w-full overflow-hidden rounded-2xl border border-zinc-800/80 group-hover:border-rose-500/60 shadow-2xl transition-all duration-300 min-h-[180px] bg-zinc-900/80">
     
     <!-- Image preserving natural aspect ratio -->
     <img 

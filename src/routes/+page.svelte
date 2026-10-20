@@ -128,7 +128,7 @@
 
 			<!-- Photos Masonry Columns (Natural Aspect Ratio) -->
 			{#if displayedGraffiti.length > 0}
-				<div class="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6">
+				<div class="columns-1 sm:columns-2 lg:columns-3 gap-6">
 					{#each displayedGraffiti as graffiti (graffiti.id)}
 						<GraffitiCard {graffiti} onOpenModal={openGraffitiModal} />
 					{/each}

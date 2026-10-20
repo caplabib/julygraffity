@@ -5,7 +5,6 @@
   import GraffitiCard from '$lib/components/GraffitiCard.svelte';
   import GraffitiModal from '$lib/components/GraffitiModal.svelte';
   import Footer from '$lib/components/Footer.svelte';
-  import { dragScroll } from '$lib/utils/dragScroll.js';
 
   let searchQuery = $state('');
   let selectedCategory = $state('All');
@@ -182,8 +181,7 @@
           Filter by Category:
         </span>
         <div 
-          use:dragScroll
-          class="flex items-center gap-1.5 sm:gap-2 overflow-x-auto pb-2 pt-1 custom-h-scrollbar scroll-smooth cursor-grab active:cursor-grabbing select-none -mx-1 px-1"
+          class="flex items-center gap-1.5 sm:gap-2 overflow-x-auto pb-2 pt-1 custom-h-scrollbar scroll-smooth -mx-1 px-1"
         >
           {#each categories as cat}
             <button
@@ -244,7 +242,7 @@
 
       {#if paginatedGraffiti.length > 0}
         <!-- Masonry Grid -->
-        <div class="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-2">
+        <div class="columns-1 sm:columns-2 lg:columns-3 gap-6">
           {#each paginatedGraffiti as graffiti (graffiti.id)}
             <GraffitiCard 
               {graffiti} 

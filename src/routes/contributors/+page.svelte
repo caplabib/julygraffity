@@ -1,7 +1,7 @@
 <script>
 	import Navbar from '$lib/components/Navbar.svelte';
 	import Footer from '$lib/components/Footer.svelte';
-	import TeamSection from '$lib/components/TeamSection.svelte';
+	import extendedContributors from '$lib/data/contributors.json';
 
 	let selectedCategory = $state('all');
 
@@ -10,75 +10,6 @@
 		{ label: 'Photographers & Archivists', value: '32+', labelBn: 'চিত্রগ্রাহক ও সংগ্রাহক' },
 		{ label: 'Graffity Collectives', value: '12+', labelBn: 'দেয়ালচিত্র দল' },
 		{ label: 'Tech & Metadata Volunteers', value: '4+', labelBn: 'আইটি ও ডেটা স্বেচ্ছাসেবক' }
-	];
-
-	const extendedContributors = [
-		{
-			id: 1,
-			name: 'Cap Labib',
-			role: 'Lead Developer & Maintainer',
-			roleBn: 'প্রধান ওয়েবসাইট ডেভেলপার ও টেকনিক্যাল পরিচালক',
-			category: 'tech',
-			location: 'RANGPUR, BANGLADESH',
-			contributions: 'Platform Architecture, SvelteKit 5 UI, Metadata System, CC BY 4.0 Archive',
-			icon: '/icons/person.svg',
-			badge: 'Developer'
-		},
-		{
-			id: 2,
-			name: 'Riazul Alam Rony',
-			role: 'Core Photo Archivist & Photographer',
-			roleBn: 'চিত্রগ্রাহক ও কোর ফটো আর্কাইভ ভলান্টিয়ার',
-			category: 'photo',
-			location: 'RANGPUR, BANGLADESH',
-			contributions: 'High-definition photography documentation of Rangpur division street graffities',
-			icon: '/icons/person.svg',
-			badge: 'Photographer'
-		},
-		{
-			id: 3,
-			name: 'Rafi Ahmed',
-			role: 'Photo Editor & Regional Archivist',
-			roleBn: 'ফটো এডিটর ও আঞ্চলিক চিত্র সংগ্রাহক',
-			category: 'photo',
-			location: 'THAKURGAON, BANGLADESH',
-			contributions: 'Digital image editing, color correction, and metadata cataloging',
-			icon: '/icons/person.svg',
-			badge: 'Editor'
-		},
-		{
-			id: 4,
-			name: 'Faculty of Fine Arts (Charukala) Student Alliance',
-			role: 'Graffity Artists & Calligraphers',
-			roleBn: 'চারুকলা ছাত্র জোট ও দেয়ালচিত্র শিল্পী দল',
-			category: 'artists',
-			location: 'DHAKA / RANGPUR, BANGLADESH',
-			contributions: 'Original calligraphy compositions ("পানি লাগবে কারো?", "বিকল্প কে?")',
-			icon: '/icons/groups.svg',
-			badge: 'Art Collective'
-		},
-		{
-			id: 5,
-			name: 'Begum Rokeya University (BRUR) Youth Collective',
-			role: 'Regional Graffity Collectives',
-			roleBn: 'রংপুর তরুণ সংগ্রাহক ও দেয়ালচিত্র শিল্পী দল',
-			category: 'artists',
-			location: 'RANGPUR, BANGLADESH',
-			contributions: 'Shaheed Abu Sayed memorial gate graffities & campus boundary artwork',
-			icon: '/icons/groups.svg',
-			badge: 'Art Collective'
-		},
-		{
-			id: 6,
-			name: 'Chittagong & Jahangirnagar Student Photographers',
-			role: 'Divisional Photo Archivists',
-			roleBn: 'চট্টগ্রাম ও জাবি ছাত্র আলোকচিত্রী দল',
-			category: 'photo',
-			location: 'CHITTAGONG / SAVAR, BANGLADESH',
-			contributions: 'Photographic documentation of port city & JU campus resistance graffities',
-			icon: '/icons/groups.svg',
-			badge: 'Photographers'
-		}
 	];
 
 	let filteredContributors = $derived(

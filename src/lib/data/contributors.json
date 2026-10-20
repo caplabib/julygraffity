@@ -1,0 +1,35 @@
+[
+	{
+		"id": 1,
+		"name": "Cap Labib",
+		"role": "Lead Developer & Maintainer",
+		"roleBn": "প্রধান ওয়েবসাইট ডেভেলপার ও টেকনিক্যাল পরিচালক",
+		"category": "tech",
+		"location": "RANGPUR, BANGLADESH",
+		"contributions": "Platform Architecture, SvelteKit 5 UI, Metadata System, CC BY 4.0 Archive",
+		"icon": "/icons/person.svg",
+		"badge": "Developer"
+	},
+	{
+		"id": "2",
+		"name": "Riazul Alam Rony",
+		"role": "Core Photo Archivist & Photographer",
+		"roleBn": "চিত্রগ্রাহক ও কোর ফটো আর্কাইভ ভলান্টিয়ার",
+		"category": "photo",
+		"location": "RANGPUR, BANGLADESH",
+		"contributions": "High-definition photography documentation of Rangpur division street graffities",
+		"icon": "/icons/person.svg",
+		"badge": "Photographer"
+	},
+	{
+		"id": 3,
+		"name": "Rafi Ahmed",
+		"role": "Photo Editor & Regional Archivist",
+		"roleBn": "ফটো এডিটর ও আঞ্চলিক চিত্র সংগ্রাহক",
+		"category": "photo",
+		"location": "THAKURGAON, BANGLADESH",
+		"contributions": "Digital image editing, color correction, and metadata cataloging",
+		"icon": "/icons/person.svg",
+		"badge": "Editor"
+	}
+]

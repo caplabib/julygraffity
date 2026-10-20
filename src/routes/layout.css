@@ -82,6 +82,8 @@
   scrollbar-width: thin;
   scrollbar-color: #3f3f46 transparent;
   -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+  overscroll-behavior-y: auto;
 }
 .custom-h-scrollbar::-webkit-scrollbar {
   height: 6px;
@@ -127,10 +129,15 @@
   padding-top: env(safe-area-inset-top, 0px);
 }
 
-/* Prevent horizontal overflow on mobile */
-html, body {
-  overflow-x: hidden;
+/* Prevent horizontal overflow on mobile without creating nested scroll containers */
+html {
+  overflow-x: clip;
   -webkit-text-size-adjust: 100%;
+}
+
+body {
+  overflow-x: clip;
+  min-height: 100vh;
 }
 
 /* Improve touch targets on mobile */
@@ -149,11 +156,6 @@ html, body {
 img {
   max-width: 100%;
   height: auto;
-}
-
-/* Smooth scroll behavior */
-html {
-  scroll-behavior: smooth;
 }
 
 /* Improve select styling on mobile */
